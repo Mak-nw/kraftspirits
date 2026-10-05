@@ -44,8 +44,14 @@
 
 /* ---------- serif звичайний регістр ---------- */
 /* h3: назви-елементи (подія, етап, рядок місця) — Cormorant лише КАПСОМ */
-.t-h3, .occasion-picker__title, .place-rows__head, .process-track__name {
+.t-h3, .place-rows__head {
   font-family: var(--font-serif); font-size: var(--fs-h3); font-weight: var(--fw-serif); line-height: var(--lh-heading);
+  letter-spacing: var(--ls-caps); text-transform: var(--tt-heading); font-variant-numeric: lining-nums;
+}
+
+/* h4: назви етапів і слова приводу у вузьких колонках (КАПС ширший за sentence) */
+.t-h4, .occasion-picker__title, .process-track__name {
+  font-family: var(--font-serif); font-size: var(--fs-h4); font-weight: var(--fw-serif); line-height: var(--lh-heading);
   letter-spacing: var(--ls-caps); text-transform: var(--tt-heading); font-variant-numeric: lining-nums;
 }
 

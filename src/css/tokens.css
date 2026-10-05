@@ -73,6 +73,7 @@
   --fs-h1: clamp(40px, 3.7vw, 66px);           /* h1: каталог, товар — 44.4 / 53.3 / 66 (каталог-H1 з фільтрами = 2 рядки на 1200–1920) */
   --fs-h2: clamp(40px, 3.7vw, 66px);           /* h2: section-title, place, brand-logo — 44.4 / 53.3 / 66 (завжди ≤ h1; зараз = h1) */
   --fs-h3: clamp(26px, 2.4vw, 46px);           /* h3: назви-елементи (подія, етап, рядок, категорія-teaser, бренд), ціна-lg — 28.8 / 34.6 / 46 */
+  --fs-h4: clamp(20px, 1.7vw, 34px);           /* h4 (КАПС): назви етапів process-track у вузьких колонках — 20.4 / 24.5 / 32.6 */
   --fs-lead: clamp(32px, 3.1vw, 60px);         /* lead: маніфест «Про дім» на головній, cta-tile — 37.2 / 44.6 / 59.5 */
   --fs-lead-text: clamp(26px, 2.4vw, 46px);    /* lead-text: маніфест «Про дім» на головній (Google Sans, sentence) — 28.8 / 34.6 / 46 */
   --fs-list-title: clamp(46px, 4.4vw, 84px);    /* list-title (КАПС): category-list, stats — 52.8 / 63.4 / 84.5 */

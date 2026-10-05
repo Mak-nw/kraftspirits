@@ -175,7 +175,7 @@
         <div class="ds-section__head">
           <p class="eyebrow">02</p>
           <h2 class="section-title">Типографіка</h2>
-          <p class="ds-section__lead">Заголовки — Cormorant Infant (serif), інтерфейс і текст — Inter (sans). Мінімалізм: мало розмірів, КАПС — усі заголовки h1/h2, display, wordmark, мітки й назви товарів; назви-елементи (h3), списки й абзаци — звичайним регістром. Регістр задає роль, а не клас на елементі.</p>
+          <p class="ds-section__lead">Заголовки — Cormorant Infant (serif), інтерфейс і текст — Google Sans (sans, 400/500). Правило: Cormorant Infant вживається ЛИШЕ КАПСОМ (заголовки, назви-елементи h3, категорії, цифри); довгий текст і підписи — Google Sans звичайним регістром. Регістр задає роль, а не клас на елементі.</p>
         </div>
         <div class="ds-fonts">
           <div class="ds-font">
@@ -184,23 +184,25 @@
             <p class="ds-font__text">Заголовки, вордмарк, великі акценти.</p>
           </div>
           <div class="ds-font">
-            <code>--font-body · Inter</code>
+            <code>--font-body · Google Sans</code>
             <p class="ds-font__sample ds-font__sample--sans">Додати в кошик · 850 ₴</p>
             <p class="ds-font__text">Меню, кнопки, фільтри, описи, ціни.</p>
           </div>
         </div>
 
         <h3 class="ds-sub">Типографічна шкала</h3>
-        <p class="ds-section__lead">10 ролей, розміри — токени <code>--fs-*</code> (clamp; значення на 1200 / 1440 / 1920 px). Типографіку задає лише реєстр ролей <code>components/typography.css</code>; компоненти її не перевизначають. Утиліти <code>.t-&lt;роль&gt;</code> — для нових блоків. Регістр: КАПС — h1, h2, display, wordmark, назви-бренди; звичайний — назви-елементи (h3), списки, питання FAQ, абзаци.</p>
+        <p class="ds-section__lead">10 ролей, розміри — токени <code>--fs-*</code> (clamp; значення на 1200 / 1440 / 1920 px). Типографіку задає лише реєстр ролей <code>components/typography.css</code>; компоненти її не перевизначають. Утиліти <code>.t-&lt;роль&gt;</code> — для нових блоків. Регістр: Cormorant — лише КАПС (h1, h2, display, h3, категорії, цифри); Google Sans — звичайний (lead-text, абзаци, питання FAQ) або КАПС-мітки.</p>
         <table class="ds-typo">
           <thead><tr><th>Роль</th><th>Живий приклад</th><th>Розмір 1200 / 1440 / 1920</th><th>Вага</th><th>Міжрядок</th><th>Трекінг</th><th>Регістр</th><th>Токен · де застосовано</th></tr></thead>
           <tbody>
             <tr><td><code>display</code></td><td><div class="ds-typo__sample t-display">Одна майстерня</div></td><td class="ds-typo__num">57.6 / 69.1 / 92.2</td><td class="ds-typo__num">600</td><td class="ds-typo__num">1.05</td><td class="ds-typo__num">−0.01em</td><td>КАПС</td><td><code>--fs-display</code> · H1 hero головної; цифри principles (numeral, 500)</td></tr>
             <tr><td><code>h1</code></td><td><div class="ds-typo__sample t-h1">Весь каталог</div></td><td class="ds-typo__num">46.8 / 56.2 / 70</td><td class="ds-typo__num">600</td><td class="ds-typo__num">1.08</td><td class="ds-typo__num">−0.01em</td><td>КАПС</td><td><code>--fs-h1</code> · H1 каталогу, товару, довідника</td></tr>
             <tr><td><code>h2</code></td><td><div class="ds-typo__sample t-h2">Популярний вибір</div></td><td class="ds-typo__num">44.4 / 53.3 / 66</td><td class="ds-typo__num">600</td><td class="ds-typo__num">1.05</td><td class="ds-typo__num">−0.01em</td><td>КАПС</td><td><code>--fs-h2</code> · section-title, «Місце та люди», лого-напис бренду</td></tr>
-            <tr><td><code>h3</code></td><td><div class="ds-typo__sample t-h3">Ділова зустріч</div></td><td class="ds-typo__num">28.8 / 34.6 / 46</td><td class="ds-typo__num">500</td><td class="ds-typo__num">1.05</td><td class="ds-typo__num">−0.02em</td><td>звичайний</td><td><code>--fs-h3</code> · назви-елементи: подія, етап, рядок місця, категорія-teaser; h3-caps (бренд, «Увесь асортимент») — КАПС 600 −0.01em; ціна-lg (Inter 400)</td></tr>
-            <tr><td><code>lead</code></td><td><div class="ds-typo__sample t-lead">Дистилерія — це не просто виробництво.</div></td><td class="ds-typo__num">37.2 / 44.6 / 59.5</td><td class="ds-typo__num">500</td><td class="ds-typo__num">1.1</td><td class="ds-typo__num">−0.02em</td><td>звичайний</td><td><code>--fs-lead</code> · маніфест «Про дім» на головній; manifest-caps (about, розмір h3) — КАПС 500 −0.01em, word-spacing −0.05em</td></tr>
-            <tr><td><code>list-title</code></td><td><div class="ds-typo__sample t-list-title">Джин</div></td><td class="ds-typo__num">72 / 86.4 / 115.2</td><td class="ds-typo__num">500</td><td class="ds-typo__num">1</td><td class="ds-typo__num">−0.02em</td><td>звичайний</td><td><code>--fs-list-title</code> · category-list, stats</td></tr>
+            <tr><td><code>h3</code></td><td><div class="ds-typo__sample t-h3">Ділова зустріч</div></td><td class="ds-typo__num">28.8 / 34.6 / 46</td><td class="ds-typo__num">500</td><td class="ds-typo__num">1.05</td><td class="ds-typo__num">−0.01em</td><td>КАПС</td><td><code>--fs-h3</code> · назви-елементи: подія, етап, рядок місця, категорія-teaser; h3-caps (бренд, «Увесь асортимент») — КАПС 600 −0.01em; ціна-lg (Google Sans 400)</td></tr>
+            <tr><td><code>lead</code></td><td><div class="ds-typo__sample t-lead">Про дім</div></td><td class="ds-typo__num">37.2 / 44.6 / 59.5</td><td class="ds-typo__num">500</td><td class="ds-typo__num">1.1</td><td class="ds-typo__num">−0.01em</td><td>КАПС</td><td><code>--fs-lead</code> · короткий заклик (cta-tile); manifest-caps (about, розмір h3) — КАПС 500 −0.01em, word-spacing −0.05em</td></tr>
+            <tr><td><code>lead-text</code></td><td><div class="ds-typo__sample t-lead-text">Довга заява</div></td><td class="ds-typo__num">28.8 / 34.6 / 46</td><td class="ds-typo__num">400</td><td class="ds-typo__num">1.25</td><td class="ds-typo__num">−0.01em</td><td>звичайний</td><td><code>--fs-lead-text</code> · Google Sans: <code>home-manifest</code></td></tr>
+            <tr><td><code>h4</code></td><td><div class="ds-typo__sample t-h4">Дистиляція</div></td><td class="ds-typo__num">20.4 / 24.5 / 32.6</td><td class="ds-typo__num">500</td><td class="ds-typo__num">1.05</td><td class="ds-typo__num">−0.01em</td><td>КАПС</td><td><code>--fs-h4</code> · <code>process-track__name</code>, слова приводу (picker)</td></tr>
+            <tr><td><code>list-title</code></td><td><div class="ds-typo__sample t-list-title">Джин</div></td><td class="ds-typo__num">52.8 / 63.4 / 84.5</td><td class="ds-typo__num">500</td><td class="ds-typo__num">1</td><td class="ds-typo__num">−0.01em</td><td>КАПС</td><td><code>--fs-list-title</code> · category-list, stats</td></tr>
             <tr><td><code>caps-lead</code></td><td><div class="ds-typo__sample t-caps-lead">Не знаєте, з чого почати?</div></td><td class="ds-typo__num">18 / 18 / 24</td><td class="ds-typo__num">500</td><td class="ds-typo__num">1.08</td><td class="ds-typo__num">+0.03em</td><td>КАПС</td><td><code>--fs-caps-lead</code> · підзаголовок/лід у капсі (occasion-picker, головна)</td></tr>
             <tr><td><code>hero-lead</code></td><td><div class="ds-typo__sample t-hero-lead">Українська дистилерія · Ясногородка</div></td><td class="ds-typo__num">14 / 14.4 / 19.2</td><td class="ds-typo__num">400</td><td class="ds-typo__num">1.4</td><td class="ds-typo__num">+0.03em</td><td>КАПС</td><td><code>--fs-lead-sm</code> · вступ і eyebrow hero головної (на фото)</td></tr>
             <tr><td><code>label</code></td><td><div class="ds-typo__sample t-label">Ясний джин</div></td><td class="ds-typo__num">14</td><td class="ds-typo__num">500</td><td class="ds-typo__num">1.08</td><td class="ds-typo__num">+0.03em</td><td>КАПС</td><td><code>--fs-body</code> · назви товарів у картках, події в картці, назви принципів</td></tr>
@@ -222,9 +224,9 @@
         </div>
         <div class="ds-demo">
           <p class="t-body">Напишіть, який привід і смак вам ближче — підберемо напій або набір. Без нав’язування.</p>
-          <p class="ds-demo__label">Абзац — роль body (<code>--fs-body</code>, 14px), Inter, <code>--c-text</code>; другорядний — <code>--c-muted</code>.</p>
+          <p class="ds-demo__label">Абзац — роль body (<code>--fs-body</code>, 14px), Google Sans, <code>--c-text</code>; другорядний — <code>--c-muted</code>.</p>
         </div>
-        <p class="ds-section__lead">Letter-spacing: <code>--ls-caps</code> (serif КАПС: −0.01em), <code>--ls-heading</code> (serif звичайне: −0.02em), <code>--ls-caps-sans-sm</code> (+0.06em, ≤13px), <code>--ls-caps-sans-md</code> (+0.03em, 14–24px). Line-height: <code>--lh-body</code>, <code>--lh-title</code>, <code>--lh-heading</code>, <code>--lh-lead</code>, <code>--lh-reading</code>, <code>--lh-none</code>. Вага: <code>--fw-regular</code> 400, <code>--fw-medium</code> 500, <code>--fw-semibold</code> 600. Регістр: <code>--tt-heading</code> (uppercase), <code>--tt-sentence</code> (none).</p>
+        <p class="ds-section__lead">Letter-spacing: <code>--ls-caps</code> (serif КАПС: −0.01em), <code>--ls-heading</code> (числа; serif sentence-case заборонено), <code>--ls-caps-sans-sm</code> (+0.06em, ≤13px), <code>--ls-caps-sans-md</code> (+0.03em, 14–24px). Line-height: <code>--lh-body</code>, <code>--lh-title</code>, <code>--lh-heading</code>, <code>--lh-lead</code>, <code>--lh-reading</code>, <code>--lh-none</code>. Вага: <code>--fw-regular</code> 400, <code>--fw-medium</code> 500, <code>--fw-semibold</code> 600. Регістр: <code>--tt-heading</code> (uppercase), <code>--tt-sentence</code> (none).</p>
       </section>
 
       <!-- (в) Відступи, сітка, радіуси, z-index -->
