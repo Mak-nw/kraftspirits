@@ -13,7 +13,7 @@
     (50cqw - 0.5px - var(--header-side-w) - var(--header-menu-gap-min) - var(--header-brand-gap)) / (var(--logo-ar-yasnocraft) / var(--logo-word-yasnocraft)),
     (50cqw - 0.5px - var(--header-side-w) - var(--header-menu-gap-min) - var(--header-brand-gap)) / (var(--logo-ar-bazylsprings) / var(--logo-word-bazylsprings)));
   --header-logo-h-now: min(var(--header-logo-h), var(--header-logo-h-fit));
-  --header-brand-top: calc(var(--header-h) / 2 - var(--header-logo-h-now) / 2);
+  --header-brand-top: calc(var(--header-h) / 2 - var(--header-logo-h-now) / 2 - var(--header-logo-center-lift) * var(--header-logo-h-now)); /* compact: центр слова лого (чорнило) = центр літер меню; lift — доля висоти літер */
   display: grid; grid-template-columns: 1fr auto 1fr;
   position: sticky; top: 0; z-index: var(--z-header);
   align-items: center; height: var(--header-h);

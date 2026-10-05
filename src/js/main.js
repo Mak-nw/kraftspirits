@@ -9,7 +9,7 @@ if (form) {
   form.addEventListener('submit', (e) => {
     e.preventDefault();
     form.reset();
-    if (status) status.textContent = 'Дякуємо! Ми напишемо, коли буде новий реліз.';
+    if (status) status.textContent = "Дякуємо. Ми напишемо, коли з'явиться новий реліз.";
   });
 }
 

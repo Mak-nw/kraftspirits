@@ -21,6 +21,7 @@
   --c-muted: color-mix(in srgb, var(--c-text) 78%, var(--c-bg)); /* другорядний текст, підписи (≥4.5:1 на --c-bg і --c-tile) */
   --c-muted-strong: color-mix(in srgb, var(--c-text) 80%, var(--c-bg)); /* неактивні фільтри-таби, тип у картці */
   --c-text-soft: color-mix(in srgb, var(--c-text) 82%, transparent); /* текст відповідей у картках FAQ, описи */
+  --c-filter-idle: color-mix(in srgb, var(--c-text) 72%, var(--c-bg)); /* неактивні слова-фільтри каталогу: ≥4.5:1 на --c-bg (≈5:1), помітно світліші за активне (100%) */
   --c-muted-light: color-mix(in srgb, var(--c-text) 55%, var(--c-bg)); /* неактивні великі слова (≥3:1), підкреслення link-text */
   --c-line: color-mix(in srgb, var(--c-text) 12%, var(--c-bg)); /* світла службова лінія */
   --c-tab-fill: var(--c-tile);  /* заливка табів акордеона */
@@ -184,11 +185,15 @@
   --logo-vbw-yasnocraft: 259.32; /* ширина viewBox лого YasnoCraft (одиниці --logo-yc-stroke) */
   --logo-vbh-yasnocraft: 31.72; /* висота viewBox лого YasnoCraft (одиниці --logo-yc-stroke) */
   --brand-row-gap-min: var(--sp-9); /* ряд двох лого (футер, «Про дім»): мінімальний вільний проміжок між YasnoCraft і Bazylsprings (≥ --grid-gap) */
+  --brand-row-yc-k: 1.01; /* ряд двох лого: масштаб слова YasnoCraft (компроміс «низ підписів ↔ базова лінія слів», див. brand-logo.css) */
+  --brand-row-bz-k: 0.99; /* те саме для Bazylsprings */
+  --brand-row-shift: 0.017; /* зсув YasnoCraft вниз, частка cap слова: ≈0.77px при cap 45px */
   --logo-yc-stroke: 0.44; /* підсилення жирності YasnoCraft обводкою (одиниці viewBox 259.32; Bazylsprings без обводки): вирівнює оптичну товщину стовбурів */
   --c-logo: var(--c-text); /* єдиний колір лого брендів (футер, hero «Про дім», світлий header); у header на hero — колір header (білий) */
   --header-menu-cap-h: 0.716; /* Google Sans: cap-height пунктів меню, em кегля --fs-body */
   --header-menu-cap-top: calc(var(--header-h) / 2 - var(--header-menu-cap-h) / 2 * var(--fs-body)); /* y верху великих літер меню (Google Sans, line-height центрує кегль у --header-h): на hero верх чорнила лого = ця лінія */
   --header-logo-h: 10px; /* header (compact/solid): ВИСОТА ЛІТЕР головного слова YASNOCRAFT / BAZYLSPRINGS (cap-height, однакова в обох лого; висота бокса лого = ця / --logo-word-*) */
+  --header-logo-center-lift: 0.09; /* compact-header: підйом лого, частка --header-logo-h (вирівнює центр чорнила слова лого з центром літер меню) */
   --header-logo-h-hero: 15px; /* те саме на hero головної (до прокрутки): верхня межа (середина між compact 10px і колишніми 20px); фактично min(цей токен, вільне місце — header.css --header-logo-h-fit) */
   --header-brand-gap: var(--sp-3); /* відстань від розділювача по центру до чорнила кожного лого (однакова з обох боків) */
   --header-side-w: 377px; /* ширина ширшої з бічних груп header (ліва «Головна · Каталог · Подарункові набори · Про дім», права «FAQ · Кошик · Підказати?») + запас; половина центру ≤ 50% − ця − --header-menu-gap-min */
@@ -217,6 +222,7 @@
   --about-brands-shade-h: 22%; /* висота (радіус по Y) того ж шару */
   --about-brands-count-inset: var(--sp-6); /* відступ індикатора «01 / 02» від лівого й нижнього краю лівої панелі */
   --brands-detail-scale: 0.6667; /* масштаб деталь-фото в «Два бренди»: 1/1.5 від базової ширини */
+  --brands-panel-run: 1.5; /* висота панелі «Два бренди» = 1.5 × сцена: запас прокрутки, поки вміст стоїть по центру пінованої сцени */
   --visit-photo-max: 360px; /* «Візит»: макс. ширина малого фото бочок */
   --visit-photo-share: 45cqw; /* «Візит»: ширина малого фото = частка ширини лівої половини (container query) */
   --visit-copy-w: 30em; /* «Візит»: макс. ширина абзацу */

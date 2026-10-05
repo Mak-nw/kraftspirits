@@ -12,7 +12,7 @@
   {
     "id": "tasting",
     "question": "Чи можна спробувати напої перед покупкою?",
-    "answer": "Дегустація проходить під час візиту в нашій дегустаційній у Ясногородці: лише для повнолітніх, 18+. Запишіться на візит через <a href=\"/contacts.html#excursion\">форму запису</a>, і ми підкажемо, що саме можна спробувати. Дізнатися більше про візит можна <a href=\"/about.html#about-visit\">тут</a>."
+    "answer": "Дегустація проходить під час візиту в нашій дегустаційній у Ясногородці: лише для повнолітніх, 18+. Запишіться на візит через <a href=\"/contacts.html#excursion\">форму запису</a>, і ми підкажемо, що саме можна спробувати. Подробиці — на сторінці <a href=\"/about.html#about-visit\">«Про дім»</a>."
   },
   {
     "id": "pickup",
@@ -22,7 +22,7 @@
   {
     "id": "whisky",
     "question": "Коли з'явиться витримане віскі Bazylsprings?",
-    "answer": "У каталозі вже доступні невитримані зерняні дистиляти Bazylsprings: <a href=\"/product.html?slug=whiskey-white\">White Whiskey</a> (0,5 л, 45%, 1 690 ₴), <a href=\"/product.html?slug=barley-spirit\">Barley Spirit</a> (0,7 л, 45%, 2 190 ₴) та Oak Notes. White Whiskey отримав перше місце на Ukrainian Craft Spirits Awards. Витримані релізи з'являтимуться поступово. Щоб не пропустити новинку, залиште пошту в <a href=\"#subscribe-email\">реліз-листі внизу сторінки</a>."
+    "answer": "У каталозі вже доступні невитримані зернові дистиляти Bazylsprings: <a href=\"/product.html?slug=whiskey-white\">White Whiskey</a> (0,5 л, 45%, 1 690 ₴), <a href=\"/product.html?slug=barley-spirit\">Barley Spirit</a> (0,7 л, 45%, 2 190 ₴) та Oak Notes. White Whiskey отримав перше місце на Ukrainian Craft Spirits Awards. Витримані релізи з'являтимуться поступово. Щоб не пропустити новинку, залиште пошту в <a href=\"#subscribe-email\">реліз-листі внизу сторінки</a>."
   },
   {
     "id": "volumes",

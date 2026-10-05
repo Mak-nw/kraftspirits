@@ -704,7 +704,7 @@ const contrast = (page) => page.evaluate((skipSel) => {
     if (el.closest(skipSel) || el.closest('[aria-hidden="true"]')) return;
     const bg = bgOf(el); if (!bg) return;
     let fg = rgba(css); fg[3] *= alphaOf(el); const eff = over(fg, bg);
-    const large = size >= 24 || (size >= 18.66 && weight >= 700);
+    const large = (size >= 24 || (size >= 18.66 && weight >= 700)) && !el.matches('.page-title__filter'); // слова-фільтри каталогу — інтерактивні: завжди 4.5:1 (рішення замовника)
     const need = large ? 3 : 4.5, r = ratio(eff, bg); n++;
     const key = label + '|' + css; if (r < need && !seen.has(key)) { seen.add(key); fails.push({ sel: label, measured: `${r.toFixed(2)}:1 (${size}px)`, expected: `≥${need}:1` }); }
   };
@@ -908,10 +908,16 @@ async function btnSystem(page) {
     await new Promise((r) => setTimeout(r, 150));
     await page.mouse.move(1, 1);
     await new Promise((r) => setTimeout(r, 450));
-    const rest = await el.evaluate((e) => { const cs = getComputedStyle(e); return { bg: cs.backgroundColor, fg: cs.color, bd: cs.borderTopColor }; });
-    try { await el.hover(); } catch { continue; }
-    await new Promise((r) => setTimeout(r, 500));
-    const hov = await el.evaluate((e) => { const cs = getComputedStyle(e); return { bg: cs.backgroundColor, fg: cs.color, bd: cs.borderTopColor, top: e.matches(':hover') }; });
+    const rest = await el.evaluate((e) => { document.activeElement?.blur?.(); /* фокус від попередніх перевірок (Tab-обхід) дає hover-вигляд у стані спокою */ const cs = getComputedStyle(e); return { bg: cs.backgroundColor, fg: cs.color, bd: cs.borderTopColor }; });
+    // до 3 спроб (паралельні сторінки в фоні: hover/стилі запізнюються); поріг не послаблено — перевірка «стиль змінився» та сама; кнопка в слайдері: scrollIntoView по обох осях перед hover
+    let hov = null, hoverErr = false;
+    for (let attempt = 0; attempt < 3; attempt++) {
+      try { await page.bringToFront(); await el.evaluate((e) => e.scrollIntoView({ block: 'center', inline: 'center' })); await new Promise((r) => setTimeout(r, 150)); await page.mouse.move(1, 1); await new Promise((r) => setTimeout(r, 150)); await el.hover(); } catch { hoverErr = true; break; }
+      await new Promise((r) => setTimeout(r, 500 + attempt * 400));
+      hov = await el.evaluate((e) => { const cs = getComputedStyle(e); return { bg: cs.backgroundColor, fg: cs.color, bd: cs.borderTopColor, top: e.matches(':hover') }; });
+      if (hov.top && (hov.bg !== rest.bg || hov.fg !== rest.fg || hov.bd !== rest.bd)) break;
+    }
+    if (hoverErr || !hov) continue;
     await page.mouse.move(1, 1);
     if (!hov.top) continue; // курсор перекрито іншим елементом — hover не емулювався
     if (hov.bg === rest.bg && hov.fg === rest.fg && hov.bd === rest.bd) fails.push({ sel: before.sel, measured: 'hover не змінює background/color/border', expected: 'зміна computed-стилю при :hover' });

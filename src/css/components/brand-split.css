@@ -34,10 +34,16 @@
 
 /* права половина: панелі */
 .about-brands__panel {
+  min-height: calc((100svh - var(--header-h)) * var(--brands-panel-run)); /* запас прокрутки: сцена тримається по центру, поки панель активна */
+  background: var(--c-bg);
+}
+/* сцена панелі: липка, висота = сцені (media), вміст по центру → зверху/знизу від рамки рівно однаково на будь-якій позиції прокрутки в піні */
+.about-brands__stage {
+  position: sticky; top: var(--header-h);
   min-height: calc(100svh - var(--header-h));
   display: flex; flex-direction: column; justify-content: center; gap: var(--sp-7);
-  padding: var(--section-head-body-gap) var(--page-pad) var(--section-head-body-gap) calc(var(--grid-gap) / 2); /* верх/низ ≥ токена шапки секції: eyebrow не впритул до хедера навіть на низьких вікнах */
-  background: var(--c-bg);
+  padding: var(--section-head-body-gap) var(--page-pad) var(--section-head-body-gap) calc(var(--grid-gap) / 2); /* верх/низ ≥ токена шапки секції */
+  box-sizing: border-box;
 }
 .about-brands__intro { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: var(--grid-gap); align-items: start; }
 .about-brands__copy { display: flex; flex-direction: column; gap: 0; min-width: 0; }

@@ -23,7 +23,7 @@ export function renderPopularChoice(products, { cta = POPULAR_CTA, headButton = 
   const hits = brand
     ? [...products.filter((p) => p.brand === brand)].sort((a, b) => (b.badge === 'Хіт') - (a.badge === 'Хіт'))
     : products.filter((p) => p.badge === 'Хіт');
-  const eyebrow = head.eyebrow ?? 'Хіти та нові релізи';
+  const eyebrow = head.eyebrow ?? 'Популярне та новинки';
   const title = head.title ?? 'Популярний вибір';
   const btnLabel = head.btnLabel ?? 'Весь каталог';
   const btnHref = head.btnHref ?? url('/catalog.html');

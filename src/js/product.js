@@ -1,4 +1,4 @@
-// Сторінка товару /product.html?slug=…: читає slug, рендерить галерею, інформацію, акордеони, подарунок і «З цим також беруть».
+// Сторінка товару /product.html?slug=…: читає slug, рендерить галерею, інформацію, акордеони, подарунок і «Схожі напої».
 // Розширені поля (images, lead, sections, specs, stock, related…) необов'язкові: без них — fallback на базові поля товару.
 import products from '../data/products.json';
 import { addToCart } from './cart.js';
@@ -139,7 +139,7 @@ function init(p) {
       </div>
     </section>` : ''}
     <section class="product__related" aria-labelledby="product-related-title">
-      <h2 class="section-title product__related-title" id="product-related-title">З цим також беруть</h2>
+      <h2 class="section-title product__related-title" id="product-related-title">Схожі напої</h2>
       <div class="grid-4" id="product-related">${related.map((r) => renderProductCard(r)).join('')}</div>
     </section>`;
 

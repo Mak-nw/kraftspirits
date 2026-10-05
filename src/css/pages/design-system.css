@@ -56,9 +56,6 @@
 .ds-typo__sample--on-dark { padding: var(--sp-2) var(--sp-3); background: var(--c-text); color: var(--c-on-image); }
 .ds-typo td:first-child { white-space: nowrap; }
 .ds-typo__num { white-space: nowrap; font-family: var(--font-mono); font-size: var(--fs-caption); color: var(--c-muted); }
-.ds-marker-demo { display: flex; gap: var(--sp-5); align-items: center; }
-.ds-marker-demo .product-card__name { gap: var(--sp-2); min-height: 0; }
-.ds-marker-demo__note { color: var(--c-muted); }
 
 /* tables (tokens, z-index, radius) */
 .ds-table { width: 100%; border-collapse: collapse; font-size: var(--fs-body); }

@@ -29,10 +29,12 @@ a.brand-logo:focus-visible { outline: 1px solid currentColor; outline-offset: 3p
 .brand-row .brand-logo {
   --brand-cap: calc((100cqw - var(--brand-row-gap-min)) / (var(--logo-ar-yasnocraft) / (var(--logo-word-yasnocraft) + var(--logo-yc-stroke) / var(--logo-vbh-yasnocraft)) + var(--logo-ar-bazylsprings) / var(--logo-word-bazylsprings)));
 }
+/* Низ підписів (CLARITY·SPIRIT / WHISKY HOUSE) лежить нижче за слово на різну відстань (YasnoCraft 0.90, Bazylsprings 0.96 висоти слова), тож при ідеальній спільній базовій лінії слів низи розходяться на ~2.7px.
+   Компроміс (усі три розбіжності ≤1px при cap≈45px): слова ±1% масштабу (--brand-row-yc-k / --brand-row-bz-k) + зсув YasnoCraft вниз на --brand-row-shift × cap. */
+.brand-row .brand-logo--bazylsprings { --brand-bz-h: calc(var(--brand-cap) * var(--brand-row-bz-k) / var(--logo-word-bazylsprings)); height: var(--brand-bz-h); }
 .brand-row .brand-logo--yasnocraft {
-  --brand-yc-h: calc(var(--brand-cap) / (var(--logo-word-yasnocraft) + var(--logo-yc-stroke) / var(--logo-vbh-yasnocraft)));
+  --brand-yc-h: calc(var(--brand-cap) * var(--brand-row-yc-k) / (var(--logo-word-yasnocraft) + var(--logo-yc-stroke) / var(--logo-vbh-yasnocraft)));
   height: var(--brand-yc-h);
-  /* базова лінія Bazylsprings = baseline_B × висота; ззовні YasnoCraft нижче на stroke/2 → зсув = baseline_B × h_B − (baseline_Y + stroke/2/vbh) × h_Y */
-  margin-top: calc(var(--logo-baseline-bazylsprings) * var(--brand-cap) / var(--logo-word-bazylsprings) - (var(--logo-baseline-yasnocraft) + var(--logo-yc-stroke) / 2 / var(--logo-vbh-yasnocraft)) * var(--brand-yc-h));
+  /* базова лінія Bazylsprings = baseline_B × висота; YasnoCraft ззовні нижче на stroke/2 → зсув = baseline_B × h_B − (baseline_Y + stroke/2/vbh) × h_Y + shift × cap */
+  margin-top: calc(var(--logo-baseline-bazylsprings) * var(--brand-cap) * var(--brand-row-bz-k) / var(--logo-word-bazylsprings) - (var(--logo-baseline-yasnocraft) + var(--logo-yc-stroke) / 2 / var(--logo-vbh-yasnocraft)) * var(--brand-yc-h) + var(--brand-row-shift) * var(--brand-cap));
 }
-.brand-row .brand-logo--bazylsprings { height: calc(var(--brand-cap) / var(--logo-word-bazylsprings)); }

@@ -15,11 +15,6 @@ export function renderBadge(label) {
   return `<span class="badge${mod ? ` ${mod}` : ''}">${esc(label)}</span>`;
 }
 
-export function renderMarker(detailed) {
-  if (!detailed) return '';
-  return `<span class="marker marker--detail" aria-hidden="true"></span><span class="visually-hidden">Є детальна сторінка</span>`;
-}
-
 // «Від 850 ₴» для кількох об'ємів, інакше «850 ₴»
 export function renderPrice(product) {
   const multi = product.volumes.length > 1;
@@ -62,13 +57,13 @@ export function renderProductCard(product, { selectedVolume = '' } = {}) {
         </fieldset>
         <div class="product-card__actions btn-pair">
           <button class="btn btn--primary btn--block" type="button" data-add>${basketIcon()}<span data-btn-label>Додати в кошик</span> · <span data-btn-price>${formatPrice(selected.price)}</span></button>
-          <a class="btn btn--outline btn--block" href="${href}">Дізнатись більше${linkIcon(href)}</a>
+          <a class="btn btn--outline btn--block" href="${href}">Дізнатися більше${linkIcon(href)}</a>
         </div>
       </div>
     </div>
     <div class="product-card__body">
       <p class="product-card__type">${esc(p.category)}</p>
-      <h2 class="product-card__name"><a href="${href}">${esc(p.name)}</a>${renderMarker(p.detailed)}</h2>
+      <h2 class="product-card__name"><a href="${href}">${esc(p.name)}</a></h2>
       <p class="product-card__notes">${esc(p.notes)}</p>
       <p class="price product-card__price">${renderPrice(p)}</p>
       <p class="product-card__meta">${formatVolumes(p.volumes)} · ${p.abv}%</p>
