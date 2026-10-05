@@ -114,5 +114,5 @@ export function processIcon(id) {
 export function processIconFile(id) {
   const inner = PROCESS_ICONS[id].map((x) => (typeof x === 'string' ? x : x.inner)).join('').replace(/ pathLength="1"/g, '');
   const f = frame(id);
-  return `<svg xmlns="http://www.w3.org/2000/svg" width="${SLOT}" height="${SLOT}" viewBox="${f.vb}" fill="none" stroke="#223420" stroke-width="${f.sw}" stroke-linecap="round" stroke-linejoin="round">${inner}</svg>`;
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="${SLOT}" height="${SLOT}" viewBox="${f.vb}" fill="none" stroke="#cbaf86" stroke-width="${f.sw}" stroke-linecap="round" stroke-linejoin="round">${inner}</svg>`;
 }

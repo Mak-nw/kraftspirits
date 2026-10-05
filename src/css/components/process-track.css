@@ -9,7 +9,9 @@
  * Pinned scroll (JS додає .is-pinned на .process, якщо трек не вміщується й немає reduced-motion): вертикальний скрол сторінки гортає трек вбік, див. process-track.js; лінія між іконками й текстом = прогрес-бар (.process-track__progress).
  * Токени: --process-pin-ratio, --process-pin-ease, --process-progress-h, --about-process-gap, --fs-process-title, --process-icon-size, --process-line, --dur-process-draw/-sway/-rise/-drop, --slider-visible, --slider-peek.
  */
-.process { margin: var(--sp-10) 0; padding-inline: var(--page-pad); } /* БЕЗ overflow на .process і предках: інакше ламається sticky (Safari) */
+.process { margin: var(--sp-10) 0; padding: var(--sp-10) var(--page-pad); background: var(--c-dark-bg); color: var(--c-on-dark); } /* ТЕМНА секція (токени темної системи), фон на всю ширину; padding-block = повітря всередині фону */
+/* БЕЗ overflow на .process і предках: інакше ламається sticky (Safari) */
+.process :is(.eyebrow, .section-title, .process-track__name, .process-track__num) { color: var(--c-on-dark-strong); }
 /* pinned horizontal scroll: .process-pin (висота = вміст + runway через ::after) → __sticky (липне під хедером). runway рахує process-track.js (--process-runway = maxScrollLeft / --process-pin-ratio) */
 .process-pin::after { content: ''; display: block; height: var(--process-runway, 0px); }
 .process.is-pinned .process-pin__sticky {
@@ -18,13 +20,13 @@
 }
 .process.is-pinned .process-track__viewport { overflow-x: hidden; scroll-snap-type: none; }
 /* pinned: лінія між іконками й текстом = прогрес-бар (нерухомий по X, на всю ширину контейнера); довга лінія списку прихована. База --c-divider, заповнення --c-text довжиною p (--process-progress 0…1, ставить JS) */
-.process-track__progress { display: none; position: absolute; left: var(--page-pad); right: var(--page-pad); top: calc(var(--process-icon-size) + var(--sp-6)); height: var(--process-progress-h); background: var(--c-divider); pointer-events: none; }
-.process-track__progress::after { content: ''; position: absolute; inset: 0; background: var(--c-text); transform: scaleX(var(--process-progress, 0)); transform-origin: left center; }
+.process-track__progress { display: none; position: absolute; left: var(--page-pad); right: var(--page-pad); top: calc(var(--process-icon-size) + var(--sp-6)); height: var(--process-progress-h); background: var(--c-on-dark-divider); pointer-events: none; }
+.process-track__progress::after { content: ''; position: absolute; inset: 0; background: var(--c-on-dark-strong); transform: scaleX(var(--process-progress, 0)); transform-origin: left center; }
 .process.is-pinned .process-track__progress { display: block; }
 .process.is-pinned .process-track__list::before { display: none; }
 .process__head { display: block; margin-bottom: var(--sp-9); }
 .process__intro .section-title { margin-top: var(--sp-3); }
-.process__lead { margin-top: var(--sp-5); max-width: 34em; color: var(--c-muted); }
+.process__lead { margin-top: var(--sp-5); max-width: 34em; color: var(--c-on-dark); }
 
 .process-track {
   position: relative; container-type: inline-size; margin-inline: calc(-1 * var(--page-pad)); /* на всю ширину вікна (.process має padding-inline --page-pad) */
@@ -36,7 +38,7 @@
   padding-block: var(--sp-1); margin-block: calc(-1 * var(--sp-1));
 }
 .process-track__viewport::-webkit-scrollbar { display: none; }
-.process-track__viewport:focus-visible { outline: 1px solid var(--c-focus); outline-offset: var(--sp-1); }
+.process-track__viewport:focus-visible { outline: 1px solid var(--c-on-dark-strong); outline-offset: var(--sp-1); }
 .process-track__list {
   position: relative; display: flex; gap: var(--about-process-gap); width: max-content; min-width: 100%;
   margin: 0; padding: 0 var(--page-pad); list-style: none; /* перша колонка на осі --page-pad, остання закінчується на clientWidth − --page-pad */
@@ -44,22 +46,22 @@
 /* суцільна лінія під іконками: на всю довжину внутрішнього треку, крізь проміжки між колонками */
 .process-track__list::before {
   content: ''; position: absolute; left: 0; right: 0; height: var(--process-line);
-  top: calc(var(--process-icon-size) + var(--sp-6)); background: var(--c-divider-strong);
+  top: calc(var(--process-icon-size) + var(--sp-6)); background: var(--c-on-dark-divider);
 }
 .process-track__item { flex: 0 0 var(--process-col-w); min-width: 0; scroll-snap-align: start; display: flex; flex-direction: column; }
 .process-icon {
   position: relative; flex: none; display: block; width: var(--process-icon-size); height: var(--process-icon-size);
-  margin-bottom: var(--sp-6); color: var(--c-text); --pi-u: calc(var(--process-icon-size) / 48); /* --pi-u = 1 одиниця viewBox */
+  margin-bottom: var(--sp-6); color: var(--c-on-dark-strong); --pi-u: calc(var(--process-icon-size) / 48); /* --pi-u = 1 одиниця viewBox */
 }
 .process-icon svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; } /* stroke-width — атрибут із process-icons.js (1,5px візуально) */
 .process-track__body { padding-top: var(--sp-5); }
 .process-track__num {
-  display: block; margin-bottom: var(--sp-2); font-variant-numeric: tabular-nums; color: var(--c-muted);
+  display: block; margin-bottom: var(--sp-2); font-variant-numeric: tabular-nums; color: var(--c-on-dark-strong);
   transition: color var(--dur) var(--ease);
 }
-.process-track__item:hover .process-track__num { color: var(--c-text); }
+.process-track__item:hover .process-track__num { color: var(--c-on-dark); }
 .process-track__name { margin: 0 0 var(--sp-3); }
-.process-track__desc { margin: 0; max-width: 24em; color: var(--c-text-soft); }
+.process-track__desc { margin: 0; max-width: 24em; color: var(--c-on-dark); }
 
 /* іконки: малювання при вході (обводка 1→0), тихий цикл — лише без reduced-motion; з reduced-motion іконки статичні й повністю видимі */
 .process-icon :is(path, circle) { stroke-dasharray: 1; stroke-dashoffset: 0; }

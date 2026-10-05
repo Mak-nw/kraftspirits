@@ -43,6 +43,7 @@ body.page-about main { display: block; }
 body.page-about main > :is(.about-manifest, .about-brands, .process, .section, .visit-split) { margin-block: 0; }
 body.page-about main > .section { padding-block: 0; }
 body.page-about main > :is(.about-brands, .process, .section, .visit-split) { margin-top: var(--about-section-gap); }
+body.page-about main > .process { margin-top: 0; } /* темна секція стикується з попередньою без щілини; повітря — padding усередині фону */
 body.page-about main > .about-manifest { margin-top: calc(var(--about-section-gap) - var(--about-manifest-ink-inset)); }
 body.page-about main > .about-manifest + * { margin-top: calc(var(--about-section-gap) - var(--about-manifest-ink-inset)); }
 
