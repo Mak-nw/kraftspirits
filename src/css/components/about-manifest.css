@@ -55,5 +55,5 @@
 .about-manifest__content { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 0; }
 .about-manifest__eyebrow { margin: 0; color: var(--c-muted); }
 .about-manifest__title { margin: 0; max-width: var(--about-manifest-title-w); color: var(--c-text); }
-.about-manifest__text { margin: var(--section-head-eyebrow-gap) 0 0; max-width: var(--about-manifest-text-w); color: var(--c-text-soft); }
+.about-manifest__text { margin: var(--section-title-text-gap) 0 0; max-width: var(--about-manifest-text-w); color: var(--c-text-soft); }
 @media (max-width: 900px) { .about-manifest { aspect-ratio: auto; padding-block: var(--sp-9); } } /* вузькі екрани: висота за вмістом */

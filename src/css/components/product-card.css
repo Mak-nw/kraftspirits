@@ -33,7 +33,7 @@
 .product-card__type { color: var(--c-muted-strong); }
 .product-card__name { display: flex; justify-content: space-between; align-items: flex-start; gap: var(--sp-2); min-height: calc(var(--fs-body) * var(--lh-title) * 2); }
 .product-card__name a { flex: 1; }
-.product-card__name a:hover { opacity: 0.6; }
+.product-card__name a:hover { opacity: var(--hover-dim); }
 .product-card__notes { color: var(--c-muted); }
 .product-card__price { margin-top: var(--sp-2); }
 .product-card__price::after { /* дівайдер під ціною */

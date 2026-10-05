@@ -1,7 +1,7 @@
 // Компонент product-card: шаблон картки + поведінка (зміна ціни на кнопці при виборі об'єму, «Додано ✓»).
 // Стилі: src/css/components/product-card.css, volume-picker.css, badge.css, button.css, price.css.
 import { esc, formatPrice, formatVolume, formatVolumes, minPrice } from "./format.js";
-import { bottleIcon, basketIcon } from "./icons.js";
+import { bottleIcon, basketIcon, linkIcon } from "./icons.js";
 import { url } from './url.js';
 
 const BADGE_MODIFIERS = {
@@ -62,7 +62,7 @@ export function renderProductCard(product, { selectedVolume = '' } = {}) {
         </fieldset>
         <div class="product-card__actions btn-pair">
           <button class="btn btn--primary btn--block" type="button" data-add>${basketIcon()}<span data-btn-label>Додати в кошик</span> · <span data-btn-price>${formatPrice(selected.price)}</span></button>
-          <a class="btn btn--outline btn--block" href="${href}">Дізнатись більше</a>
+          <a class="btn btn--outline btn--block" href="${href}">Дізнатись більше${linkIcon(href)}</a>
         </div>
       </div>
     </div>

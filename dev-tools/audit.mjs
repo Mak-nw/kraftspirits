@@ -24,7 +24,7 @@ const CFG = {
   // 3. Радіуси (крапки-маркери не рахуємо; ::before/::after у вибірку не потрапляють)
   radiusSel: 'a,button,input,select,textarea,[class*="btn"],.qty button',
   // .slider-arrow — круглі стрілки слайдерів: навмисний виняток за макетом замовника (border-radius 50%)
-  radiusExclude: '.marker, .product__stock, .slider-arrow',
+  radiusExclude: '.marker, .product__stock, .slider-arrow, .gallery__nav-btn',
   // 4. Serif-елементи (мають бути Cormorant, лише КАПСОМ); sans-заголовки за дизайном — у serifExclude
   serifSel: 'h1,.hero__title,.section-title,.category-list__name,.stats__value,.page-title,.product__title',
   serifExclude: '.section-title--sub,.footer__heading,.product-card__name,.accordion__heading,.occasion-picker__name',
@@ -35,15 +35,13 @@ const CFG = {
   typoRoles: [
     { id: 'display', sel: '.hero__title', ls: '--ls-caps', tt: '--tt-heading' },
     { id: 'numeral', sel: '.principles__num', ls: '--ls-heading', tt: '--tt-sentence' },
-    { id: 'h1', sel: '.page-title, .product__title, .ds-hero__title, .hero--about .hero__top > h1', ls: '--ls-caps', tt: '--tt-heading' },
+    { id: 'h1', sel: '.t-h1, .page-title, .product__title, .ds-hero__title, .hero--about .hero__top > h1', ls: '--ls-caps', tt: '--tt-heading' },
     { id: 'h2', sel: '.section-title:not(.section-title--sub), .place__title, .about-brands__logo', ls: '--ls-caps', tt: '--tt-heading' },
     { id: 'h3-caps', sel: '.about-brands__name, .catalog-cta__name', ls: '--ls-caps', tt: '--tt-heading' },
-    { id: 'manifest-caps', sel: '.about-manifest__title', ls: '--ls-caps', tt: '--tt-heading' },
-    { id: 'h3', sel: '.place-rows__head', ls: '--ls-caps', tt: '--tt-heading' },
-    { id: 'h4', sel: '.occasion-picker__title, .process-track__name', ls: '--ls-caps', tt: '--tt-heading' },
+    { id: 'manifest-caps', sel: '.about-manifest__title, .home-manifest', ls: '--ls-caps', tt: '--tt-heading' },
+    { id: 'h3', sel: '.place-rows__head, .occasion-picker__title, .process-track__name', ls: '--ls-caps', tt: '--tt-heading' },
     { id: 'h3-doc', sel: '.ds-sub, .ds-comp__title', ls: null, tt: '--tt-sentence' },
     { id: 'lead', sel: '.cta-tile__name', ls: '--ls-caps', tt: '--tt-heading' },
-    { id: 'lead-text', sel: '.home-manifest', ls: '--ls-lead-text', tt: '--tt-sentence' },
     { id: 'list-title', sel: '.category-list__name, .stats__value', ls: '--ls-caps', tt: '--tt-heading' },
     { id: 'price-lg', sel: '.price--lg', ls: '--ls-heading', tt: '--tt-sentence' },
     { id: 'caps-lead', sel: '.caps-lead', ls: '--ls-caps-sans-md', tt: '--tt-heading' },
@@ -54,6 +52,12 @@ const CFG = {
     { id: 'list-count', sel: '.category-list__count', ls: null, tt: '--tt-sentence', skipSize: true },
     { id: 'caption', sel: '.product-card__meta', ls: null, tt: '--tt-sentence' },
   ],
+  // ДОЗВОЛЕНІ РОЛІ-ПІДПИСИ (реєстр замовника; нова роль без явного дозволу = FAIL): serif=Cormorant лише uppercase; sans=Google Sans у ролях нижче.
+  typoAllowed: {
+    display: 'serif', numeral: 'serif-sentence', h1: 'serif', h2: 'serif', 'h3-caps': 'serif', 'manifest-caps': 'serif', h3: 'serif', 'h3-doc': 'sans-sentence', lead: 'serif',
+    'list-title': 'serif', 'price-lg': 'sans-sentence', 'caps-lead': 'sans', 'hero-lead': 'sans', label: 'sans', eyebrow: 'sans', badge: 'sans', 'list-count': 'sans-sentence', caption: 'sans-sentence',
+  },
+  typoSansSentenceMaxPx: 20,                 // sans у звичайному регістрі більший за це (крім дозволених ролей) = FAIL (ловить «lead-text»)
   typoIslandMax: 2,                          // «острівець» = унікальний підпис стилю з ≤2 елементів (по всіх робочих сторінках на ширині), де жоден елемент не належить до ролі (typoRoles)
   typoSkipSummary: ['design-system'],        // у зведення унікальних стилів не входять довідник і заглушки
   // 16. Контраст: контейнери, текст у яких лежить на фото/відео (не міряємо)
@@ -225,6 +229,14 @@ const typography = (page, ctx) => {
       const els = [...document.querySelectorAll(role.sel)].filter(visible);
       if (!els.length) continue;
       roles[role.id] = els.length;
+      const allow = cfg.typoAllowed[role.id];
+      if (!allow) fails.push({ sel: `[${role.id}] ${describe(els[0])}`, measured: 'роль поза реєстром замовника', expected: 'дозволені: ' + Object.keys(cfg.typoAllowed).join(',') });
+      else {
+        const g0 = sigOf(els[0]), isSerif = /Cormorant/i.test(g0.fam), sent = g0.tt === 'none';
+        if (allow.startsWith('serif') !== isSerif) fails.push({ sel: `[${role.id}] ${describe(els[0])}`, measured: `family ${g0.fam}`, expected: allow });
+        if (allow.endsWith('sentence') !== sent) fails.push({ sel: `[${role.id}] ${describe(els[0])}`, measured: `tt ${g0.tt}`, expected: allow });
+        if (isSerif && !allow.endsWith('sentence') && sent) fails.push({ sel: `[${role.id}] ${describe(els[0])}`, measured: 'Cormorant не капсом', expected: 'uppercase' });
+      }
       const wantLs = role.ls ? parseFloat(token(role.ls)) : null, wantTt = token(role.tt);
       const ref = sigOf(els[0]);
       for (const el of els) {
@@ -252,7 +264,10 @@ const typography = (page, ctx) => {
         const g = sigOf(el), key = `${g.fam}|${Math.round(g.fs * 10) / 10}|w${g.w}|ls${Math.round(g.ls * 1000) / 1000}|${g.tt}|lh${Math.round(g.lh * 100) / 100}`;
         const e = sigs[key] || (sigs[key] = { n: 0, ex: describe(el), role: false });
         e.n++;
-        if (el.matches(roleSel)) e.role = true;
+        if (el.closest(roleSel)) e.role = true;
+        else if (/Cormorant/i.test(g.fam) || g.fs > 24.5) fails.push({ sel: `[поза реєстром] ${describe(el)}`, measured: fmt(g), expected: 'елемент у селекторі ролі typography.css (serif/великий текст — лише з реєстру)' });
+        if (!/Cormorant/i.test(g.fam) && g.tt === 'none' && g.fs > cfg.typoSansSentenceMaxPx + 0.5 && !el.closest('.price--lg, .ds-hero, .category-list__count'))
+          fails.push({ sel: `[sans sentence великий] ${describe(el)}`, measured: fmt(g), expected: `sans sentence ≤${cfg.typoSansSentenceMaxPx}px` });
       }
     }
     return { fails, info: { roles, sigs } };
@@ -702,46 +717,198 @@ const contrast = (page) => page.evaluate((skipSel) => {
   return { fails, info: { checked: n } };
 }, CFG.contrastSkip);
 
-// 17. Ритм шапки секції (design-system.md, «Ритм шапки секції»): gap eyebrow→заголовок = --section-head-eyebrow-gap; кінець шапки → контент = --section-head-body-gap
-// (допуск ±2px); кнопка в .section__bar: |центр кнопки − центр групи eyebrow+заголовок| ≤ 2px.
-// Виняток (pinned, лише перша перевірка): .process (шапка в sticky-блоці: міряємо eyebrow→title і шапка→трек, геометрія pin не змінюється).
-// Лише eyebrow→title (без контенту під ним у цьому ж ритмі): cta-block (title→text = eyebrow-gap), about-manifest, visit-split (центровані, в одній панелі з текстом/фото).
+// 17. Ритм шапки секції (design-system.md, «Ритм шапки секції») — міряється по ЧОРНИЛУ (cap-top першого рядка / baseline останнього; text-box-trim у section.css):
+// eyebrow→заголовок = --section-head-eyebrow-gap; заголовок→абзац (cta/manifest/visit/process/brand) = --section-title-text-gap;
+// шапка→контент (верх боксу контенту) = --section-head-body-gap; співвідношення: eyebrow-gap ≥ title-text-gap + 4px (у кожному блоці, де є eyebrow→заголовок→текст, ink-вимір те саме за токенами); всі ±2px; кнопка в .section__bar: |центр кнопки − ink-центр групи (cap-top eyebrow … baseline заголовка)| ≤ 2px.
+// Ink: Range.getClientRects (content-area, не залежить від line-height/trim) + canvas measureText('H').actualBoundingBoxAscent (cap) і fontBoundingBox{Ascent,Descent}. Діакритика Й/І не береться (cap-height).
+// Виняток: .process (pinned) — лише статичний layout; шапка→контент для cta/manifest/visit/brand не міряється (всередині панелі).
 const headRhythm = (page) => page.evaluate(() => {
-  const px = (v) => parseFloat(getComputedStyle(document.documentElement).getPropertyValue(v)) || 0;
   const tok = (name) => { const d = document.createElement('div'); d.style.cssText = `position:absolute;visibility:hidden;height:var(${name})`; document.body.appendChild(d); const h = d.getBoundingClientRect().height; d.remove(); return h; };
-  const E = tok('--section-head-eyebrow-gap'), B = tok('--section-head-body-gap');
+  const E = tok('--section-head-eyebrow-gap'), B = tok('--section-head-body-gap'), T = tok('--section-title-text-gap');
   const fails = []; let n = 0;
   const lab = (el) => el.tagName.toLowerCase() + [...el.classList].slice(0, 2).map((c) => '.' + c).join('');
-  const chk = (sel, got, exp) => { n++; if (Math.abs(got - exp) > 2) fails.push({ sel, measured: got.toFixed(1) + 'px', expected: exp + 'px ±2' }); };
+  const cv = document.createElement('canvas').getContext('2d');
+  const ink = (el) => {
+    const cs = getComputedStyle(el);
+    cv.font = `${cs.fontStyle} ${cs.fontWeight} ${cs.fontSize} ${cs.fontFamily}`;
+    const m = cv.measureText('H'), asc = m.fontBoundingBoxAscent;
+    const r = document.createRange(); r.selectNodeContents(el);
+    const rects = [...r.getClientRects()].filter((q) => q.width > 0 && q.height > 0);
+    if (!rects.length) return null;
+    const first = rects.reduce((a, q) => (q.top < a.top ? q : a)), last = rects.reduce((a, q) => (q.top > a.top ? q : a));
+    return { capTop: first.top + asc - m.actualBoundingBoxAscent, base: last.top + asc };
+  };
+  const chk = (sel, got, exp) => { n++; if (Math.abs(got - exp) > 2) fails.push({ sel, measured: got.toFixed(1) + 'px', expected: exp + 'px ±2 (ink)' }); };
   const vis = (el) => { const r = el.getBoundingClientRect(); return r.width > 0 && r.height > 0; };
+  const TITLE = '.section-title, h2, .about-manifest__title';
+  n++; if (E < T + 4) fails.push({ sel: 'tokens', measured: `eyebrow-gap ${E}px, title-text-gap ${T}px`, expected: 'eyebrow-gap ≥ title-text-gap + 4px' });
   for (const eb of document.querySelectorAll('.eyebrow, .about-manifest__eyebrow')) {
     const t = eb.nextElementSibling;
-    if (!t || !t.matches('.section-title, h2, .about-manifest__title') || !vis(eb) || !vis(t)) continue;
-    chk(lab(t) + ' eyebrow→title', t.getBoundingClientRect().top - eb.getBoundingClientRect().bottom, E);
+    if (!t || !t.matches(TITLE) || !vis(eb) || !vis(t)) continue;
+    const a = ink(eb), b = ink(t); if (!a || !b) continue;
+    chk(lab(t) + ' eyebrow→title', b.capTop - a.base, E);
   }
-  const headSel = '.section__head, .principles__head, .process__head';
-  for (const h of document.querySelectorAll(headSel)) {
+  for (const t of document.querySelectorAll('.process .section-title, .cta-block__title, .about-manifest__title, .visit-split__title, .about-brands__name')) {
+    const x = t.nextElementSibling;
+    if (!x || !vis(t) || !vis(x) || !x.matches('p, .process__lead')) continue;
+    const a = ink(t), b = ink(x); if (!a || !b) continue;
+    chk(lab(t) + ' title→text', b.capTop - a.base, T);
+  }
+  for (const h of document.querySelectorAll('.section__head, .principles__head, .process__head')) {
     if (!vis(h)) continue;
-    const top = h.closest('.section__bar') || h;
-    const next = top.nextElementSibling;
+    const top = h.closest('.section__bar') || h, next = top.nextElementSibling;
     if (!next || !vis(next)) continue;
-    chk(lab(h) + ' шапка→контент', next.getBoundingClientRect().top - top.getBoundingClientRect().bottom, B);
+    const lastTxt = [...h.querySelectorAll(TITLE + ', .process__lead')].filter(vis).pop(); const a = lastTxt && ink(lastTxt); if (!a) continue;
+    chk(lab(h) + ' шапка→контент', next.getBoundingClientRect().top - a.base, B);
   }
   for (const t of document.querySelectorAll('.product__related-title, .faq-page__title')) {
     if (!vis(t) || !t.nextElementSibling) continue;
-    chk(lab(t) + ' заголовок→контент', t.nextElementSibling.getBoundingClientRect().top - t.getBoundingClientRect().bottom, B);
+    const a = ink(t); if (!a) continue;
+    chk(lab(t) + ' заголовок→контент', t.nextElementSibling.getBoundingClientRect().top - a.base, B);
   }
   for (const bar of document.querySelectorAll('.section__bar')) {
     const head = bar.querySelector('.section__head'), btn = bar.querySelector('.btn');
     if (!head || !btn || !vis(btn)) continue;
-    const a = head.getBoundingClientRect(), b = btn.getBoundingClientRect();
-    n++; const d = Math.abs((a.top + a.bottom) / 2 - (b.top + b.bottom) / 2);
-    if (d > 2) fails.push({ sel: lab(bar) + ' кнопка/група', measured: d.toFixed(1) + 'px', expected: '≤2px' });
+    const e = head.querySelector('.eyebrow'), t = head.querySelector(TITLE); const a = e && ink(e), c = t && ink(t); if (!a || !c) continue;
+    const b = btn.getBoundingClientRect(), d = Math.abs((a.capTop + c.base) / 2 - (b.top + b.bottom) / 2);
+    n++; if (d > 2) fails.push({ sel: lab(bar) + ' кнопка/ink-група', measured: d.toFixed(1) + 'px', expected: '≤2px (ink)' });
   }
-  return { fails, info: { checked: n, eyebrowGap: E, bodyGap: B } };
+  return { fails, info: { checked: n, eyebrowGap: E, bodyGap: B, titleTextGap: T } };
 });
 
+
+// 18. Єдина система кнопок: hover змінює computed-стиль (page.hover), нема текстових ↗→↓ у кнопках/посиланнях, gap текст↔іконка = токен ±1px, іконка-стрілка відповідає типу посилання
+async function btnSystem(page) {
+  const fails = [];
+  const stat = await page.evaluate((cfg) => {
+    const { describe, visible, token } = window.__A;
+    const out = [];
+    const k = parseFloat(token('--btn-gap-k')) || 0.5, iconEm = parseFloat(token('--btn-icon')) || 1.25;
+    const dur = parseFloat(token('--dur')) || 0.35;
+    const GLYPH = /[↗↘↖→↓↑←]/;
+    for (const el of document.querySelectorAll('.btn, .link-text, .qty__btn, .gallery__nav-btn, .slider-arrow, button[type=submit], .header__contact--hint')) {
+      if (!visible(el)) continue;
+      const cs = getComputedStyle(el), sel = describe(el);
+      if (GLYPH.test(el.textContent)) out.push({ sel, measured: 'текстова стрілка «' + (el.textContent.match(GLYPH) || [''])[0] + '»', expected: 'SVG-іконка (.btn__icon)' });
+      if (!el.matches('.btn')) continue;
+      const icons = [...el.querySelectorAll('.btn__icon')];
+      const arrows = icons.filter((i) => /#i-arrow-/.test(i.querySelector('use')?.getAttribute('href') || ''));
+      const semantic = icons.filter((i) => !arrows.includes(i));
+      const isLink = el.tagName === 'A' && el.hasAttribute('href');
+      let want = null;
+      if (isLink && !semantic.length) {
+        const u = new URL(el.href, location.href);
+        const tgt = u.pathname === location.pathname && u.hash.length > 1 ? document.getElementById(decodeURIComponent(u.hash.slice(1))) : null; // якір ВНИЗ = ціль на цій сторінці нижче кнопки; інакше (інша сторінка, ціль вище/відсутня) — up-right
+        want = tgt && tgt.getBoundingClientRect().top > el.getBoundingClientRect().top ? 'arrow-down' : 'arrow-up-right';
+      }
+      const got = arrows.map((i) => (i.querySelector('use').getAttribute('href') || '').replace('#i-', ''));
+      if (want && (got.length !== 1 || got[0] !== want)) out.push({ sel, measured: `іконка: ${got.join(',') || 'немає'}`, expected: `${want} (href=${el.getAttribute('href')})` });
+      if (!want && got.length) out.push({ sel, measured: `стрілка ${got.join(',')} у кнопці-дії/з предметною іконкою`, expected: 'без стрілки' });
+      if (icons.length) {
+        const px = parseFloat(cs.paddingLeft), exp = px * k, gap = parseFloat(cs.columnGap);
+        if (Math.abs(gap - exp) > 1) out.push({ sel, measured: `gap=${gap}px`, expected: `${exp.toFixed(1)}px (${k}×padding ${px})` });
+        const fs = parseFloat(cs.fontSize), eb = el.getBoundingClientRect();
+        for (const i of icons) {
+          const b = i.getBoundingClientRect();
+          if (Math.abs(b.width - iconEm * fs) > 0.6) out.push({ sel, measured: `іконка ${b.width.toFixed(1)}px`, expected: `${(iconEm * fs).toFixed(1)}px (${iconEm}em)` });
+          if (Math.abs((b.top + b.bottom) / 2 - (eb.top + eb.bottom) / 2) > 1.5) out.push({ sel, measured: `центр іконки зміщено на ${(((b.top + b.bottom) / 2) - ((eb.top + eb.bottom) / 2)).toFixed(1)}px`, expected: '≤1.5px' });
+        }
+      }
+      const td = parseFloat(cs.transitionDuration);
+      if (Math.abs(td - dur) > 0.01) out.push({ sel, measured: `transition ${cs.transitionDuration}`, expected: `${dur}s (--dur)` });
+      if (parseFloat(cs.borderTopLeftRadius) !== 0) out.push({ sel, measured: `radius ${cs.borderTopLeftRadius}`, expected: '0' });
+    }
+    return out;
+  }, CFG);
+  fails.push(...stat);
+  // слайдерні стрілки: круглі, розмір = один із двох токенів
+  fails.push(...await page.evaluate(() => {
+    const { describe, visible, resolveVar } = window.__A, out = [];
+    const lg = resolveVar('--slider-arrow-size'), sm = resolveVar('--slider-arrow-size-compact');
+    for (const el of document.querySelectorAll('.slider-arrow, .gallery__nav-btn')) {
+      const cs = getComputedStyle(el), w = el.getBoundingClientRect().width;
+      if (cs.display === 'none' || !w) continue;
+      if (cs.borderTopLeftRadius !== '50%' && parseFloat(cs.borderTopLeftRadius) < w / 2 - 0.5) out.push({ sel: describe(el), measured: `radius ${cs.borderTopLeftRadius}`, expected: '50% (кругла стрілка)' });
+      if (Math.abs(w - lg) > 0.5 && Math.abs(w - sm) > 0.5) out.push({ sel: describe(el), measured: `${w.toFixed(1)}px`, expected: `${lg.toFixed(1)} (--slider-arrow-size) або ${sm.toFixed(1)} (-compact)` });
+    }
+    return out;
+  }));
+  await page.addStyleTag({ content: '.btn,.btn *{transition:none!important}' }); // стани читаємо без перехідного кадру
+  // hover: унікальні (клас + контекст) кнопки
+  const items = await page.evaluate(() => {
+    const { visible } = window.__A, seen = new Set(), list = [];
+    document.querySelectorAll('.btn').forEach((el, idx) => {
+      if (!visible(el)) { el.dataset.auditIdx = ''; }
+      const key = el.className + '|' + (el.closest('.hero, .header, .cta-block__buttons, .product-card, .occasion-picker__card, .catalog-cta, .under-construction, .product__actions, .visit-split, .about-brands, .about-home')?.className.split(' ')[0] || '');
+      if (seen.has(key)) return;
+      seen.add(key); el.dataset.auditIdx = String(idx); list.push(idx);
+    });
+    return list;
+  });
+  for (const idx of items) {
+    const h = await page.evaluateHandle((i) => document.querySelectorAll('.btn')[i], idx);
+    const el = h.asElement();
+    const before = await el.evaluate((e) => {
+      const card = e.closest('.product-card'); if (card) { card.classList.add('product-card--open'); card.querySelectorAll('.product-card__panel').forEach((p) => { p.style.transition = 'none'; }); }
+      e.scrollIntoView({ block: 'center' });
+      const cs = getComputedStyle(e);
+      return { sel: window.__A.describe(e), vis: window.__A.visible(e), bg: cs.backgroundColor, fg: cs.color, bd: cs.borderTopColor };
+    });
+    if (!before.vis) continue;
+    await new Promise((r) => setTimeout(r, 150));
+    await page.mouse.move(1, 1);
+    await new Promise((r) => setTimeout(r, 450));
+    const rest = await el.evaluate((e) => { const cs = getComputedStyle(e); return { bg: cs.backgroundColor, fg: cs.color, bd: cs.borderTopColor }; });
+    try { await el.hover(); } catch { continue; }
+    await new Promise((r) => setTimeout(r, 500));
+    const hov = await el.evaluate((e) => { const cs = getComputedStyle(e); return { bg: cs.backgroundColor, fg: cs.color, bd: cs.borderTopColor, top: e.matches(':hover') }; });
+    await page.mouse.move(1, 1);
+    if (!hov.top) continue; // курсор перекрито іншим елементом — hover не емулювався
+    if (hov.bg === rest.bg && hov.fg === rest.fg && hov.bd === rest.bd) fails.push({ sel: before.sel, measured: 'hover не змінює background/color/border', expected: 'зміна computed-стилю при :hover' });
+  }
+  // category arrow: hover на рядок категорії показує arrow-up-right (opacity>0.9), висота = cap-height назви ±1.5px, правий край = правий край контейнера ±1px
+  const catItems = await page.$$('.category-list__item');
+  for (const it of catItems.slice(0, 3)) {
+    const link = await it.$('.category-list__link');
+    await link.evaluate((e) => e.scrollIntoView({ block: 'center' }));
+    await new Promise((r) => setTimeout(r, 150));
+    await page.mouse.move(1, 1);
+    await new Promise((r) => setTimeout(r, 450));
+    try { await link.hover(); } catch { continue; }
+    await new Promise((r) => setTimeout(r, 600));
+    const r = await link.evaluate((e) => {
+      const a = e.querySelector('.category-list__arrow'), n = e.querySelector('.category-list__name');
+      if (!a) return { none: true };
+      const cs = getComputedStyle(a), ab = a.getBoundingClientRect(), lb = e.getBoundingClientRect(), nb = n.getBoundingClientRect();
+      const nfs = parseFloat(getComputedStyle(n).fontSize), cap = nfs * (parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--cap-h-serif')) || 0.634);
+      const pad = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--page-pad')) || 30;
+      return { hover: e.matches(':hover'), op: parseFloat(cs.opacity), h: ab.height, cap, right: ab.right, want: innerWidth - pad - (document.documentElement.clientWidth < innerWidth ? innerWidth - document.documentElement.clientWidth : 0), lright: lb.right, cy: (ab.top + ab.bottom) / 2, ncy: (nb.top + nb.bottom) / 2, href: a.querySelector('use')?.getAttribute('href'), name: n.textContent };
+    });
+    if (r.none) { fails.push({ sel: '.category-list__item', measured: 'нема .category-list__arrow', expected: 'стрілка в кожному рядку' }); break; }
+    if (!r.hover) continue;
+    if (!(r.op > 0.9)) fails.push({ sel: '.category-list__arrow', measured: `opacity=${r.op} при hover «${r.name}»`, expected: '>0.9' });
+    if (Math.abs(r.h - r.cap) > 1.5) fails.push({ sel: '.category-list__arrow', measured: `висота ${r.h.toFixed(1)}px`, expected: `${r.cap.toFixed(1)}px (cap-height назви ±1.5)` });
+    if (Math.abs(r.right - r.lright) > 1 || Math.abs(r.right - r.want) > 1.5) fails.push({ sel: '.category-list__arrow', measured: `right=${r.right.toFixed(1)}, рядок=${r.lright.toFixed(1)}`, expected: `${r.want.toFixed(1)} (вікно − --page-pad) ±1` });
+    if (Math.abs(r.cy - r.ncy) > 3) fails.push({ sel: '.category-list__arrow', measured: `центр стрілки зміщено на ${(r.cy - r.ncy).toFixed(1)}px від центру назви`, expected: '≤3px' });
+    if (r.href !== '#i-arrow-up-right') fails.push({ sel: '.category-list__arrow', measured: String(r.href), expected: '#i-arrow-up-right' });
+  }
+  return fails;
+}
+
 // Реєстр: [id, заголовок, функція, scope]; scope: all (кожна ширина) | first (лише найширша) | index (лише головна) | global (після обходу)
+// 18. Заголовки без кінцевої крапки (дозволені «…», «?», «!»): h1–h6 і елементи ролей заголовків
+const headingDots = (page) => page.evaluate(() => {
+  const sel = 'h1,h2,h3,h4,h5,h6,.t-h1,.t-h2,.t-h3,.t-display,.t-manifest-caps,.t-h3-caps,.t-list-title,.section-title,.cta-block__title,.home-manifest,.about-manifest__title';
+  const fails = []; let n = 0;
+  for (const el of document.querySelectorAll(sel)) {
+    const t = (el.innerText || el.textContent || '').trim().replace(/\s+/g, ' ');
+    if (!t) continue;
+    n++;
+    if (/\.$/.test(t) && !/…$/.test(t)) fails.push({ sel: el.tagName.toLowerCase() + (el.className ? '.' + String(el.className).split(' ')[0] : ''), measured: '«' + t.slice(-40) + '»', expected: 'без кінцевої крапки' });
+  }
+  return { fails, info: { checked: n } };
+});
+
 const CHECKS = [
   ['noHScroll', 'noHScroll', noHScroll, 'all'],
   ['textOverflow', 'Переповнення тексту', textOverflow, 'all'],
@@ -760,6 +927,8 @@ const CHECKS = [
   ['heroOverlap', 'Hero без накладань', heroOverlap, 'first'],
   ['contrast', 'Контраст кольорів', contrast, 'first'],
   ['headRhythm', 'Ритм шапки секції', headRhythm, 'all'],
+  ['headingDots', 'Заголовки без крапки', headingDots, 'all'],
+  ['btnSystem', 'Єдина система кнопок', btnSystem, 'first'],
 ];
 
 // ───────────────────────────── Завантаження сторінки ─────────────────────────────

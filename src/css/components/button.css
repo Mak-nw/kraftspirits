@@ -1,61 +1,87 @@
 /*
- * button — кнопки та текстове посилання-дія
- * .btn              — базова прямокутна кнопка (контур; hover — заливка).
- * .btn--primary     — темно-синя заливка --c-btn-bg + світлий текст (hover — світліший синій --c-btn-bg-hover). У темній секції (.cta-block) — інверсія: крем/бавовна з коричневим текстом.
- * .btn--buy         — синя заливка (покупки/навігація; = дефолт primary). .btn--contact — зелена заливка (зв'язок: менеджер, екскурсія, реліз, «Підказати?»); hover — світліший власний відтінок.
- * .btn--outline     — контур явно (hover — заливка).
- * .btn--block       — на всю ширину, прямокутна (кнопки в картці).
- * .btn--sm          — компактна.
- * .btn-pair        — контейнер двох кнопок: темною одночасно є лише одна (primary ↔ outline міняються при hover/focus на outline).
- * .link-text        — кнопка-посилання з підкресленням (постійним).
- * Стани: :hover, :focus-visible (глобальний контур з base.css).
- * Коли: primary — головна дія на екрані (одна); outline/базова — другорядна; block — у вузьких панелях.
+ * button — ЄДИНА система кнопок (токени --btn-* у tokens.css; довідник і матриця станів: design-system.md «Кнопки»)
+ * Варіанти: .btn (контур) / .btn--outline (контур явно) · .btn--primary, .btn--buy (синя заливка) · .btn--contact (зелена заливка) · розміри .btn--sm, .btn--block · .btn-pair · .link-text.
+ * Палітра задається двома змінними на самому елементі: --btn-fill (заливка/рамка) і --btn-ink (текст на заливці). Контексти (фото hero, хедер на фото, темна секція) лише міняють ці дві змінні — стани однакові всюди:
+ *   • заливна (primary/buy/contact): hover = заливка зсувається до кольору тексту на --btn-hover-mix (color-mix), текст не міняється; active = на --btn-active-mix;
+ *   • контурна (.btn, outline, qty, стрілки галереї та слайдера): hover = заливка власним кольором + інверсний текст; active = на крок hover;
+ *   • disabled = opacity --btn-disabled-opacity; focus-visible = один контур 2px (--btn-focus), offset 3px; transition однаковий (--dur/--ease); без transform і тіней.
+ * Іконка в кнопці — .btn__icon (бокс --btn-icon = 1.25em, не змінює висоту кнопки); gap текст↔іконка = --btn-gap-k × padding-inline (пропорційно розміру: 13/9/6px).
+ * Правило значків (одне, без винятків): кнопка-посилання на ІНШУ сторінку/назовні → стрілка arrow-up-right; якір на секцію нижче → arrow-down; кнопки-ДІЇ (додати, купити, степпер, відправити) — без стрілки;
+ *   якщо кнопка має предметну іконку (кошик, гарнітура «Підказати?») — лише вона, стрілки немає.
+ * Слайдерні стрілки (.slider-arrow, .gallery__nav-btn, .occasion-picker__nav-btn): круглі, заливка/hover за системою, шеврон chevron-left/right зі спрайта.
+ * .btn-pair — дві кнопки поруч: темна лише одна (при hover/focus на контурній вони міняються).
  */
+.btn, .qty__btn, .gallery__nav-btn, .slider-arrow {
+  --btn-fill: var(--c-btn-buy-bg);
+  --btn-ink: var(--c-btn-buy-text);
+  --btn-focus: var(--c-focus);
+  --_step-hover: color-mix(in srgb, var(--btn-fill) var(--btn-hover-mix), var(--btn-ink));
+  --_step-active: color-mix(in srgb, var(--btn-fill) var(--btn-active-mix), var(--btn-ink));
+  transition: background-color var(--dur) var(--ease), color var(--dur) var(--ease), border-color var(--dur) var(--ease), opacity var(--dur) var(--ease), visibility var(--dur) var(--ease);
+}
+
 .btn {
-  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
-  padding: 14px 26px;
-  border: 1px solid var(--c-btn-bg); border-radius: var(--radius-none);
-  background: transparent; color: var(--c-btn-bg);
+  --btn-px: var(--btn-pad-x); --btn-py: var(--btn-pad-y);
+  display: inline-flex; align-items: center; justify-content: center;
+  gap: calc(var(--btn-px) * var(--btn-gap-k));
+  padding: var(--btn-py) var(--btn-px);
+  border: 1px solid var(--btn-fill); border-radius: var(--radius-none);
+  background: transparent; color: var(--btn-fill);
   font-size: var(--fs-body); line-height: var(--lh-none);
-  transition: background var(--dur) var(--ease), color var(--dur) var(--ease);
 }
 .btn__icon {
-  width: 1.3em;
-  height: 1.3em;
-  margin-block: -0.15em; /* візуально більша за рядок іконка не збільшує висоту кнопки (44px) */
-  flex: none;
+  flex: none; width: var(--btn-icon); height: var(--btn-icon);
+  margin-block: calc((1em - var(--btn-icon)) / 2); /* бокс більший за рядок, але висоти кнопки не збільшує */
+  fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round;
 }
-.btn:hover { background: var(--c-btn-bg); color: var(--c-btn-text); }
-.btn--outline { background: transparent; color: var(--c-btn-bg); }
-.btn--outline:hover { background: var(--c-btn-bg); color: var(--c-btn-text); }
-.btn--primary { background: var(--c-btn-bg); color: var(--c-btn-text); }
-.btn--primary:hover { background: var(--c-btn-bg-hover); border-color: var(--c-btn-bg-hover); color: var(--c-btn-text); }
-.btn--buy { background: var(--c-btn-buy-bg); border-color: var(--c-btn-buy-bg); color: var(--c-btn-buy-text); }
-.btn--buy:hover { background: var(--c-btn-buy-bg-hover); border-color: var(--c-btn-buy-bg-hover); }
-.btn--contact { background: var(--c-btn-contact-bg); border-color: var(--c-btn-contact-bg); color: var(--c-btn-contact-text); }
-.btn--contact:hover { background: var(--c-btn-contact-bg-hover); border-color: var(--c-btn-contact-bg-hover); color: var(--c-btn-contact-text); }
-.btn--sm { padding: 9px 18px; font-size: var(--fs-body-sm); }
-.btn--block { display: flex; width: 100%; border-radius: var(--radius-none); padding: 14px 12px; } /* 12px по боках: після збільшення шрифту «Додати в кошик · 1 250 ₴» ще вміщується в картку 3 колонок (≥800px) */
+.btn--outline { background: transparent; color: var(--btn-fill); }
+.btn--primary, .btn--buy, .btn--contact { background: var(--btn-fill); color: var(--btn-ink); }
+.btn--contact { --btn-fill: var(--c-btn-contact-bg); --btn-ink: var(--c-btn-contact-text); }
+.btn--sm { --btn-px: var(--btn-pad-x-sm); --btn-py: var(--btn-pad-y-sm); font-size: var(--fs-body-sm); }
+.btn--block { --btn-px: var(--btn-pad-x-block); display: flex; width: 100%; }
 
-/* пара кнопок: лише одна темна одночасно (картка в каталозі, сторінка товару) */
-.btn-pair .btn--primary:hover {
-  background: var(--c-btn-bg-hover);
-  border-color: var(--c-btn-bg-hover);
-  color: var(--c-btn-text);
-}
-.btn-pair:has(.btn--outline:is(:hover, :focus-visible)) .btn--primary {
-  background: transparent;
-  border-color: var(--c-btn-bg);
-  color: var(--c-btn-bg);
-}
-.btn-pair:has(.btn--outline:is(:hover, :focus-visible)) .btn--outline {
-  background: var(--c-btn-bg);
-  color: var(--c-btn-text);
-}
+/* ---- стани: контурні (hover — заливка власним кольором, інверсний текст) ---- */
+:is(.btn, .qty__btn, .gallery__nav-btn, .slider-arrow):hover:not(:disabled, [aria-disabled='true']) { background: var(--btn-fill); color: var(--btn-ink); border-color: var(--btn-fill); }
+/* ---- стани: заливні (hover — крок до кольору тексту) ---- */
+:is(.btn--primary, .btn--buy, .btn--contact):hover:not(:disabled, [aria-disabled='true']) { background: var(--_step-hover); color: var(--btn-ink); border-color: var(--_step-hover); }
+/* active: крок далі */
+:is(.btn, .qty__btn, .gallery__nav-btn, .slider-arrow):active:not(:disabled, [aria-disabled='true']) { background: var(--_step-hover); color: var(--btn-ink); border-color: var(--_step-hover); }
+:is(.btn--primary, .btn--buy, .btn--contact):active:not(:disabled, [aria-disabled='true']) { background: var(--_step-active); color: var(--btn-ink); border-color: var(--_step-active); }
+/* focus-visible: один контур */
+:is(.btn, .qty__btn, .gallery__nav-btn, .slider-arrow):focus-visible { outline: 2px solid var(--btn-focus); outline-offset: 3px; }
+.qty__btn:focus-visible { outline-offset: -2px; }
+/* disabled */
+:is(.btn, .qty__btn):disabled, .btn[aria-disabled='true'] { opacity: var(--btn-disabled-opacity); cursor: default; }
 
+/* ---- контексти: змінюється лише палітра, стани ті самі ---- */
+/* на фото (hero головної) і у прозорому хедері hero-стану (на фото): біла заливка + темний текст; hover заливної — той самий крок, що й у решти */
+:is(.hero, body.page-index .header:not(.header--solid)) .btn { --btn-fill: var(--c-on-image); --btn-ink: var(--c-text); --btn-focus: var(--c-on-image); }
+/* у темній секції (pre-footer): кремова заливка + коричневий текст */
+.cta-block__buttons .btn { --btn-fill: var(--c-on-dark-strong); --btn-ink: var(--c-dark-bg); --btn-focus: var(--c-on-dark-strong); }
+
+/* ---- слайдерні стрілки: ВСІ круглі, два токени розміру: --slider-arrow-size (card-slider) і --slider-arrow-size-compact (picker, галерея) ---- */
+.slider-arrow, .gallery__nav-btn {
+  --arrow-d: var(--slider-arrow-size-compact);
+  display: flex; align-items: center; justify-content: center; flex: none; box-sizing: border-box;
+  width: var(--arrow-d); height: var(--arrow-d); padding: 0;
+  color: var(--btn-fill); border: 1px solid var(--btn-fill); border-radius: 50%;
+  background: color-mix(in srgb, var(--c-bg) 86%, transparent);
+}
+.slider-arrow { --arrow-d: var(--slider-arrow-size); }
+:is(.slider-arrow, .gallery__nav-btn) .btn__icon { width: 40%; height: 40%; margin: 0; } /* шеврон пропорційний кругу */
+
+/* ---- пара: лише одна темна ---- */
+.btn-pair:has(.btn--outline:is(:hover, :focus-visible)) .btn--primary { background: transparent; color: var(--btn-fill); border-color: var(--btn-fill); }
+.btn-pair:has(.btn--outline:is(:hover, :focus-visible)) .btn--outline { background: var(--btn-fill); color: var(--btn-ink); border-color: var(--btn-fill); }
+
+/* ---- link-text: кнопка-посилання з підкресленням ---- */
 .link-text {
+  display: inline-flex; align-items: center; min-height: var(--control-h-min);
   padding: 0; border: 0; background: none;
   font-size: var(--fs-body-sm); color: var(--c-text);
   text-decoration: underline; text-underline-offset: 3px; text-decoration-color: var(--c-muted-light);
+  transition: text-decoration-color var(--dur) var(--ease), opacity var(--dur) var(--ease);
 }
 .link-text:hover { text-decoration-color: var(--c-text); }
+.link-text:active { opacity: var(--hover-dim); }
+@media (prefers-reduced-motion: reduce) { .btn, .qty__btn, .gallery__nav-btn, .slider-arrow, .link-text { transition: none; } }

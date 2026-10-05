@@ -21,9 +21,5 @@
 .hero__title { margin: 0; }
 .hero__eyebrow { margin: 0; color: var(--c-on-image); }
 
-/* кнопки на фото: білі, прямокутні (стиль сайту) */
-.hero .btn { border-color: var(--c-on-image); border-radius: var(--radius-none); color: var(--c-on-image); background: transparent; }
-.hero .btn--primary { background: var(--c-on-image); border-color: var(--c-on-image); color: var(--c-text); }
-.hero .btn--primary:hover, .hero .btn--primary:focus-visible { background: transparent; border-color: var(--c-on-image); color: var(--c-on-image); }
-.hero .btn--outline:hover, .hero .btn--outline:focus-visible { background: var(--c-on-image); border-color: var(--c-on-image); color: var(--c-text); }
+/* кнопки на фото: палітра задається в button.css (контекст .hero .btn); тут лише контур фокуса посилань (лого) */
 .hero a:focus-visible { outline-color: var(--c-on-image); }

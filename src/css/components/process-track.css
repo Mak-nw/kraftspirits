@@ -25,7 +25,7 @@
 .process.is-pinned .process-track__progress { display: block; }
 .process.is-pinned .process-track__list::before { display: none; }
 .process__head { display: block; margin-bottom: var(--section-head-body-gap); }
-.process__lead { margin-top: var(--sp-5); max-width: 34em; color: var(--c-on-dark); }
+.process__lead { margin-top: var(--section-title-text-gap); max-width: 34em; color: var(--c-on-dark); }
 
 .process-track {
   position: relative; container-type: inline-size; margin-inline: calc(-1 * var(--page-pad)); /* на всю ширину вікна (.process має padding-inline --page-pad) */

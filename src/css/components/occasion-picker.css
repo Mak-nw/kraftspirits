@@ -6,14 +6,14 @@
  * Коли: підбір напою від приводу використовується у pre-footer (cta-block, без заголовка).
  * Стани: активна подія і її hint темніші (--c-text), решта --c-muted-light; :hover ряду приглушує сусідів; :focus-visible — контур 1px; зміна події/товару — crossfade --dur (prefers-reduced-motion — без анімації).
  * Клавіатура: ←/→ на tablist — інша подія, Home/End — перша/остання; ←/→ на stage (tabindex=0) — інший товар (зациклення). Вибір не переходить на іншу сторінку.
- * Регістр: заголовок — .caps-lead (КАПС sans), назви подій — serif звичайний, hint — sans КАПС. Токени: --fs-occasion, --fs-lead-caps, --ls-caps-sans, --occasion-ratio, --occasion-card-w, --occasion-card-lift, --occasion-nav-gap.
- * Модифікатор .occasion-picker--in-block (усередині cta-block, без заголовка): ряд подій по ширині контейнера, медіа без full-bleed — від краю до краю контейнера блоку; висота за --occasion-ratio, картка/стрілки без змін.
+ * Регістр: заголовок — .caps-lead (КАПС sans), назви подій — serif КАПС (h3), hint — sans КАПС. Токени: --fs-occasion, --fs-lead-caps, --ls-caps-sans, --occasion-ratio, --occasion-card-w, --occasion-card-lift, --occasion-nav-gap.
+ * Модифікатор .occasion-picker--in-block (усередині cta-block, без заголовка): ряд подій у контейнері --page-pad (5 рівних колонок, назва і hint по центру колонки, перенос по словах, колонки вирівняні по верху), медіа на всю ширину вікна (cta-block full-bleed); висота за --occasion-ratio, картка/стрілки без змін.
  * HTML: src/js/components/occasion-picker.js (renderOccasionPicker, bindOccasionPicker); дані — src/data/occasions.json.
  */
 .occasion-picker { display: block; }
 .occasion-picker__lead { margin-inline: var(--page-pad); padding-inline: max(0px, calc((100% - 44ch) / 2)); } /* ширина рядка ≈44ch → 2 рядки, бокси на осях page-pad */
 .occasion-picker__tabs {
-  display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); column-gap: var(--grid-gap);
+  display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); column-gap: var(--grid-gap); align-items: start; /* 5 рівних колонок, колонка не росте за вмістом */
   margin: var(--sp-8) var(--page-pad) 0;
 }
 .occasion-picker__tab {
@@ -25,15 +25,15 @@
 .occasion-picker__tabs:hover .occasion-picker__tab:not(:hover) { color: var(--c-muted-light); }
 .occasion-picker__tabs:hover .occasion-picker__tab:hover { color: var(--c-text); }
 .occasion-picker__tab:focus-visible { outline: 1px solid var(--c-text); outline-offset: calc(var(--sp-1) * -1); }
-.occasion-picker__title { white-space: nowrap; }
-.occasion-picker__hint { color: inherit; }
+.occasion-picker__title { display: block; width: 100%; text-align: center; text-wrap: balance; overflow-wrap: normal; hyphens: none; } /* h3 КАПС ширший за sentence: у вузькій колонці переноситься по словах */
+.occasion-picker__hint { display: block; width: 100%; text-align: center; color: inherit; }
 
 .occasion-picker__stage { position: relative; margin-top: calc(var(--occasion-card-lift) + var(--sp-8)); }
 .occasion-picker__stage:focus-visible { outline: 1px solid var(--c-text); outline-offset: calc(var(--sp-1) * -1); }
 .occasion-picker__media { --parallax-img-max: calc(100% * (1 + var(--parallax-travel))); position: relative; overflow: hidden; aspect-ratio: var(--occasion-ratio); background: var(--c-tile); } /* рамка паралакса (data-parallax) */
 .occasion-picker__bg { opacity: 0; transition: opacity var(--dur) var(--ease); }
 .occasion-picker__bg.is-active { opacity: 1; }
-.occasion-picker__front { position: absolute; top: calc(var(--occasion-card-lift) * -1); left: 50%; box-sizing: border-box; width: calc(var(--occasion-card-w) + 2 * (var(--occasion-nav-gap) + var(--gallery-nav-size))); padding-inline: calc(var(--occasion-nav-gap) + var(--gallery-nav-size)); transform: translateX(-50%); }
+.occasion-picker__front { position: absolute; top: calc(var(--occasion-card-lift) * -1); left: 50%; box-sizing: border-box; width: calc(var(--occasion-card-w) + 2 * (var(--occasion-nav-gap) + var(--slider-arrow-size-compact))); padding-inline: calc(var(--occasion-nav-gap) + var(--slider-arrow-size-compact)); transform: translateX(-50%); }
 .occasion-picker__card { background: var(--c-bg); color: var(--c-text); }
 .occasion-picker__card.is-swap { animation: occasion-fade var(--dur) var(--ease); }
 @keyframes occasion-fade { from { opacity: 0; } to { opacity: 1; } }
@@ -51,5 +51,4 @@
 }
 
 /* усередині cta-block: контейнер блоку замість вікна */
-.occasion-picker--in-block .occasion-picker__tabs { margin-inline: 0; margin-top: var(--sp-9); }
-.occasion-picker--in-block .occasion-picker__media { width: 100%; }
+.occasion-picker--in-block .occasion-picker__tabs { margin-top: var(--sp-9); } /* бічні поля --page-pad; медіа — на всю ширину вікна (cta-block full-bleed) */

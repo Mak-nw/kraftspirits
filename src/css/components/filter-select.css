@@ -6,14 +6,14 @@
  * Розмітка: <label class="filter-select"><span class="filter-select__label">…</span><select class="filter-select__control">…</select></label>
  */
 .filter-select {
-  position: relative; display: inline-flex; align-items: baseline; gap: 6px; font-size: var(--fs-body-sm);
+  position: relative; display: inline-flex; align-items: center; gap: 6px; min-height: var(--control-h-min); font-size: var(--fs-body-sm);
   /* однакова ширина: --filter-w виставляє fit-width.js на контейнері (найдовша «мітка + опція» + шеврон); до того — фолбек */
   width: var(--filter-w, 18em); max-width: 100%; box-sizing: border-box;
 }
 .filter-select__label { color: var(--c-muted); }
 .filter-select__control {
   appearance: none; -webkit-appearance: none;
-  flex: 1 1 auto; min-width: 0; font-family: inherit;
+  flex: 1 1 auto; min-width: 0; min-height: var(--control-h-min); font-family: inherit;
   padding: 0 14px 0 0; border: 0; border-radius: 0; background: transparent;
   color: var(--c-text); font-size: var(--fs-body-sm); cursor: pointer;
 }
@@ -27,7 +27,9 @@
 .filter-select__control:focus-visible { outline: none; }
 
 .filter-toggle {
+  display: inline-flex; align-items: center; min-height: var(--control-h-min);
   padding: 0; border: 0; background: none; font-size: var(--fs-body-sm); color: var(--c-muted);
+  transition: color var(--dur) var(--ease);
 }
 .filter-toggle[aria-pressed='true'] { color: var(--c-text); text-decoration: underline; text-underline-offset: 3px; }
 .filter-toggle:hover { color: var(--c-text); }

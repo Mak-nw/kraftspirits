@@ -8,7 +8,7 @@
  * Висота літер слова в header: --logo-word-h (cap-height) → висота бокса = --logo-word-h / --logo-word-<бренд>.
  * Партіали: header.html (спрайт + 2 лого), footer.html; about.html (hero).
  */
-.logo-sprite { position: absolute; width: 0; height: 0; overflow: hidden; }
+.logo-sprite, .icon-sprite { position: absolute; width: 0; height: 0; overflow: hidden; }
 .brand-logo {
   display: block; flex: none; aspect-ratio: var(--logo-ar); color: var(--c-logo);
   transition: opacity var(--dur) var(--ease);

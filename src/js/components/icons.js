@@ -3,6 +3,16 @@
 // Усередині SVG є шар заливки .bottle-icon__fill (прихований; показується для вибраного об'єму, див. bottle-icon.css); { filled: true } показує його завжди.
 // Файлові версії (stroke #223420): public/assets/icons/bottle-0-5.svg, bottle-0-7.svg, bottle-1.svg; із заливкою — *.filled.svg.
 // basketIcon({ className }) → інлайн-SVG іконка продуктового кошика 24×24 для кнопок (контур, currentColor).
+// icon(name) → інлайн-SVG <use> зі спрайта partials/icon-sprite.html (контур currentColor, бокс 1.25em, стилі — button.css .btn__icon).
+// name: 'arrow-up-right' (кнопка на ІНШУ сторінку/назовні), 'arrow-down' (якір на секцію нижче), 'headset' («Підказати?»). Правило стрілок — design-system.md «Кнопки».
+// linkIcon(href) → стрілка за типом посилання: '#…' (або та сама сторінка + хеш) → arrow-down, інакше arrow-up-right.
+export function icon(name, cls = 'btn__icon') {
+  return `<svg class="${cls}" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="#i-${name}"/></svg>`;
+}
+export function linkIcon(href = '') {
+  return icon(String(href).startsWith('#') ? 'arrow-down' : 'arrow-up-right');
+}
+
 export const BOTTLE_VOLUMES = [0.5, 0.7, 1];
 
 const HEIGHTS = { 0.5: 40, 0.7: 50, 1: 64 };

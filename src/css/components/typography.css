@@ -2,8 +2,8 @@
  * typography — РЕЄСТР РОЛЕЙ: єдине місце, де задано family / size / weight / line-height / letter-spacing / text-transform.
  * Компоненти й сторінки типографіку НЕ задають (лише розкладку, колір, відступи); новий елемент → додати його селектор у відповідну роль.
  * Утиліти-ролі `.t-<роль>` — для довідника дизайн-системи й нових блоків. Тексти в HTML не змінюються: регістр — лише через --tt-heading / --tt-sentence.
- * Правило регістру (рішення замовника): КАПС — h1, h2 (section-title), display, назви-бренди, маніфест «Про дім» (about);
- *   звичайний — h3-елементи (подія, етап, рядок, категорія), списки категорій, питання FAQ, home-manifest, абзаци, кнопки.
+ * Правило регістру (рішення замовника): КАПС — h1, h2 (section-title), display, назви-бренди, маніфест «Про дім» (about + головна, manifest-caps), h3-елементи (подія, етап, рядок), списки категорій;
+ *   звичайний — питання FAQ, абзаци, кнопки. НОВИХ ролей без явного дозволу замовника не створювати.
  * Трекінг: serif КАПС −0.01em (--ls-caps), serif sentence −0.02em (--ls-heading),
  *   sans КАПС ≤13px +0.06em (--ls-caps-sans-sm), 14–24px +0.03em (--ls-caps-sans-md), текст/кнопки 0.
  * Розміри — токени --fs-* (tokens.css): display, h1, h2, h3, lead, list-title, caps-lead, lead-sm, body, body-sm, caption.
@@ -36,22 +36,16 @@
   letter-spacing: var(--ls-caps); text-transform: var(--tt-heading); font-variant-numeric: lining-nums;
 }
 
-/* manifest-caps: довгий КАПС-текст-заява («Про дім»); вага 500, щільніші міжслівні проміжки */
-.t-manifest-caps, .about-manifest__title {
+/* manifest-caps: довгий КАПС-текст-заява («Про дім», about + головна); вага 500, щільніші міжслівні проміжки */
+.t-manifest-caps, .about-manifest__title, .home-manifest {
   font-family: var(--font-serif); font-size: var(--fs-h3); font-weight: var(--fw-serif); line-height: var(--lh-lead);
   letter-spacing: var(--ls-caps); word-spacing: var(--wm-word-spacing); text-transform: var(--tt-heading); font-variant-numeric: lining-nums;
 }
 
 /* ---------- serif звичайний регістр ---------- */
 /* h3: назви-елементи (подія, етап, рядок місця) — Cormorant лише КАПСОМ */
-.t-h3, .place-rows__head {
+.t-h3, .place-rows__head, .occasion-picker__title, .process-track__name {
   font-family: var(--font-serif); font-size: var(--fs-h3); font-weight: var(--fw-serif); line-height: var(--lh-heading);
-  letter-spacing: var(--ls-caps); text-transform: var(--tt-heading); font-variant-numeric: lining-nums;
-}
-
-/* h4: назви етапів і слова приводу у вузьких колонках (КАПС ширший за sentence) */
-.t-h4, .occasion-picker__title, .process-track__name {
-  font-family: var(--font-serif); font-size: var(--fs-h4); font-weight: var(--fw-serif); line-height: var(--lh-heading);
   letter-spacing: var(--ls-caps); text-transform: var(--tt-heading); font-variant-numeric: lining-nums;
 }
 
@@ -65,12 +59,6 @@
 .t-lead, .cta-tile__name {
   font-family: var(--font-serif); font-size: var(--fs-lead); font-weight: var(--fw-serif); line-height: var(--lh-lead);
   letter-spacing: var(--ls-caps); text-transform: var(--tt-heading); font-variant-numeric: lining-nums;
-}
-
-/* lead-text: довгий великий текст-заява (маніфест «Про дім» на головній) — Google Sans, звичайний регістр */
-.t-lead-text, .home-manifest {
-  font-family: var(--font-body); font-size: var(--fs-lead-text); font-weight: var(--fw-regular); line-height: var(--lh-lead-text);
-  letter-spacing: var(--ls-lead-text); text-transform: var(--tt-sentence);
 }
 
 /* list-title: гігантські назви списків (категорії), показники, стрічка */

@@ -136,7 +136,7 @@
           <div class="ds-swatch__chip ds-chip--c-on-dark"></div>
           <code class="ds-swatch__name">--c-on-dark</code>
           <span class="ds-swatch__hex" data-hex="ds-chip--c-on-dark"></span>
-          <p class="ds-swatch__use">Довгий текст на темному</p>
+          <p class="ds-swatch__use">Описи на темному (крем 80%)</p>
         </div>
         <div class="ds-swatch">
           <div class="ds-swatch__chip ds-chip--c-on-dark-strong"></div>
@@ -162,9 +162,9 @@
             <tr><td>2. Кнопки покупок/навігації (.btn--buy)</td><td>--c-btn-buy-text #eae9e8 / --c-btn-buy-bg #051d27 · hover #2e424a</td><td>14.30 · 8.71</td></tr>
             <tr><td>2. Кнопки зв’язку (.btn--contact)</td><td>--c-btn-contact-text #eae9e8 / --c-btn-contact-bg #223420 · hover #465544</td><td>10.96 · 6.59</td></tr>
             <tr><td></td><td>Бейджі: «Хіт» / «Новинка» / «Ліміт»</td><td>14.30 / 10.96 / 10.96</td></tr>
-            <tr><td>3. Темно-коричневий + крем</td><td>--c-on-dark #eae9e8 / --c-dark-bg #36281f</td><td>11.70</td></tr>
+            <tr><td>3. Темно-коричневий + крем</td><td>--c-on-dark (крем 80%, rgba 203·175·134·0.8) / --c-dark-bg #36281f</td><td>4.9</td></tr>
             <tr><td></td><td>--c-on-dark-strong #cbaf86 / --c-dark-bg</td><td>6.77</td></tr>
-            <tr><td></td><td>--c-on-dark-muted #a6a09c / --c-dark-bg</td><td>5.47</td></tr>
+            <tr><td></td><td>--c-on-dark-muted (крем 75% + мікс фону) / --c-dark-bg</td><td>≥4.5</td></tr>
             <tr><td></td><td>Кнопка на коричневому: #36281f / #cbaf86</td><td>6.77</td></tr>
           </tbody>
         </table>
@@ -191,18 +191,16 @@
         </div>
 
         <h3 class="ds-sub">Типографічна шкала</h3>
-        <p class="ds-section__lead">10 ролей, розміри — токени <code>--fs-*</code> (clamp; значення на 1200 / 1440 / 1920 px). Типографіку задає лише реєстр ролей <code>components/typography.css</code>; компоненти її не перевизначають. Утиліти <code>.t-&lt;роль&gt;</code> — для нових блоків. Регістр: Cormorant — лише КАПС (h1, h2, display, h3, категорії, цифри); Google Sans — звичайний (lead-text, абзаци, питання FAQ) або КАПС-мітки.</p>
+        <p class="ds-section__lead">10 ролей, розміри — токени <code>--fs-*</code> (clamp; значення на 1200 / 1440 / 1920 px). Типографіку задає лише реєстр ролей <code>components/typography.css</code>; компоненти її не перевизначають. Утиліти <code>.t-&lt;роль&gt;</code> — для нових блоків. Регістр: Cormorant — лише КАПС (h1, h2, display, h3, категорії, цифри); Google Sans — звичайний (абзаци, питання FAQ) або КАПС-мітки.</p>
         <table class="ds-typo">
           <thead><tr><th>Роль</th><th>Живий приклад</th><th>Розмір 1200 / 1440 / 1920</th><th>Вага</th><th>Міжрядок</th><th>Трекінг</th><th>Регістр</th><th>Токен · де застосовано</th></tr></thead>
           <tbody>
             <tr><td><code>display</code></td><td><div class="ds-typo__sample t-display">Одна майстерня</div></td><td class="ds-typo__num">57.6 / 69.1 / 92.2</td><td class="ds-typo__num">600</td><td class="ds-typo__num">1.05</td><td class="ds-typo__num">−0.01em</td><td>КАПС</td><td><code>--fs-display</code> · H1 hero головної; цифри principles (numeral, 500)</td></tr>
             <tr><td><code>h1</code></td><td><div class="ds-typo__sample t-h1">Весь каталог</div></td><td class="ds-typo__num">46.8 / 56.2 / 70</td><td class="ds-typo__num">600</td><td class="ds-typo__num">1.08</td><td class="ds-typo__num">−0.01em</td><td>КАПС</td><td><code>--fs-h1</code> · H1 каталогу, товару, довідника</td></tr>
             <tr><td><code>h2</code></td><td><div class="ds-typo__sample t-h2">Популярний вибір</div></td><td class="ds-typo__num">44.4 / 53.3 / 66</td><td class="ds-typo__num">600</td><td class="ds-typo__num">1.05</td><td class="ds-typo__num">−0.01em</td><td>КАПС</td><td><code>--fs-h2</code> · section-title, «Місце та люди», лого-напис бренду</td></tr>
-            <tr><td><code>h3</code></td><td><div class="ds-typo__sample t-h3">Ділова зустріч</div></td><td class="ds-typo__num">28.8 / 34.6 / 46</td><td class="ds-typo__num">500</td><td class="ds-typo__num">1.05</td><td class="ds-typo__num">−0.01em</td><td>КАПС</td><td><code>--fs-h3</code> · назви-елементи: подія, етап, рядок місця, категорія-teaser; h3-caps (бренд, «Увесь асортимент») — КАПС 600 −0.01em; ціна-lg (Google Sans 400)</td></tr>
-            <tr><td><code>lead</code></td><td><div class="ds-typo__sample t-lead">Про дім</div></td><td class="ds-typo__num">37.2 / 44.6 / 59.5</td><td class="ds-typo__num">500</td><td class="ds-typo__num">1.1</td><td class="ds-typo__num">−0.01em</td><td>КАПС</td><td><code>--fs-lead</code> · короткий заклик (cta-tile); manifest-caps (about, розмір h3) — КАПС 500 −0.01em, word-spacing −0.05em</td></tr>
-            <tr><td><code>lead-text</code></td><td><div class="ds-typo__sample t-lead-text">Довга заява</div></td><td class="ds-typo__num">28.8 / 34.6 / 46</td><td class="ds-typo__num">400</td><td class="ds-typo__num">1.25</td><td class="ds-typo__num">−0.01em</td><td>звичайний</td><td><code>--fs-lead-text</code> · Google Sans: <code>home-manifest</code></td></tr>
-            <tr><td><code>h4</code></td><td><div class="ds-typo__sample t-h4">Дистиляція</div></td><td class="ds-typo__num">20.4 / 24.5 / 32.6</td><td class="ds-typo__num">500</td><td class="ds-typo__num">1.05</td><td class="ds-typo__num">−0.01em</td><td>КАПС</td><td><code>--fs-h4</code> · <code>process-track__name</code>, слова приводу (picker)</td></tr>
-            <tr><td><code>list-title</code></td><td><div class="ds-typo__sample t-list-title">Джин</div></td><td class="ds-typo__num">52.8 / 63.4 / 84.5</td><td class="ds-typo__num">500</td><td class="ds-typo__num">1</td><td class="ds-typo__num">−0.01em</td><td>КАПС</td><td><code>--fs-list-title</code> · category-list, stats</td></tr>
+            <tr><td><code>h3</code></td><td><div class="ds-typo__sample t-h3">Ділова зустріч</div></td><td class="ds-typo__num">28.8 / 34.6 / 46</td><td class="ds-typo__num">500</td><td class="ds-typo__num">1.05</td><td class="ds-typo__num">−0.01em</td><td>КАПС</td><td><code>--fs-h3</code> · назви-елементи: подія, етап (process-track), слова приводу (picker), рядок місця; h3-caps (бренд, «Увесь асортимент») — КАПС 600 −0.01em; ціна-lg (Google Sans 400)</td></tr>
+            <tr><td><code>lead</code></td><td><div class="ds-typo__sample t-lead">Про дім</div></td><td class="ds-typo__num">37.2 / 44.6 / 59.5</td><td class="ds-typo__num">500</td><td class="ds-typo__num">1.1</td><td class="ds-typo__num">−0.01em</td><td>КАПС</td><td><code>--fs-lead</code> · короткий заклик (cta-tile); manifest-caps (about + <code>home-manifest</code>, розмір h3) — КАПС 500 −0.01em, word-spacing −0.05em</td></tr>
+            <tr><td><code>list-title</code></td><td><div class="ds-typo__sample t-list-title">Джин</div></td><td class="ds-typo__num">52.8 / 63.4 / 84.5</td><td class="ds-typo__num">500</td><td class="ds-typo__num">1</td><td class="ds-typo__num">−0.01em</td><td>КАПС</td><td><code>--fs-list-title</code> · category-list (hover-стрілка arrow-up-right: висота = cap-height назви, <code>--category-arrow-size</code> = кегль × <code>--cap-h-serif</code>), stats</td></tr>
             <tr><td><code>caps-lead</code></td><td><div class="ds-typo__sample t-caps-lead">Не знаєте, з чого почати?</div></td><td class="ds-typo__num">18 / 18 / 24</td><td class="ds-typo__num">500</td><td class="ds-typo__num">1.08</td><td class="ds-typo__num">+0.03em</td><td>КАПС</td><td><code>--fs-caps-lead</code> · підзаголовок/лід у капсі (occasion-picker, головна)</td></tr>
             <tr><td><code>hero-lead</code></td><td><div class="ds-typo__sample t-hero-lead">Українська дистилерія · Ясногородка</div></td><td class="ds-typo__num">14 / 14.4 / 19.2</td><td class="ds-typo__num">400</td><td class="ds-typo__num">1.4</td><td class="ds-typo__num">+0.03em</td><td>КАПС</td><td><code>--fs-lead-sm</code> · вступ і eyebrow hero головної (на фото)</td></tr>
             <tr><td><code>label</code></td><td><div class="ds-typo__sample t-label">Ясний джин</div></td><td class="ds-typo__num">14</td><td class="ds-typo__num">500</td><td class="ds-typo__num">1.08</td><td class="ds-typo__num">+0.03em</td><td>КАПС</td><td><code>--fs-body</code> · назви товарів у картках, події в картці, назви принципів</td></tr>
@@ -263,18 +261,19 @@
 
         <h3 class="ds-sub">Ритм шапки секції</h3>
         <table class="ds-table"><tbody>
-        <tr><td><code>--section-head-eyebrow-gap</code></td><td data-token="--section-head-eyebrow-gap"></td><td class="ds-table__muted">eyebrow → заголовок (12px = <code>--sp-3</code>)</td></tr>
-        <tr><td><code>--section-head-body-gap</code></td><td data-token="--section-head-body-gap"></td><td class="ds-table__muted">шапка → контент (40px = <code>--sp-7</code>)</td></tr>
+        <tr><td><code>--section-head-eyebrow-gap</code></td><td data-token="--section-head-eyebrow-gap"></td><td class="ds-table__muted">eyebrow → заголовок по чорнилу (20px; завжди ≥ title-text-gap + 4px)</td></tr>
+        <tr><td><code>--section-title-text-gap</code></td><td data-token="--section-title-text-gap"></td><td class="ds-table__muted">заголовок → абзац/lead під ним по чорнилу (16px = <code>--sp-4</code>): process, visit, manifest, pre-footer, brand-split</td></tr>
+        <tr><td><code>--section-head-body-gap</code></td><td data-token="--section-head-body-gap"></td><td class="ds-table__muted">заголовок (baseline) → контент без опису (40px = <code>--sp-7</code>)</td></tr>
         </tbody></table>
         <div class="section__bar">
           <div class="section__head">
             <p class="eyebrow">Хіти та нові релізи</p>
             <h2 class="section-title">Популярний вибір</h2>
           </div>
-          <a class="btn btn--outline" href="#spacing">Весь каталог ↗</a>
+          <a class="btn btn--outline" href="#c-button">Весь каталог<!--@include icon name="arrow-down"--></a>
         </div>
         <div class="grid-4"><div class="ds-box">контент</div><div class="ds-box">контент</div><div class="ds-box">контент</div><div class="ds-box">контент</div></div>
-        <p class="ds-section__lead">Схема: eyebrow → <code>--section-head-eyebrow-gap</code> → заголовок → <code>--section-head-body-gap</code> → контент. Шапка з кнопкою — <code>.section__bar</code> (<code>align-items:center</code>: кнопка по центру групи eyebrow+заголовок). Один клас <code>.section__head</code> для всіх блоків.</p>
+        <p class="ds-section__lead">Ритм рахується по ЧОРНИЛУ: у шапках eyebrow/заголовок обрізані <code>text-box: trim-both cap alphabetic</code> (section.css, утиліта <code>.trim</code>; Firefox — box-gap без trim). Схема: eyebrow → <code>--section-head-eyebrow-gap</code> → заголовок → (з описом: <code>--section-title-text-gap</code>) → <code>--section-head-body-gap</code> → контент. Шапка з кнопкою — <code>.section__bar</code> (<code>align-items:center</code>: кнопка по центру групи eyebrow+заголовок). Один клас <code>.section__head</code> для всіх блоків.</p>
 
         <h3 class="ds-sub">Сітка: <code>.grid-4</code></h3>
         <div class="grid-4">
@@ -339,7 +338,25 @@
               <button class="btn btn--outline" type="button">btn--outline</button>
               <button class="btn btn--sm" type="button">btn--sm</button>
               <button class="btn btn--primary btn--sm" type="button">primary sm</button>
+              <button class="btn btn--primary" type="button" disabled>disabled</button>
               <button class="link-text" type="button">link-text</button>
+            </div>
+            <p class="ds-sub">Матриця варіантів (hover/active/focus — наживо; значок за правилом)</p>
+            <div class="ds-demo__row">
+              <a class="btn btn--primary" href="catalog.html">Інша сторінка<!--@include icon name="arrow-up-right"--></a>
+              <a class="btn btn--buy" href="#c-badge">Якір нижче<!--@include icon name="arrow-down"--></a>
+              <a class="btn btn--contact" href="contacts.html#manager">Контакт<!--@include icon name="arrow-up-right"--></a>
+              <a class="btn btn--outline" href="about.html">Outline<!--@include icon name="arrow-up-right"--></a>
+              <a class="btn btn--contact btn--sm" href="contacts.html#help"><!--@include icon name="headset"-->Підказати?</a>
+              <button class="btn btn--primary" type="button">Дія (без стрілки)</button>
+            </div>
+            <div class="ds-demo__row ds-demo__dark cta-block__buttons">
+              <a class="btn btn--contact" href="contacts.html#manager">На темному<!--@include icon name="arrow-up-right"--></a>
+              <a class="btn btn--outline" href="catalog.html">Outline на темному<!--@include icon name="arrow-up-right"--></a>
+            </div>
+            <p class="ds-sub">Набір іконок (24×24, обводка 1,5, round, currentColor; sprite partials/icon-sprite.html, файли public/assets/icons)</p>
+            <div class="ds-demo__row">
+              <span class="btn__icon-demo"><!--@include icon name="arrow-up-right"--></span> arrow-up-right · <span class="btn__icon-demo"><!--@include icon name="arrow-down"--></span> arrow-down · <span class="btn__icon-demo"><!--@include icon name="headset"--></span> headset
             </div>
             <div class="ds-demo__row ds-demo__col btn-pair">
               <button class="btn btn--primary btn--block" type="button">btn--primary btn--block</button>
@@ -598,7 +615,7 @@
           <div class="ds-demo ds-demo--flush">
             <!--@include pre-footer-->
           </div>
-          <p class="ds-when"><strong>Коли використовувати:</strong> шаблон низу сторінок, один варіант: <code>&lt;!--@include pre-footer--&gt;</code> після <code>&lt;/main&gt;</code>, перед footer (index, about, catalog, faq, product, gifts, contacts, brands; без блоку — cart, checkout, order-thanks, age-gate, 404). Кнопка «Зв'язатися з менеджером ↗» → contacts.html#manager, під нею occasion-picker без заголовка.</p>
+          <p class="ds-when"><strong>Коли використовувати:</strong> шаблон низу сторінок, один варіант: <code>&lt;!--@include pre-footer--&gt;</code> після <code>&lt;/main&gt;</code>, перед footer (index, about, catalog, faq, product, gifts, contacts, brands; без блоку — cart, checkout, order-thanks, age-gate, 404). Кнопка «Зв'язатися з менеджером» (стрілка arrow-up-right) → contacts.html#manager, під нею occasion-picker без заголовка. Full-bleed: фон і фото picker на всю ширину вікна, контент у контейнері <code>--page-pad</code>; назви подій — 5 рівних колонок, текст по центру колонки, перенос по словах, вирівнювання по верху.</p>
         </article>
 
         <article class="ds-comp" id="c-empty-state">

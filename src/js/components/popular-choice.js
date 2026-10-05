@@ -3,11 +3,12 @@
 import { renderProductCard, bindProductCards } from './product-card.js';
 import { renderCardSlider, bindCardSlider } from './card-slider.js';
 import { url } from './url.js';
+import { linkIcon } from './icons.js';
 
 export const POPULAR_CTA = {
   title: 'Увесь асортимент',
   text: 'Джин, кальвадос, шнапси, настоянки й колекційні пляшки в одному каталозі.',
-  label: 'Переглянути весь асортимент ↗',
+  label: 'Переглянути весь асортимент',
   href: url('/catalog.html'),
 };
 
@@ -24,7 +25,7 @@ export function renderPopularChoice(products, { cta = POPULAR_CTA, headButton = 
       <p class="eyebrow">Хіти та нові релізи</p>
       <h2 class="section-title" id="hits-title">Популярний вибір</h2>
     </div>${headButton ? `
-    <a class="btn btn--outline" href="${url('/catalog.html')}">Весь каталог ↗</a>` : ''}
+    <a class="btn btn--outline" href="${url('/catalog.html')}">Весь каталог${linkIcon('/catalog.html')}</a>` : ''}
   </div>
   <div class="card-slider popular-choice__slider">${renderCardSlider(hits.map((p) => renderProductCard(p)), { label: 'Популярний вибір', cta })}</div>`;
 }

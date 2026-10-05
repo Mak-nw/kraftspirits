@@ -1,14 +1,28 @@
 /*
  * category-list — типографічний список категорій: великі serif-назви звичайним регістром, кожна в окремому рядку по центру, поруч дрібна кількість товарів у дужках
  * Елементи: __item (<li>, тонкий розділювач --c-divider-soft), __link, __name (serif КАПС), __count (Google Sans, ≈0.33 розміру назви, --c-muted, на базовій лінії назви). Без фото.
- * Стани: :hover списку — решта рядків приглушується до --c-muted-light; :focus-visible — контур 1px. HTML: src/js/components/category-list.js (renderCategoryList).
+ * Стани: :hover рядка — справа з'являється стрілка (.category-list__arrow, див. нижче); :hover списку — решта рядків приглушується до --c-muted-light; :focus-visible — контур 1px. HTML: src/js/components/category-list.js (renderCategoryList).
  * Коли: вибір категорії/розділу на головній. Розмір назви — токен --fs-category. Лічильник не показують, якщо кількість невідома (напр. «Подарункові набори»).
  */
 .category-list { list-style: none; margin: 0; padding: 0; text-align: center; }
 .category-list__item { border-top: 1px solid var(--c-divider-soft); }
+.category-list__item:first-child { border-top: 0; }
 .category-list__item:last-child { border-bottom: 1px solid var(--c-divider-soft); }
-.category-list__link { display: block; padding: var(--sp-5) 0; white-space: nowrap; transition: color var(--dur) var(--ease); }
+.category-list__link { position: relative; display: block; padding: var(--sp-5) 0; white-space: nowrap; transition: color var(--dur) var(--ease); }
 .category-list__count { display: inline-block; vertical-align: baseline; margin: 0 0 -0.24em 0.35em; color: var(--c-muted); }
 .category-list:hover .category-list__link:not(:hover) { color: var(--c-muted-light); }
 .category-list:hover .category-list__link:not(:hover) .category-list__count { color: var(--c-muted-light); }
 .category-list__link:focus-visible { outline: 1px solid var(--c-text); outline-offset: calc(var(--sp-1) * -1); }
+/* Стрілка arrow-up-right (спрайт, як у кнопках): по правому краю колонки, висота = cap-height назви, центр по літерах (при line-height 1 центр капсу ≈ 0.5em рядка); не впливає на розкладку */
+.category-list__arrow {
+  position: absolute; right: 0; top: calc(var(--sp-5) + var(--fs-list-title) / 2 - var(--category-arrow-size) / 2);
+  width: var(--category-arrow-size); height: var(--category-arrow-size);
+  fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round;
+  color: var(--c-text); opacity: 0; transform: translateX(calc(var(--category-arrow-shift) * -1)); pointer-events: none;
+  transition: opacity var(--dur) var(--ease), transform var(--dur) var(--ease);
+}
+@media (hover: hover) {
+  .category-list__link:hover .category-list__arrow { opacity: 1; transform: none; }
+}
+.category-list__link:focus-visible .category-list__arrow { opacity: 1; transform: none; }
+@media (hover: none) { .category-list__arrow { display: none; } }

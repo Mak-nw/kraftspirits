@@ -10,7 +10,7 @@
 
 .ds-section { padding-top: var(--sp-9); border-top: 1px solid var(--c-text); margin-top: var(--sp-9); }
 .ds-section__head { margin-bottom: var(--section-head-body-gap); }
-.ds-section__lead { max-width: 640px; margin-top: var(--sp-4); font-size: var(--fs-body); color: var(--c-muted); }
+.ds-section__lead { max-width: 640px; margin-top: var(--section-title-text-gap); font-size: var(--fs-body); color: var(--c-muted); }
 .ds-sub { margin: var(--sp-8) 0 var(--sp-4); } /* підзаголовок — роль h3 (typography.css) */
 
 .ds code, .ds-code { font-family: var(--font-mono); font-size: var(--fs-body-sm); }
@@ -126,3 +126,5 @@
 .ds-bottle__icon { display: flex; align-items: flex-end; }
 .ds-basket { display: block; width: calc(24px * var(--bottle-scale, 1)); height: calc(24px * var(--bottle-scale, 1)); }
 .ds-bottle__cap { display: flex; flex-direction: column; align-items: center; gap: var(--sp-1); font-size: var(--fs-body-sm); }
+.ds-demo__dark { padding: var(--sp-5); background: var(--c-dark-bg); }
+.btn__icon-demo { display: inline-flex; font-size: 32px; color: var(--c-text); }

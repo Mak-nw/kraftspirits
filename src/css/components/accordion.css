@@ -16,7 +16,7 @@
   color: var(--c-text);
   transition: opacity var(--dur) var(--ease);
 }
-.accordion__trigger:hover { opacity: 0.6; }
+.accordion__trigger:hover { opacity: var(--hover-dim); }
 .accordion__icon { flex: none; font-size: var(--fs-body); line-height: var(--lh-none); }
 .accordion__icon::before { content: '+'; }
 .accordion__trigger[aria-expanded='true'] .accordion__icon::before { content: '−'; }

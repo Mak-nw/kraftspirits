@@ -6,7 +6,7 @@ import { esc, formatPrice, formatVolume, formatVolumes } from './components/form
 import { renderProductCard, bindProductCards } from './components/product-card.js';
 import { renderGallery, bindGalleries } from './components/gallery.js';
 import { renderAccordion, bindAccordions } from './components/accordion.js';
-import { bottleIcon, basketIcon } from './components/icons.js';
+import { bottleIcon, basketIcon, linkIcon } from './components/icons.js';
 import { renderQty, bindQty, getQty, setQty } from './components/qty.js';
 import { url } from './components/url.js';
 
@@ -82,7 +82,7 @@ function renderBuy(p, stock) {
       </span>
     </label>`).join('');
   const actions = stock === 'soon'
-    ? `<a class="btn btn--contact btn--block" href="${url('/contacts.html#release')}">Повідомити про реліз</a>`
+    ? `<a class="btn btn--contact btn--block" href="${url('/contacts.html#release')}">Повідомити про реліз${linkIcon('/contacts.html')}</a>`
     : `<div class="product__row">
         <p class="price price--lg product__price" data-price-out>${formatPrice(p.volumes[0].price)}</p>
         ${renderQty({ value: 1, min: 1, max: 99 })}
@@ -135,7 +135,7 @@ function init(p) {
       </div>
       <div class="product__gift-body">
         <p>${esc(gift)}</p>
-        <a class="btn" href="${url('/gifts.html')}">Набір «Джин-тонік» ↗</a>
+        <a class="btn" href="${url('/gifts.html')}">Набір «Джин-тонік»${linkIcon('/gifts.html')}</a>
       </div>
     </section>` : ''}
     <section class="product__related" aria-labelledby="product-related-title">

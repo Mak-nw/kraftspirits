@@ -36,15 +36,15 @@
 .about-brands__panel {
   min-height: calc(100svh - var(--header-h));
   display: flex; flex-direction: column; justify-content: center; gap: var(--sp-7);
-  padding: var(--sp-6) var(--page-pad) var(--sp-6) calc(var(--grid-gap) / 2);
+  padding: var(--section-head-body-gap) var(--page-pad) var(--section-head-body-gap) calc(var(--grid-gap) / 2); /* верх/низ ≥ токена шапки секції: eyebrow не впритул до хедера навіть на низьких вікнах */
   background: var(--c-bg);
 }
 .about-brands__intro { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: var(--grid-gap); align-items: start; }
-.about-brands__copy { display: flex; flex-direction: column; gap: var(--sp-5); min-width: 0; }
+.about-brands__copy { display: flex; flex-direction: column; gap: 0; min-width: 0; }
 .about-brands__name {
-  overflow-wrap: anywhere; color: var(--c-text); margin: 0;
+  overflow-wrap: anywhere; color: var(--c-text); margin: var(--section-head-eyebrow-gap) 0 0;
 }
-.about-brands__text { margin: 0; }
+.about-brands__text { margin: var(--section-title-text-gap) 0 0; }
 .about-brands__detail { display: block; width: calc(100% * var(--brands-detail-scale)); height: auto; aspect-ratio: 4 / 5; object-fit: cover; border-radius: var(--radius-none); justify-self: end; align-self: start; }
 
 .about-brands__facts { margin: 0; }

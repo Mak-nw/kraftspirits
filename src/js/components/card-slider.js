@@ -1,9 +1,10 @@
 // card-slider: слайдер карток (крок = одна картка, scroll-snap x). Геометрію (ширина картки, peek 20%) рахує CSS — тут гортання й стан кнопок.
 // Стрілки — круглі кнопки slider-arrow ПОВЕРХ слайдера (рендеряться тут, позицію й вигляд задає CSS). Стани за scrollLeft: .is-at-start / .is-mid / .is-at-end на корені.
-const ARROW_PREV = '<button class="slider-arrow slider-arrow--prev" type="button" data-slider-step="-1" aria-label="Попередні товари" aria-hidden="true" tabindex="-1"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 6l-6 6 6 6" /></svg></button>';
-const ARROW_NEXT = '<button class="slider-arrow slider-arrow--next" type="button" data-slider-step="1" aria-label="Наступні товари"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6" /></svg></button>';
+const ARROW_PREV = `<button class="slider-arrow slider-arrow--prev" type="button" data-slider-step="-1" aria-label="Попередні товари" aria-hidden="true" tabindex="-1">${icon('chevron-left')}</button>`;
+const ARROW_NEXT = `<button class="slider-arrow slider-arrow--next" type="button" data-slider-step="1" aria-label="Наступні товари">${icon('chevron-right')}</button>`;
 
 import { esc } from './format.js';
+import { linkIcon, icon } from './icons.js';
 
 // Остання картка-заклик (опційно): cta = { title, text, label, href }; висота = товарним (stretch), кнопка flush до низу
 function renderCta({ title, text, label, href }) {
@@ -13,7 +14,7 @@ function renderCta({ title, text, label, href }) {
       <h3 class="catalog-cta__name">${esc(title)}</h3>
       <p class="catalog-cta__text">${esc(text)}</p>
     </div>
-    <a class="btn btn--primary btn--block catalog-cta__btn" href="${esc(href)}">${esc(label)}</a>
+    <a class="btn btn--primary btn--block catalog-cta__btn" href="${esc(href)}">${esc(label)}${linkIcon(href)}</a>
   </article>`;
 }
 

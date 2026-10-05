@@ -33,19 +33,19 @@
   /* Кнопки за призначенням: «покупки/навігація» — синя (buy, дефолт primary), «зв'язок» — зелена (contact). Hover — трохи світліший власний відтінок. */
   --c-btn-buy-bg: var(--c-navy);    /* .btn--buy / .btn--primary: заливка; outline: рамка й текст */
   --c-btn-buy-text: var(--c-cotton);
-  --c-btn-buy-bg-hover: color-mix(in srgb, var(--c-btn-buy-bg) 82%, var(--c-btn-buy-text));
+  --c-btn-buy-bg-hover: color-mix(in srgb, var(--c-btn-buy-bg) var(--btn-hover-mix), var(--c-btn-buy-text));
   --c-btn-contact-bg: var(--c-pine); /* .btn--contact: «Підказати?», менеджер, екскурсія, реліз, підписка */
   --c-btn-contact-text: var(--c-cotton);
-  --c-btn-contact-bg-hover: color-mix(in srgb, var(--c-btn-contact-bg) 82%, var(--c-btn-contact-text));
+  --c-btn-contact-bg-hover: color-mix(in srgb, var(--c-btn-contact-bg) var(--btn-hover-mix), var(--c-btn-contact-text));
   --c-btn-bg: var(--c-btn-buy-bg);          /* базовий (= buy): outline-кнопки, qty, фокус-інверсії */
   --c-btn-text: var(--c-btn-buy-text);
   --c-btn-bg-hover: var(--c-btn-buy-bg-hover);
 
   --c-dark-bg: var(--c-brown);  /* темна секція (pre-footer) */
-  --c-on-dark: var(--c-cotton); /* довгий текст на темному (≥4.5:1) */
-  --c-on-dark-strong: var(--c-cream); /* заголовки, активні елементи на темному */
-  --c-on-dark-muted: color-mix(in srgb, var(--c-on-dark) 62%, var(--c-dark-bg)); /* приглушений текст на темному (≥4.5:1) */
-  --c-on-dark-divider: color-mix(in srgb, var(--c-on-dark) 25%, transparent);
+  --c-on-dark: color-mix(in srgb, var(--c-on-dark-strong) 80%, transparent); /* описи на темному: крем 80% (≥4.5:1 контраст 4.9) */
+  --c-on-dark-strong: var(--c-cream); /* заголовки, активні елементи на темному (крем 100%) */
+  --c-on-dark-muted: color-mix(in srgb, var(--c-on-dark-strong) 80%, var(--c-dark-bg)); /* приглушений текст на темному (≥4.5:1 контраст ≈4.9, рівний --c-on-dark) */
+  --c-on-dark-divider: color-mix(in srgb, var(--c-on-dark) 40%, transparent);
 
   --c-badge-bg: var(--c-navy);  /* бейдж «Хіт» */
   --c-badge-new-bg: var(--c-pine); /* бейдж «Новинка» */
@@ -73,10 +73,11 @@
   --fs-h1: clamp(40px, 3.7vw, 66px);           /* h1: каталог, товар — 44.4 / 53.3 / 66 (каталог-H1 з фільтрами = 2 рядки на 1200–1920) */
   --fs-h2: clamp(40px, 3.7vw, 66px);           /* h2: section-title, place, brand-logo — 44.4 / 53.3 / 66 (завжди ≤ h1; зараз = h1) */
   --fs-h3: clamp(26px, 2.4vw, 46px);           /* h3: назви-елементи (подія, етап, рядок, категорія-teaser, бренд), ціна-lg — 28.8 / 34.6 / 46 */
-  --fs-h4: clamp(20px, 1.7vw, 34px);           /* h4 (КАПС): назви етапів process-track у вузьких колонках — 20.4 / 24.5 / 32.6 */
   --fs-lead: clamp(32px, 3.1vw, 60px);         /* lead: маніфест «Про дім» на головній, cta-tile — 37.2 / 44.6 / 59.5 */
-  --fs-lead-text: clamp(26px, 2.4vw, 46px);    /* lead-text: маніфест «Про дім» на головній (Google Sans, sentence) — 28.8 / 34.6 / 46 */
   --fs-list-title: clamp(46px, 4.4vw, 84px);    /* list-title (КАПС): category-list, stats — 52.8 / 63.4 / 84.5 */
+  --cap-h-serif: 0.634; /* Cormorant Infant 500: cap-height КАПС як частка кегля (виміряно canvas: 633.9/1000) */
+  --category-arrow-size: calc(var(--fs-list-title) * var(--cap-h-serif)); /* category-list: стрілка-hover, висота = висоті літер назви */
+  --category-arrow-shift: var(--sp-2); /* зсув стрілки зліва направо при появі (8px) */
   --fs-caps-lead: clamp(18px, 1.25vw, 24px);   /* caps-lead: sans КАПС-лід (occasion, h1 «Про дім») — 18 / 18 / 24 */
   --fs-lead-sm: clamp(14px, 1vw, 20px);        /* hero-lead: вступ і eyebrow hero головної (sans КАПС) — 14 / 14.4 / 19.2 */
   --fs-body: 14px;                             /* body: абзаци, кнопки, меню, label-назви, ціна */
@@ -85,7 +86,6 @@
 
   --ls-caps: -0.01em;      /* serif КАПС: h1, h2, display, h3-caps, manifest-caps */
   --ls-heading: -0.02em;   /* serif sentence: h3, list-title, lead, numeral */
-  --ls-lead-text: -0.01em; /* Google Sans великий текст */
   --ls-caps-sans-sm: 0.05em; /* sans КАПС дрібний (≤13px): eyebrow, badge */
   --ls-caps-sans-md: 0.03em; /* sans КАПС середній (14–24px): label, caps-lead, hero-lead, sign */
 
@@ -97,7 +97,6 @@
   --lh-title: 1.08;      /* h1, label, caps-lead */
   --lh-heading: 1.05;    /* h2, display, h3 */
   --lh-lead: 1.1;        /* lead, manifest-caps */
-  --lh-lead-text: 1.25;  /* lead-text (Google Sans) */
   --lh-reading: 1.6;     /* довгі абзаци (FAQ, «Про дім») */
   --lh-none: 1;
   --wm-word-spacing: -0.05em; /* word-spacing довгих КАПС-текстів (manifest-caps) */
@@ -118,8 +117,9 @@
   --grid-gap: 8px;       /* проміжок між колонками сітки */
   --slider-visible: 4;   /* card-slider: повних карток на екрані */
   --slider-peek: 0.2;    /* card-slider: частка ширини 5-ї картки, що виглядає справа */
-  --slider-arrow-size: clamp(54px, 4.5vw, 86px); /* slider-arrow: діаметр круглої стрілки поверх слайдера (виняток із «лише прямокутні», макет замовника) */
-  --slider-arrow-inset: 30px; /* slider-arrow: відступ від лівого/правого краю слайдера (= краю вікна справа) */
+  --slider-arrow-size: clamp(46px, 3.75vw, 70px); /* ДВА токени розміру круглих слайдерних стрілок: (1) card-slider (стрічка карток; було 54–86px, −17%) */
+  --slider-arrow-size-compact: min(50px, var(--slider-arrow-size)); /* (2) picker шаблону низу і галерея товару (були квадрати 40px, +25%, не більше розміру card-slider) */
+  --slider-arrow-inset: calc(var(--slider-arrow-size) * 0.35); /* відступ від краю слайдера — похідна від розміру стрілки */
   --slider-arrow-top-ratio: 0.56; /* slider-arrow: вертикальний центр = частка висоти плитки фото (плитка 1:1, висота = ширині картки) */
   --row-gap: 90px;       /* проміжок між рядами товарної сітки (≤760px: 48px) */
   --grid-cols: 4;        /* колонки сітки каталогу/header (≥1100px) */
@@ -129,7 +129,19 @@
   --filter-gap: 28px;    /* інтервал між фільтрами в смузі */
   --qty-w: 92px;         /* ширина степпера кількості (стрілки + поле) */
   --control-h: 44px;     /* висота степпера в ряду покупки (= висоті .btn--block) */
-  --gallery-nav-size: 40px; /* кнопки ←/→ гортання кадрів внизу головної плитки (квадрат) */
+  --control-h-min: 24px; /* мінімальна висота будь-якого контролу (WCAG 2.5.8): input, select, filter-toggle, link-text */
+  /* ===== Єдина система кнопок (button.css; довідник — design-system.md «Кнопки») ===== */
+  --btn-pad-x: 26px;       /* стандартна .btn: padding-inline */
+  --btn-pad-y: 14px;       /* … padding-block (висота 44px = --control-h) */
+  --btn-pad-x-sm: 18px;    /* .btn--sm */
+  --btn-pad-y-sm: 9px;
+  --btn-pad-x-block: 12px; /* .btn--block (кнопки в картках) */
+  --btn-gap-k: 0.5;        /* gap текст↔іконка = k × padding-inline кнопки (13px / 9px / 6px) */
+  --btn-icon: 1.25em;      /* фіксований бокс іконки в кнопці (em від кегля кнопки) */
+  --btn-hover-mix: 82%;    /* hover заливної: частка власної заливки в суміші з кольором тексту (світлішає/темнішає на фіксований крок) */
+  --btn-active-mix: 66%;   /* active (натиснута) — на крок далі за hover */
+  --btn-disabled-opacity: 0.4;
+  --hover-dim: 0.6;        /* hover текстових посилань-без-підкреслення (назва картки, FAQ-заголовок, футер): непрозорість */
   --gallery-nav-gap: 8px;  /* проміжок між кнопками ←/→ і внутрішній відступ лічильника */
   --gallery-thumb-w: 88px; /* ширина мініатюри галереї товару, коли вони рядом під фото (≤1099px) */
   --occasion-ratio: 3.1 / 1; /* співвідношення full-bleed медіа-полотна occasion-picker */
@@ -145,8 +157,9 @@
   --bottle-h-1: 64px;    /* іконка пляшки 1 л (найвища) */
   --bottle-scale: 1;     /* множник розміру іконок пляшки (пропорції 40:50:64 зберігаються) */
   /* Ритм шапки секції (єдиний для всіх блоків): eyebrow → заголовок → контент */
-  --section-head-eyebrow-gap: var(--sp-3);  /* eyebrow → заголовок: 12px */
+  --section-head-eyebrow-gap: 20px;  /* eyebrow → заголовок по чорнилу: 20px (> title-text-gap ≥ +4px) */
   --section-head-body-gap: var(--sp-7);     /* заголовок (чи шапка з кнопкою) → контент: 40px */
+  --section-title-text-gap: var(--sp-4);    /* заголовок → абзац/lead під ним (process, visit, manifest, pre-footer, brand): 16px по чорнилу */
   --section-pad-y: 160px; /* вертикальні поля великих блоків (cta); ≤700px: 96px */
   --hero-bottom-pad: var(--sp-8); /* відступ низу кнопки hero від низу екрана */
   --header-h: 64px;      /* фіксована висота header; на вужчих екранах перевизначається нижче */
@@ -209,7 +222,7 @@
   /* ---------- Radius ---------- */
   --radius-none: 0;       /* бейджі */
   --radius-sm: 2px;       /* кнопки-блоки, кнопка в header */
-  --about-process-gap: var(--sp-9); /* «Від зерна до пляшки»: проміжок між колонками етапів (просторіше за реф) */
+  --about-process-gap: var(--sp-7); /* «Від зерна до пляшки»: проміжок між колонками (40px: назви етапів — h3 КАПС, найдовше слово «Зброджування» має влізти в колонку) */
   --principle-ratio-tall: 4 / 5; /* principles-grid: висока картка (фото 01, 03) */
   --principle-ratio-wide: 4 / 3; /* principles-grid: низька картка (фото 02, 04) */
   --place-photo-ratio: 2.1 / 1; /* place-rows: співвідношення панорамного фото «Місце та люди» */

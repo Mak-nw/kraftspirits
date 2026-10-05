@@ -1,22 +1,20 @@
 /*
- * cta-block — ЄДИНИЙ шаблон низу сторінок «Залишились питання?» (над footer): фон-контейнер на осях сітки; один partial partials/pre-footer.html, без варіантів.
+ * cta-block — ЄДИНИЙ шаблон низу сторінок «Залишились питання?» (над footer): FULL-BLEED секція на всю ширину вікна (фон --c-dark-bg від краю до краю, фото picker теж); контент у контейнері --page-pad; один partial partials/pre-footer.html, без варіантів.
  * Елементи: __box (фон --c-dark-bg (єдина темна секція) від колонки 1 до кінця колонки 4: x = --page-pad … clientWidth − --page-pad; радіус 0; padding --sp-9 зверху, знизу 0 — медіа picker до краю),
- * __content (по центру; бічні відступи --card-pad-x), __title (разом із .section-title), __text, __buttons («Зв'язатися з менеджером ↗» → contacts.html#manager),
+ * __box — внутрішній контейнер (padding --sp-9 зверху, знизу 0 — медіа picker до низу фону), старе: [фон-контейнер на осях сітки скасовано]; __content (по центру; бічні відступи --card-pad-x), __title (разом із .section-title), __text, __buttons («Зв'язатися з менеджером ↗» → contacts.html#manager),
  * під ним occasion-picker--in-block без заголовка (дані завантажує src/js/components/cta-block.js).
  * Підключення: <!--@include pre-footer--> після </main>, перед footer; один блок на сторінці.
  * Сторінки з блоком: index, about, catalog, faq, product, gifts, contacts, brands. Без блоку (транзакційні/службові): cart, checkout, order-thanks, age-gate, 404; design-system (демо компонента).
  * Відступ згори до блоку — один: --section-pad-y (без page-specific перевизначень). Токени: --c-dark-bg, --c-on-dark, --c-on-dark-strong, --c-on-dark-muted, --sp-9, --card-pad-x, --page-pad, --section-pad-y.
  */
-.cta-block { padding: var(--section-pad-y) var(--page-pad) var(--section-pad-y); }
-.cta-block__box { padding: var(--sp-9) 0 0; background: var(--c-dark-bg); color: var(--c-on-dark); border-radius: var(--radius-none); text-align: center; overflow-x: clip; }
-.cta-block__content { padding-inline: var(--card-pad-x); }
-.cta-block__title { max-width: 1100px; margin: 0 auto; }
-.cta-block__text { max-width: 480px; margin: var(--section-head-eyebrow-gap) auto 0; color: var(--c-on-dark); }
+.cta-block { margin-top: var(--section-pad-y); background: var(--c-dark-bg); color: var(--c-on-dark); overflow-x: clip; } /* full-bleed: секція на всю ширину вікна; вертикальний відступ до попередньої секції — --section-pad-y; до footer — власний padding footer (без подвоєння) */
+.cta-block__box { padding: var(--sp-9) 0 0; text-align: center; }
+.cta-block__content { padding-inline: calc(var(--page-pad) + var(--card-pad-x)); }
+.cta-block__title { max-width: min(1100px, 100%); margin: 0 auto; text-wrap: balance; overflow-wrap: break-word; }
+.cta-block__text { max-width: 480px; margin: var(--section-title-text-gap) auto 0; color: var(--c-on-dark); }
 .cta-block__title, .cta-block .eyebrow { color: var(--c-on-dark-strong); }
 .cta-block__buttons { display: flex; flex-wrap: wrap; justify-content: center; gap: var(--sp-3); margin-top: var(--sp-7); }
-.cta-block .btn { border-color: var(--c-on-dark-strong); color: var(--c-on-dark-strong); } /* інверсія на коричневому: світла заливка + коричневий текст */
-.cta-block .btn--primary, .cta-block .btn--contact, .cta-block .btn:hover { background: var(--c-on-dark-strong); border-color: var(--c-on-dark-strong); color: var(--c-dark-bg); }
-.cta-block .btn--primary:hover, .cta-block .btn--contact:hover { background: var(--c-on-dark); border-color: var(--c-on-dark); color: var(--c-dark-bg); }
+/* кнопки на коричневому: кремова заливка — палітра задається в button.css (.cta-block__buttons .btn) */
 /* occasion-picker на темному: активне слово кремове, неактивні приглушені; картка товару лишається світлою */
 .cta-block .occasion-picker__tab { color: var(--c-on-dark-muted); }
 .cta-block .occasion-picker__tab[aria-selected='true'], .cta-block .occasion-picker__tabs:hover .occasion-picker__tab:hover { color: var(--c-on-dark-strong); }
@@ -26,6 +24,3 @@
 /* единий видимий проміжок до блоку: власні нижні поля <main> і його останньої секції скидаються (відступ задає лише .cta-block) */
 main:has(+ .cta-block) { padding-bottom: 0; margin-bottom: 0; }
 main:has(+ .cta-block) > :last-child { padding-bottom: 0; margin-bottom: 0; }
-/* картка товару всередині темної секції лишається світлою: кнопка — звичайна синя */
-.cta-block .occasion-picker__card .btn { border-color: var(--c-btn-bg); background: var(--c-btn-bg); color: var(--c-btn-text); }
-.cta-block .occasion-picker__card .btn:hover { background: var(--c-btn-bg-hover); border-color: var(--c-btn-bg-hover); color: var(--c-btn-text); }

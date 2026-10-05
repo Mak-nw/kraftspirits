@@ -23,3 +23,24 @@
 .section__grid--split > .section__head { grid-column: 1; }
 .section__grid--split > .section__body { grid-column: 2 / -1; }
 .section__body { min-width: 0; }
+
+/*
+ * Ритм по ЧОРНИЛУ (text-box-trim): у шапках секцій бокс eyebrow/заголовка стискається до cap-height…alphabetic-baseline,
+ * тож відступи-токени (--section-head-eyebrow-gap, --section-head-body-gap, --section-title-text-gap) дорівнюють відстані між літерами, а не боксами.
+ * Надрядкові знаки (Й, І) виступають над cap-height — це нормально. Абзац під заголовком: trim лише зверху (cap), низ не чіпаємо.
+ * Firefox (без text-box): лишається box-gap без trim (@supports). Утиліта .trim — для нових шапок.
+ */
+@supports (text-box: trim-both cap alphabetic) {
+  .trim,
+  .section__head > :is(.eyebrow, .section-title, h2), .ds-section__head > :is(.eyebrow, .section-title),
+  .principles__head > :is(.eyebrow, .section-title),
+  .process__intro > :is(.eyebrow, .section-title),
+  .cta-block :is(.eyebrow, .cta-block__title),
+  .about-manifest :is(.about-manifest__eyebrow, .about-manifest__title),
+  .visit-split__panel > :is(.eyebrow, .visit-split__title),
+  .about-brands__copy > :is(.eyebrow, .about-brands__name),
+  .product__related-title, .faq-page__title { text-box: trim-both cap alphabetic; }
+  .trim-start,
+  .ds-section__lead, .process__lead, .visit-split__text, .about-brands__text, .about-manifest__text, .cta-block__text { text-box: trim-start cap alphabetic; }
+  .process__lead { text-box: trim-both cap alphabetic; } /* останній у шапці: низ теж по чорнилу */
+}

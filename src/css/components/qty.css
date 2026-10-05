@@ -8,21 +8,19 @@
  */
 .qty {
   display: flex; align-items: stretch; flex: none;
-  width: var(--qty-w); box-sizing: border-box;
+  width: var(--qty-w); height: var(--control-h); box-sizing: border-box;
   border: 1px solid var(--c-text); border-radius: var(--radius-none);
   background: var(--c-bg); color: var(--c-text);
 }
 .qty__btn {
   display: flex; align-items: center; justify-content: center; flex: none;
-  width: var(--sp-5); height: auto;
-  padding: 0; border: 0; border-radius: var(--radius-none); background: transparent; color: inherit; cursor: pointer;
-  transition: background var(--dur) var(--ease), color var(--dur) var(--ease);
+  width: var(--sp-5); height: auto; color: var(--c-btn-bg);
+  padding: 0; border: 0; border-radius: var(--radius-none); background: transparent; cursor: pointer;
 }
 .qty__btn--minus { border-right: 1px solid var(--c-divider-strong); }
 .qty__btn--plus { border-left: 1px solid var(--c-divider-strong); }
 .qty__btn svg { width: var(--sp-3); height: var(--sp-3); fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
-.qty__btn:hover:not(:disabled) { background: var(--c-btn-bg); color: var(--c-btn-text); }
-.qty__btn:disabled { color: var(--c-muted-light); cursor: default; }
+/* hover/active/focus/disabled — спільні правила button.css */
 .qty__input {
   flex: 1 1 auto; min-width: 0; padding: 0 var(--sp-3); margin: 0;
   border: 0; border-radius: var(--radius-none); background: transparent; color: inherit;

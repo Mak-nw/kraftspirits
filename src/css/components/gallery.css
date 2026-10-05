@@ -4,7 +4,7 @@
  * Стани: __thumb[aria-current='true'] — активна, рамка 1px --c-text; :hover — приглушення; :focus-visible — глобальний контур.
  * Мініатюри — вертикальний слайдер (≥1100px): колонка завжди рівно висотою головної плитки (__rail не впливає на висоту ряду, __thumbs позиціонований absolute), overflow: hidden без нативної прокрутки (scroll-snap y mandatory, overscroll-behavior: contain). Якщо мініатюри вміщаються — вони зверху, під ними порожньо.
  * Адаптив: ≥1100px — мініатюри ліворуч вузькою колонкою (1/6 ширини); ≤1099px — під фото горизонтальний ряд (scroll-snap x, ширина мініатюри — --gallery-thumb-w).
- * Навігація кадрів (__nav, __nav-btn): смуга внизу головної плитки, відступ --card-pad-x; кнопки ←/→ (--gallery-nav-size, gap --gallery-nav-gap); лише коли кадрів > 1; зациклення; ←/→ на плитці, свайп ≥40px (touch-action: pan-y); crossfade --dur (.is-swap).
+ * Навігація кадрів (__nav, __nav-btn): смуга внизу головної плитки, відступ --card-pad-x; круглі кнопки ‹/› (--slider-arrow-size-compact, gap --gallery-nav-gap); лише коли кадрів > 1; зациклення; ←/→ на плитці, свайп ≥40px (touch-action: pan-y); crossfade --dur (.is-swap).
  * Бейдж картки (.badge) — зліва вгорі плитки, як у каталозі.
  * Поведінка і шаблон: src/js/components/gallery.js (renderGallery, bindGalleries).
  * Модифікатор --sticky (≥1100px): галерея липне під header (top: --header-h), висота = 100svh − --header-h − --page-pad; головна плитка заповнює висоту, мініатюри — вертикальний слайдер тієї ж висоти. Батьківський grid-елемент має бути на всю висоту ряду (align-self: stretch), без overflow у предках. ≤1099px — звичайна галерея.
@@ -27,14 +27,8 @@
   display: flex; align-items: center; justify-content: space-between; gap: var(--gallery-nav-gap); padding: 0 var(--card-pad-x); pointer-events: none;
 }
 .gallery__steps { display: flex; align-items: center; gap: var(--gallery-nav-gap); }
-.gallery__nav-btn {
-  pointer-events: auto; flex: none; display: flex; align-items: center; justify-content: center;
-  width: var(--gallery-nav-size); height: var(--gallery-nav-size); padding: 0;
-  color: var(--c-text); background: color-mix(in srgb, var(--c-bg) 88%, transparent); border: 0; border-radius: var(--radius-none);
-  transition: opacity var(--dur) var(--ease);
-}
-.gallery__nav-btn svg { width: 20px; height: 20px; stroke: currentColor; fill: none; stroke-width: 1.5; }
-.gallery__nav-btn:hover { opacity: 0.7; }
+/* .gallery__nav-btn — КРУГЛА стрілка: вигляд і стани у button.css (розмір --slider-arrow-size-compact) */
+.gallery__nav-btn { pointer-events: auto; }
 .gallery .badge { position: absolute; top: var(--sp-3); left: 0; z-index: var(--z-card-badge); }
 
 .gallery__rail { grid-area: thumbs; align-self: stretch; position: relative; min-width: 0; }

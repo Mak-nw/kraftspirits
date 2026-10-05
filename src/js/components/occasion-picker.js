@@ -3,10 +3,11 @@
 import { esc, formatPrice } from './format.js';
 import { renderPrice } from './product-card.js';
 import { url } from './url.js';
+import { linkIcon, icon } from './icons.js';
 
 const arrow = (dir, label) => `
       <button class="gallery__nav-btn occasion-picker__nav-btn occasion-picker__nav-btn--${dir}" type="button" data-occ-step="${dir === 'prev' ? -1 : 1}" aria-label="${label}">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="${dir === 'prev' ? 'M15 6l-6 6 6 6' : 'M9 6l6 6-6 6'}" /></svg>
+        ${icon(dir === 'prev' ? 'chevron-left' : 'chevron-right')}
       </button>`;
 
 function renderCard(p) {
@@ -16,7 +17,7 @@ function renderCard(p) {
     <div class="occasion-picker__info">
       <h3 class="occasion-picker__name">${esc(p.name)}</h3>
       <p class="price occasion-picker__price">${renderPrice(p)}</p>
-      <a class="btn btn--primary btn--block" href="${href}">Дивитись</a>
+      <a class="btn btn--primary btn--block" href="${href}">Дивитись${linkIcon(href)}</a>
     </div>`;
 }
 

@@ -43,6 +43,7 @@
   font-size: var(--fs-body);
   transition: border-color var(--dur) var(--ease);
 }
+.header__cart:active { opacity: var(--hover-dim); }
 .header__cart:hover,
 .header__cart:focus-visible {
   border-color: var(--c-text);
@@ -53,24 +54,12 @@
 .header__cart-count { white-space: nowrap; }
 .header__cart-n { display: inline-block; min-width: 2ch; text-align: center; font-variant-numeric: tabular-nums; }
 .header__cart-icon {
-  width: 1.4em;
-  height: 1.4em;
+  width: var(--btn-icon);
+  height: var(--btn-icon);
   flex-shrink: 0;
 }
-.header__contact--hint {
-  background: var(--c-btn-contact-bg);
-  color: var(--c-btn-contact-text);
-  padding: 10px 14px; text-align: center;
-  border-radius: var(--radius-none);
-  font-size: var(--fs-body-sm);
-  border: 1px solid var(--c-btn-contact-bg);
-  transition: background var(--dur) var(--ease), border-color var(--dur) var(--ease);
-}
-.header__contact--hint:hover,
-.header__contact--hint:focus-visible {
-  background: var(--c-btn-contact-bg-hover);
-  border-color: var(--c-btn-contact-bg-hover);
-}
+/* «Підказати?» — звичайна .btn.btn--contact.btn--sm (+ іконка headset); розмір як у кошика: padding 10×14 через токени кнопки */
+.header .header__contact--hint { --btn-py: 10px; --btn-px: 14px; text-align: center; }
 
 /* сторінки з hero під шапкою: головна (.page-index, білий overlay-стиль) і «Про дім» (.has-hero-overlay--light: прозорий фон, ТЕМНІ кольори, hero-небо світле); фіксований header поверх hero, після прокрутки — звичайний (.header--solid, src/js/header-overlay.js) */
 body:is(.page-index, .has-hero-overlay--light) .header { position: fixed; inset: 0 0 auto 0; transition: background var(--dur) var(--ease), color var(--dur) var(--ease), height var(--dur) var(--ease); }
@@ -83,7 +72,6 @@ body:is(.page-index, .has-hero-overlay--light) .header:not(.header--solid) { bac
 body.page-index .header:not(.header--solid) { color: var(--c-on-image); }
 body.page-index .header:not(.header--solid) .header__cart:hover,
 body.page-index .header:not(.header--solid) .header__cart:focus-visible { border-color: var(--c-on-image); }
-body.page-index .header:not(.header--solid) .header__contact--hint { background: var(--c-on-image); border-color: var(--c-on-image); color: var(--c-text); }
 body.page-index .header:not(.header--solid) a:focus-visible { outline-color: var(--c-on-image); }
 body.page-index .header:not(.header--solid) .link-underline:hover,
 body.page-index .header:not(.header--solid) .link-underline:focus-visible,

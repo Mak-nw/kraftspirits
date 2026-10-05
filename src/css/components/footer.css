@@ -1,29 +1,30 @@
 /*
- * footer — підвал: колонки меню, підписка, два лого брендів, нижній рядок
+ * footer — підвал: 4 колонки (Меню, Каталог, Контакти, Опис+Підписка), два лого брендів, нижній рядок
  * Елементи: __top, __heading, __list, __soon, __about, __sub, __form, __status, __logos, __bottom, __legal.
  * Partial: partials/footer.html.
  */
 .footer { padding: 80px 0 24px; font-size: var(--fs-body); background: var(--c-bg); overflow: hidden; }
 .footer__top {
-  display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)) minmax(0, 1.4fr);
+  display: grid; grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 32px var(--grid-gap); padding: 0 var(--page-pad);
 }
 .footer__heading { margin-bottom: 18px; color: var(--c-muted); }
 .footer__list { display: flex; flex-direction: column; gap: 8px; }
-.footer__list a:hover { opacity: 0.55; }
+.footer__list a:hover { opacity: var(--hover-dim); }
 .footer__soon { color: var(--c-muted); }
 .footer__about { max-width: 360px; color: var(--c-muted); }
-.footer__sub { grid-column: 5; }
-.footer__form { display: flex; align-items: center; gap: 8px; margin-top: 22px; padding-bottom: 8px; border-bottom: 1px solid var(--c-text); }
-.footer__form input { flex: 1; min-width: 0; padding: 0; border: 0; background: transparent; font-size: var(--fs-body); }
+.footer__form { display: flex; align-items: center; gap: var(--sp-3); margin-top: 22px; padding-bottom: 8px; border-bottom: 1px solid var(--c-text); }
+.footer__form input { flex: 1; min-width: 0; min-height: var(--control-h-min); padding: 0; border: 0; background: transparent; font-size: var(--fs-body); }
 .footer__form input::placeholder { color: var(--c-muted); }
 .footer__form input:focus-visible { outline: none; }
 .footer__form:focus-within { border-bottom-width: 2px; }
-.footer__form button { padding: 0; border: 0; background: none; font-size: var(--fs-body); color: var(--c-btn-contact-bg); }
+/* кнопка «Підписатися» — .link-text (дія, без стрілки) */
+.footer__form .link-text { flex: none; font-size: var(--fs-body); }
 .footer__status { margin-top: 10px; min-height: 1.4em; font-size: var(--fs-body-sm); color: var(--c-muted); }
 
 /* два лого брендів: однакова висота літер, YasnoCraft до лівого краю контейнера, Bazylsprings до правого, проміжок ≥ --brand-row-gap-min, спільна базова лінія (.brand-row, brand-logo.css) */
 .footer__logos { margin: var(--sp-9) var(--page-pad) var(--sp-7); }
+.footer__sub { grid-column: auto; }
 
 .footer__bottom {
   display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px;

@@ -16,7 +16,7 @@
   padding: var(--sp-9) var(--sp-7);
 }
 .visit-split__text {
-  max-width: var(--visit-copy-w); margin-top: var(--sp-5);
+  max-width: var(--visit-copy-w); margin-top: var(--section-title-text-gap);
   color: var(--c-text-soft);
 }
 .visit-split__age {
