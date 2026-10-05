@@ -8,10 +8,11 @@ import { renderOccasionPicker, bindOccasionPicker } from './components/occasion-
 import { initParallax } from './components/parallax.js';
 import { esc } from './components/format.js';
 import { renderAccordion, bindAccordions } from './components/accordion.js';
+import { url } from './components/url.js';
 
 const bySlug = (slug) => products.find((p) => p.slug === slug);
 const countOfCategory = (category) => products.filter((p) => p.category === category).length;
-const catalogHref = (category) => `/catalog.html?category=${encodeURIComponent(category)}`;
+const catalogHref = (category) => url(`/catalog.html?category=${encodeURIComponent(category)}`);
 
 // §6 Категорії: типографічний список; кількість товарів — з products.json. «Подарункові набори» (/gifts.html): набори ще не в даних — без лічильника.
 // ⚠ «Віскі»: стан «скоро» і подача категорії — від клієнта (home-copy, п. 9 розділу «Дані для підтвердження»).
@@ -21,7 +22,7 @@ const CATEGORIES = [
   { name: 'Фруктові шнапси', category: 'Фруктові шнапси' },
   { name: 'Настоянки', category: 'Настоянки' },
   { name: 'Віскі', category: 'Віскі' },
-  { name: 'Подарункові набори', href: '/gifts.html' },
+  { name: 'Подарункові набори', href: url('/gifts.html') },
   { name: 'Фрукт у пляшці', category: 'Фрукт у пляшці' },
 ];
 

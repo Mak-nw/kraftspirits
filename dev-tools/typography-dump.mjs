@@ -10,7 +10,7 @@ import { tmpdir } from 'node:os';
 const ROOT = resolve(import.meta.dirname, '..');
 const CHROME = process.env.CHROME_PATH || '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
 const argv = process.argv.slice(2);
-const BASE = (argv.includes('--base') ? argv[argv.indexOf('--base') + 1] : 'http://localhost:5173').replace(/\/$/, '');
+const BASE = (argv.includes('--base') ? argv[argv.indexOf('--base') + 1] : 'http://localhost:5173/kraftspirits').replace(/\/$/, '');
 const WIDTHS = [1920, 1440, 1200];
 const MAIN = ['index', 'catalog', 'product:gin-yasnyi', 'product:fruit-watermelon', 'about', 'design-system'];
 const STUBS = ['404', 'gifts', 'faq', 'contacts', 'checkout', 'order-thanks', 'age-gate'];

@@ -2,12 +2,14 @@
 // Стилі: src/css/components/gallery.css, badge.css. Бейдж — renderBadge з product-card.js.
 import { esc } from './format.js';
 import { renderBadge } from './product-card.js';
+import { url } from './url.js';
 
 /**
  * @param {{ images: string[], name: string, badge?: string|null, sticky?: boolean }} data
  * @returns {string} HTML-рядок
  */
-export function renderGallery({ images, name, badge, sticky = false }) {
+export function renderGallery({ images: rawImages, name, badge, sticky = false }) {
+  const images = rawImages.map(url);
   const step = (dir, label) => `
       <button class="gallery__nav-btn gallery__nav-btn--${dir}" type="button" data-step="${dir === 'prev' ? -1 : 1}" aria-label="${label}">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="${dir === 'prev' ? 'M15 6l-6 6 6 6' : 'M9 6l6 6-6 6'}" /></svg>

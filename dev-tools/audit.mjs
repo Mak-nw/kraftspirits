@@ -11,7 +11,7 @@ const ROOT = resolve(import.meta.dirname, '..');
 // ───────────────────────────── КОНФІГ (виключення й списки селекторів) ─────────────────────────────
 const CFG = {
   chrome: process.env.CHROME_PATH || '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome',
-  base: 'http://localhost:5173',
+  base: 'http://localhost:5173/kraftspirits',
   widths: [1920, 1440, 1200],
   defaultProducts: ['gin-yasnyi', 'calvados-5', 'fruit-watermelon'],
   skipPages: ['product', '404'],            // product.html без slug не міряємо; 404 — службова

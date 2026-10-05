@@ -2,6 +2,7 @@
 // Дані: src/data/occasions.json (id, title, hint, image, slugs) + products.json. Стилі: src/css/components/occasion-picker.css.
 import { esc, formatPrice } from './format.js';
 import { renderPrice } from './product-card.js';
+import { url } from './url.js';
 
 const arrow = (dir, label) => `
       <button class="gallery__nav-btn occasion-picker__nav-btn occasion-picker__nav-btn--${dir}" type="button" data-occ-step="${dir === 'prev' ? -1 : 1}" aria-label="${label}">
@@ -9,9 +10,9 @@ const arrow = (dir, label) => `
       </button>`;
 
 function renderCard(p) {
-  const href = `/product.html?slug=${encodeURIComponent(p.slug)}`;
+  const href = url(`/product.html?slug=${encodeURIComponent(p.slug)}`);
   return `
-    <div class="occasion-picker__tile"><img class="occasion-picker__photo" src="${esc(p.image)}" alt="${esc(p.name)}" /></div>
+    <div class="occasion-picker__tile"><img class="occasion-picker__photo" src="${esc(url(p.image))}" alt="${esc(p.name)}" /></div>
     <div class="occasion-picker__info">
       <h3 class="occasion-picker__name">${esc(p.name)}</h3>
       <p class="price occasion-picker__price">${renderPrice(p)}</p>
@@ -30,7 +31,7 @@ export function renderOccasionPicker(occasions, { showHeading = true } = {}) {
         <span class="occasion-picker__title">${esc(o.title)}</span>
         <span class="occasion-picker__hint">${esc(o.hint)}</span>
       </button>`).join('');
-  const layers = occasions.map((o, i) => `<img class="occasion-picker__bg parallax__img${i === 0 ? ' is-active' : ''}" data-occ-bg="${esc(o.id)}" src="${esc(o.image)}" alt="" role="presentation" aria-hidden="true"${i === 0 ? '' : ' loading="lazy"'} />`).join('');
+  const layers = occasions.map((o, i) => `<img class="occasion-picker__bg parallax__img${i === 0 ? ' is-active' : ''}" data-occ-bg="${esc(o.id)}" src="${esc(url(o.image))}" alt="" role="presentation" aria-hidden="true"${i === 0 ? '' : ' loading="lazy"'} />`).join('');
   return `
     ${showHeading ? '<h2 class="occasion-picker__lead caps-lead" id="occasions-title">Не знаєте, з чого почати? Спробуйте пошук від події</h2>' : ''}
     <div class="occasion-picker__tabs" role="tablist" aria-orientation="horizontal" aria-label="${showHeading ? 'Подія' : 'Вибір напою за подією'}">${tabs}

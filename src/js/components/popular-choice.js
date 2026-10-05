@@ -2,12 +2,13 @@
 // Один компонент для головної й «Про дім». Стилі: src/css/components/popular-choice.css; слайдер — card-slider; картки — product-card.
 import { renderProductCard, bindProductCards } from './product-card.js';
 import { renderCardSlider, bindCardSlider } from './card-slider.js';
+import { url } from './url.js';
 
 export const POPULAR_CTA = {
   title: 'Увесь асортимент',
   text: 'Джин, кальвадос, шнапси, настоянки й колекційні пляшки в одному каталозі.',
   label: 'Переглянути весь асортимент ↗',
-  href: '/catalog.html',
+  href: url('/catalog.html'),
 };
 
 /**
@@ -24,7 +25,7 @@ export function renderPopularChoice(products, { cta = POPULAR_CTA, headButton = 
       <h2 class="section-title" id="hits-title">Популярний вибір</h2>
     </div>${headButton ? `
     <div class="card-slider__tools">
-      <a class="btn btn--outline" href="/catalog.html">Весь каталог ↗</a>
+      <a class="btn btn--outline" href="${url('/catalog.html')}">Весь каталог ↗</a>
     </div>` : ''}
   </div>
   <div class="card-slider popular-choice__slider">${renderCardSlider(hits.map((p) => renderProductCard(p)), { label: 'Популярний вибір', cta })}</div>`;

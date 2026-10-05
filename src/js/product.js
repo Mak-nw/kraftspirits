@@ -8,6 +8,7 @@ import { renderGallery, bindGalleries } from './components/gallery.js';
 import { renderAccordion, bindAccordions } from './components/accordion.js';
 import { bottleIcon, basketIcon } from './components/icons.js';
 import { renderQty, bindQty, getQty, setQty } from './components/qty.js';
+import { url } from './components/url.js';
 
 const STOCK = {
   'in-stock': 'У наявності · відправка сьогодні',
@@ -81,7 +82,7 @@ function renderBuy(p, stock) {
       </span>
     </label>`).join('');
   const actions = stock === 'soon'
-    ? `<a class="btn btn--primary btn--block" href="/contacts.html">Повідомити про реліз</a>`
+    ? `<a class="btn btn--primary btn--block" href="${url('/contacts.html')}">Повідомити про реліз</a>`
     : `<div class="product__row">
         <p class="price price--lg product__price" data-price-out>${formatPrice(p.volumes[0].price)}</p>
         ${renderQty({ value: 1, min: 1, max: 99 })}
@@ -115,8 +116,8 @@ function init(p) {
       <div class="product__info">
         <nav class="product__crumbs eyebrow" aria-label="Навігація сторінкою">
           <ol>
-            <li><a class="link-underline" href="/catalog.html">Каталог</a></li>
-            <li><a class="link-underline" href="/catalog.html?category=${encodeURIComponent(p.category)}">${esc(p.category)}</a></li>
+            <li><a class="link-underline" href="${url('/catalog.html')}">Каталог</a></li>
+            <li><a class="link-underline" href="${url(`/catalog.html?category=${encodeURIComponent(p.category)}`)}">${esc(p.category)}</a></li>
             <li><span aria-current="page">${esc(p.name)}</span></li>
           </ol>
         </nav>
@@ -134,7 +135,7 @@ function init(p) {
       </div>
       <div class="product__gift-body">
         <p>${esc(gift)}</p>
-        <a class="btn" href="/gifts.html">Набір «Джин-тонік» ↗</a>
+        <a class="btn" href="${url('/gifts.html')}">Набір «Джин-тонік» ↗</a>
       </div>
     </section>` : ''}
     <section class="product__related" aria-labelledby="product-related-title">
@@ -183,7 +184,7 @@ function bindBuy(root, p) {
     // 1 клік: додає поточну позицію (об'єм + кількість зі степпера) і веде на оформлення
     buyNow.addEventListener('click', () => {
       addToCart({ slug: p.slug, volume: current().volume, qty: getQty(qty) });
-      location.assign('/checkout.html?buy=1');
+      location.assign(url('/checkout.html?buy=1'));
     });
   }
 }
@@ -191,7 +192,7 @@ function bindBuy(root, p) {
 const SLUG = new URLSearchParams(location.search).get('slug');
 const product = products.find((p) => p.slug === SLUG);
 if (!product) {
-  location.replace('/404.html');
+  location.replace(url('/404.html'));
 } else {
   init(product);
 }

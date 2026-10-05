@@ -2,6 +2,7 @@
 // Стилі: src/css/components/product-card.css, volume-picker.css, badge.css, button.css, price.css.
 import { esc, formatPrice, formatVolume, formatVolumes, minPrice } from "./format.js";
 import { bottleIcon, basketIcon } from "./icons.js";
+import { url } from './url.js';
 
 const BADGE_MODIFIERS = {
   'Новинка': 'badge--new',
@@ -37,7 +38,7 @@ export function renderProductCard(product, { selectedVolume = '' } = {}) {
   const p = product;
   const multi = p.volumes.length > 1;
   const selected = p.volumes.find((v) => String(v.l) === selectedVolume) || p.volumes[0];
-  const href = `/product.html?slug=${encodeURIComponent(p.slug)}`;
+  const href = url(`/product.html?slug=${encodeURIComponent(p.slug)}`);
   const radios = p.volumes.map((v) => {
     const volumeText = esc(formatVolume(v.l));
     const icon = multi ? `<span class="volume-picker__bottle" aria-hidden="true">${bottleIcon(v.l)}</span>` : '';
@@ -51,7 +52,7 @@ export function renderProductCard(product, { selectedVolume = '' } = {}) {
   <article class="product-card" data-id="${p.id}">
     <div class="product-card__media">
       <a href="${href}" tabindex="-1" aria-hidden="true">
-        <img class="product-card__img" src="${esc(p.image)}" alt="" loading="lazy" />
+        <img class="product-card__img" src="${esc(url(p.image))}" alt="" loading="lazy" />
       </a>
       ${renderBadge(p.badge)}
       <div class="product-card__panel">

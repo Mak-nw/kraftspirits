@@ -1,5 +1,7 @@
 // Санітайзер відповідей FAQ (дані з адмінки): дозволено лише <a href>, <br>, <p>; решта тегів знімається (лишається текст).
 // href: лише відносні (/…, #…), http(s), mailto, tel; зовнішні http(s) отримують target=_blank rel=noopener.
+import { url } from './url.js';
+
 const ALLOWED = new Set(['A', 'BR', 'P']);
 const SAFE_HREF = /^(\/(?!\/)|#|https?:\/\/|mailto:|tel:)/i;
 
@@ -12,7 +14,7 @@ function clean(node, out) {
     if (n.tagName === 'A') {
       const href = (n.getAttribute('href') || '').trim();
       if (SAFE_HREF.test(href)) {
-        el.setAttribute('href', href);
+        el.setAttribute('href', url(href));
         if (/^https?:/i.test(href)) { el.target = '_blank'; el.rel = 'noopener'; }
       }
     }
