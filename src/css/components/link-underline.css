@@ -1,0 +1,13 @@
+/*
+ * link-underline — підкреслення, що з'являється при hover/focus (як у меню header)
+ * Стани: :hover, :focus-visible, [aria-current='page'] — підкреслення видиме.
+ * Коли: навігаційні посилання й службові лінки без постійного підкреслення. Для лінка з постійним підкресленням — .link-text.
+ */
+.link-underline {
+  text-decoration: underline; text-underline-offset: 4px; text-decoration-thickness: 1px;
+  text-decoration-color: transparent;
+  transition: text-decoration-color var(--dur) var(--ease);
+}
+.link-underline:hover,
+.link-underline:focus-visible,
+.link-underline[aria-current='page'] { text-decoration-color: var(--c-text); }

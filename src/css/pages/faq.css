@@ -1,0 +1,7 @@
+/* FAQ: h1 по центру в середній колонці сітки 3×5 карток (компонент accordion--cards); лише специфіка сторінки, типографіка — роль .t-h1 */
+body.page-faq main { display: block; }
+.faq-page { padding: var(--sp-10) var(--page-pad); }
+.faq-page__title { margin: 0 0 var(--sp-7); text-align: center; overflow-wrap: anywhere; }
+.faq-grid__col { min-width: 0; }
+.accordion__content a { text-decoration: underline; text-underline-offset: 0.2em; color: var(--c-text); }
+.accordion__content a:hover { color: var(--c-muted-strong); }

@@ -1,0 +1,14 @@
+/* Головна: лише специфіка сторінки; hero, marquee, section, stats, category-list, cta-tile, compare, cta, accordion — компоненти */
+body.page-index main { display: block; }
+
+/* «Про дім» + показники: одна композиція (фото в колонці 1, текст у колонках 3–4, нижче 4 показники) */
+.about-home__row { display: grid; grid-template-columns: repeat(var(--grid-cols), minmax(0, 1fr)); column-gap: var(--grid-gap); row-gap: var(--sp-7); grid-template-rows: auto auto; align-items: stretch; }
+.about-home__figure { grid-column: 1; grid-row: 1; margin: 0; min-height: 0; position: relative; }
+.home-manifest { grid-column: 3 / -1; grid-row: 1; min-width: 0; margin: 0; }
+.about-home__more { grid-column: 3 / -1; grid-row: 2; }
+.about-home__lead { max-width: 34em; margin-top: var(--sp-7); color: var(--c-text); }
+.about-home__link { margin-top: var(--sp-9); }
+.about-home__stats { margin-top: var(--sp-10); }
+/* FAQ: шапка на 3 ліві колонки, під нею вся ширина сітки для трьох колонок карток */
+.faq-section__head { grid-column: 1 / span 3; }
+.faq-section__body { grid-column: 1 / -1; }

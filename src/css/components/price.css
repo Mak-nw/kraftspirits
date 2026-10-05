@@ -1,0 +1,10 @@
+/*
+ * price — ціна товару
+ * .price             — звичайна ціна («850 ₴»).
+ * .price__from       — префікс «Від» для товарів із кількома об'ємами: <span class="price__from">Від</span> 850 ₴
+ * .price--lg        — велика ціна (--fs-price-lg), одна в рядку покупки на сторінці товару; не переноситься.
+ * Формат значення — format.js (formatPrice / renderPrice у product-card.js).
+ */
+.price { font-size: var(--fs-body); }
+.price--lg { white-space: nowrap; }
+.price__from { color: inherit; }

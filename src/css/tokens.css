@@ -1,0 +1,212 @@
+/*
+ * Design tokens — єдине джерело значень (кольори, шрифти, відступи, радіуси, z-index, motion).
+ * Нові стилі беруть значення звідси; хардкод у компонентах і сторінках не додаємо.
+ * Довідник: site/design-system.md, сторінка /design-system.html
+ */
+:root {
+  /* ---------- Colors ---------- */
+  --c-bg: #f6f2ea;              /* фон сторінки (світлий беж) */
+  --c-tile: #ece6dc;            /* підкладка під фото товару */
+  --c-text: #2b1d14;            /* основний текст / ink (темно-коричневий) */
+  --c-muted: #8a8a8a;           /* другорядний текст, підписи */
+  --c-muted-strong: color-mix(in srgb, var(--c-text) 60%, var(--c-bg)); /* неактивні фільтри-таби: тепло-сірий, контраст ≥4:1 на --c-bg (--c-muted дає ≈3.1) */
+  --c-brown: #7a4a24;           /* теплий коричневий акцент (лінії-кільця маніфесту «Про дім») */
+  --c-text-soft: color-mix(in srgb, var(--c-text) 72%, transparent); /* текст відповідей у картках FAQ: приглушений ink */
+  --c-muted-light: #b3b3b0;     /* неактивні слова заголовка, підкреслення link-text */
+  --c-line: #e3e3e3;            /* світла лінія (службова; поза каталогом) */
+  --c-tab-fill: var(--c-tile); /* заливка табів акордеона: трохи темніша за фон сторінки */
+  --c-divider: color-mix(in srgb, var(--c-text) 20%, transparent); /* тонкі розділювачі: коричневий 20% */
+  --c-divider-soft: color-mix(in srgb, var(--c-text) 10%, transparent); /* ледь помітні розділювачі всередині контенту табів: коричневий 10% */
+  --c-divider-strong: color-mix(in srgb, var(--c-text) 45%, transparent); /* більш видимі розділювачі всередині контенту: коричневий 45% */
+  --c-panel: var(--c-bg);       /* hover-панель картки */
+  --c-focus: #2b1d14;           /* контур фокуса */
+  --c-badge-bg: #2d2a5a;        /* бейдж «Хіт» (темно-синьо-фіолетовий) */
+  --c-badge-new-bg: #1f3d2e;    /* бейдж «Новинка» */
+  --c-badge-limit-bg: #fff;     /* бейдж «Ліміт» */
+  --c-badge-text: #fff;         /* текст на кольорових бейджах */
+  --c-on-image: #fff;           /* текст, контури й іконки поверх фото (hero) */
+  --c-image-shade: rgba(43, 29, 20, 0.65); /* темний коричневий оверлей на фото (= --c-text 65%) */
+  --c-image-shade-soft: rgba(43, 29, 20, 0.25); /* м'який оверлей угорі фото під прозорим header */
+  --divider-alpha: 0.2;         /* прозорість лінії-розділювача, коли її задано через opacity */
+
+  /* ---------- Typography ---------- */
+  --font-body: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; /* інтерфейс */
+  --font-serif: 'Cormorant Infant', 'Cormorant', 'Times New Roman', serif;   /* заголовки (Cormorant Infant: тонший, менший x-height, ніж EB Garamond → ваги/розміри компенсовані) */
+  --fw-regular: 400;     /* вага Inter: текст */
+  --fw-medium: 500;      /* вага Inter: мітки, eyebrow, лого; вага serif sentence-ролей */
+  --fw-semibold: 600;    /* вага serif КАПС-ролей (h1, h2, display, wordmark) і бейджа */
+  --fw-serif: var(--fw-medium);        /* serif у звичайному регістрі (Cormorant 400 надто тонкий) */
+  --fw-serif-caps: var(--fw-semibold); /* serif КАПС-заголовки */
+
+  --font-mono: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;      /* лише довідник дизайн-системи */
+
+  /* ===== Типографічна шкала: 12 ролей (етап 2 уніфікації). Значення 1200 / 1440 / 1920 — у design-system.md, «Типографічна шкала».
+     Ролі застосовано в components/typography.css (реєстр role → селектори); компоненти типографіку не задають. ===== */
+  --fs-wordmark: clamp(93px, 16.2vw, 302px);   /* wordmark: футер-стрічка 194 / 233 / 302 (hero «Про дім» — fit-width, див. --wordmark-fit) */
+  --fs-display: clamp(52px, 4.8vw, 96px);      /* display: H1 hero головної; цифри principles — 57.6 / 69.1 / 92.2 */
+  --fs-h1: clamp(40px, 3.7vw, 66px);           /* h1: каталог, товар — 44.4 / 53.3 / 66 (каталог-H1 з фільтрами = 2 рядки на 1200–1920) */
+  --fs-h2: clamp(40px, 3.7vw, 66px);           /* h2: section-title, place, brand-logo — 44.4 / 53.3 / 66 (завжди ≤ h1; зараз = h1) */
+  --fs-h3: clamp(26px, 2.4vw, 46px);           /* h3: назви-елементи (подія, етап, рядок, категорія-teaser, бренд), ціна-lg — 28.8 / 34.6 / 46 */
+  --fs-lead: clamp(32px, 3.1vw, 60px);         /* lead: маніфест «Про дім» на головній, cta-tile — 37.2 / 44.6 / 59.5 */
+  --fs-list-title: clamp(62px, 6vw, 116px);    /* list-title: category-list, stats — 72 / 86.4 / 115.2 */
+  --fs-caps-lead: clamp(18px, 1.25vw, 24px);   /* caps-lead: sans КАПС-лід (occasion, h1 «Про дім») — 18 / 18 / 24 */
+  --fs-lead-sm: clamp(14px, 1vw, 20px);        /* hero-lead: вступ і eyebrow hero головної (sans КАПС) — 14 / 14.4 / 19.2 */
+  --fs-body: 14px;                             /* body: абзаци, кнопки, меню, label-назви, ціна */
+  --fs-body-sm: 13px;                          /* body-sm: службові підписи, фільтри */
+  --fs-caption: 12px;                          /* caption / eyebrow / badge */
+
+  --ls-wordmark: -0.015em; /* wordmark (Cormorant caps великого кегля): засічки не торкаються, ритм рівний */
+  --ls-caps: -0.01em;      /* serif КАПС: h1, h2, display, h3-caps, manifest-caps */
+  --ls-heading: -0.02em;   /* serif sentence: h3, list-title, lead, numeral */
+  --ls-caps-sans-sm: 0.06em; /* sans КАПС дрібний (≤13px): eyebrow, badge */
+  --ls-caps-sans-md: 0.03em; /* sans КАПС середній (14–24px): label, caps-lead, hero-lead, sign */
+
+  /* Регістр: всі заголовки h1/h2/display/wordmark/h3-caps — КАПС (--tt-heading); списки/назви-елементи/абзаци — --tt-sentence */
+  --tt-heading: uppercase;
+  --tt-sentence: none;
+
+  --lh-body: 1.4;
+  --lh-title: 1.08;      /* h1, label, caps-lead */
+  --lh-heading: 1.05;    /* h2, display, h3 */
+  --lh-lead: 1.1;        /* lead, manifest-caps */
+  --lh-reading: 1.6;     /* довгі абзаци (FAQ, «Про дім») */
+  --lh-none: 1;
+  --lh-wordmark: 0.9;    /* wordmark: щільний бокс (див. --wm-cap-offset-bottom) */
+  --wm-word-spacing: -0.05em; /* word-spacing довгих КАПС-текстів (manifest-caps) */
+
+  /* ---------- Spacing / layout ---------- */
+  --sp-1: 4px;
+  --sp-2: 8px;
+  --sp-3: 12px;
+  --sp-4: 16px;
+  --sp-5: 24px;
+  --sp-6: 32px;
+  --sp-7: 40px;
+  --sp-8: 56px;
+  --sp-9: 80px;
+  --sp-10: 120px;
+
+  --page-pad: 30px;      /* бічні поля повноширинних сторінок (каталог, header, footer) */
+  --grid-gap: 8px;       /* проміжок між колонками сітки */
+  --slider-visible: 4;   /* card-slider: повних карток на екрані */
+  --slider-peek: 0.2;    /* card-slider: частка ширини 5-ї картки, що виглядає справа */
+  --slider-arrow-size: clamp(54px, 4.5vw, 86px); /* slider-arrow: діаметр круглої стрілки поверх слайдера (виняток із «лише прямокутні», макет замовника) */
+  --slider-arrow-inset: 30px; /* slider-arrow: відступ від лівого/правого краю слайдера (= краю вікна справа) */
+  --slider-arrow-top-ratio: 0.56; /* slider-arrow: вертикальний центр = частка висоти плитки фото (плитка 1:1, висота = ширині картки) */
+  --row-gap: 90px;       /* проміжок між рядами товарної сітки (≤760px: 48px) */
+  --grid-cols: 4;        /* колонки сітки каталогу/header (≥1100px) */
+  --nav-gap: 24px;       /* інтервал між пунктами header */
+  --card-pad-x: 16px;    /* лівий відступ усередині картки (badge, panel) */
+  --volume-gap: 20px;    /* інтервал між варіантами об'єму */
+  --filter-gap: 28px;    /* інтервал між фільтрами в смузі */
+  --qty-w: 92px;         /* ширина степпера кількості (стрілки + поле) */
+  --control-h: 44px;     /* висота степпера в ряду покупки (= висоті .btn--block) */
+  --gallery-nav-size: 40px; /* кнопки ←/→ гортання кадрів внизу головної плитки (квадрат) */
+  --gallery-nav-gap: 8px;  /* проміжок між кнопками ←/→ і внутрішній відступ лічильника */
+  --gallery-thumb-w: 88px; /* ширина мініатюри галереї товару, коли вони рядом під фото (≤1099px) */
+  --occasion-ratio: 3.1 / 1; /* співвідношення full-bleed медіа-полотна occasion-picker */
+  --occasion-card-w: clamp(260px, 20vw, 380px); /* ширина картки товару по центру медіа occasion-picker */
+  --card-slider-media-ratio: 1 / 1; /* card-slider: співвідношення плитки фото товару у слайдері (зменшено на 20% від вихідного 4/5) */
+  --parallax-travel: 0.12; /* максимальний хід паралакса як частка висоти рамки (12% ≈ 108px для hero 900px) */
+  --parallax-factor: 0.45; /* множник для розрахунку фактичного ходу (travel = travel_target × factor) */
+  --parallax-ease: 0.1; /* коефіцієнт інерційного згладжування: current += (target - current) × ease */
+  --occasion-card-lift: 60px; /* на скільки картка виступає над верхнім краєм медіа */
+  --occasion-nav-gap: 20px; /* відстань стрілок ←/→ від країв картки */
+  --bottle-h-05: 40px;   /* іконка пляшки 0,5 л (найнижча) */
+  --bottle-h-07: 50px;   /* іконка пляшки 0,7 л (середня) */
+  --bottle-h-1: 64px;    /* іконка пляшки 1 л (найвища) */
+  --bottle-scale: 1;     /* множник розміру іконок пляшки (пропорції 40:50:64 зберігаються) */
+  --section-pad-y: 160px; /* вертикальні поля великих блоків (cta); ≤700px: 96px */
+  --hero-lead-top: max(17svh, calc(var(--header-h-hero) + var(--sp-6))); /* верх вступного тексту hero (не нижче хедера) */
+  --hero-bottom-pad: 7svh; /* відступ низу eyebrow hero від низу екрана (H1 над ним ≈ 13% від низу) */
+  --header-h: 64px;      /* фіксована висота header; на вужчих екранах перевизначається нижче */
+  --header-h-hero: 104px; /* висота прозорого header на hero головної (до прокрутки); зменшується до --header-h */
+  --wordmark-fit: 6.405; /* hero «Про дім»: font-size напису KRAFTSPIRITS = ширина колонок 2–3 / --wordmark-fit; підібрано ВИМІРОМ для ваги 400 (піксельний скан гліфів на 1200/1440/1920/2000: ширина ЧОРНИЛА = ширина колонок 2–3 ±1px; чорнило ≈ 6.41 em при --ls-wordmark −0.015em; для ваги 600 було б 6.53); зміна шрифту/ваги/трекінгу/тексту вимагає перепідбору */
+  --wordmark-fit-footer: 6.411; /* футер: font-size напису KRAFTSPIRITS = ширина footer__logo-wrapper / --wordmark-fit-footer; підібрано ВИМІРОМ на 1200/1440/1920/2000: чорнило (піксельний скан) = ширині контейнера ±1px; Cormorant Infant 400, tracking −0.015em */
+  --wordmark-ink-inset: 0.038; /* wordmark hero: лівий side-bearing літери K, em кегля (скан гліфів): negative margin-left ставить чорнило рівно на ліву межу колонки 2 */
+  --footer-logo-ink-shift: 0.034; /* футер-лого, em кегля: центрований напис зміщений вправо (K ліве поле > S праве); left: -shift вирівнює чорнило по краях контейнера */
+  --footer-logo-cap-top: 0.114; /* футер-лого, em кегля: від верху бокса до верху гліфів (скан на 1440/1920) — віднімається від'ємним margin, щоб відступи рахувались від чорнила */
+  --footer-logo-cap-bottom: 0.123; /* те саме знизу: від низу гліфів до низу бокса */
+  --wm-cap-offset-bottom: 0.12; /* wordmark: безрозмірно, у em кегля: від низу гліфів до низу бокса (line-height 0.9); canvas-виміри Cormorant Infant 400 */
+  --hero-horizon: 0.49; /* hero «Про дім»: лінія горизонту фото (де закінчується небо) від висоти hero (макет ≈ 49%; ТЗ 46–52%) */
+  --hero-photo-horizon: 0.335; /* горизонт у самому фото-джерелі: 358px з 1068 (піксельний скан колонок: різка зміна яскравості 235→110) */
+  --hero-photo-ratio: 1.7978; /* пропорція фото-джерела about-hero.webp 1920 / 1068 */
+  --hero-row-y: 19%; /* hero «Про дім»: вертикальний центр верхнього ряду (лого | wordmark | лого) від висоти hero (не вище за --header-h + --sp-8) */
+  --hero-logo-share: 0.64; /* ширина логотипа YasnoCraft = частка ширини колонки сітки (макет: ≈290px при колонці ≈460px) */
+  --hero-logo-rel-bazylsprings: 0.74; /* ширина Bazylsprings відносно YasnoCraft (однаковий масштаб растру: 412/557) */
+  --hero-desc-share: 0.72; /* макс. ширина опису hero = частка ширини колонок 2–3 (0.62 з ТЗ давало 3 рядки на 1200: 351px; 0.72 → 2 рядки на 1200–2000) */
+  --hero-desc-gap: var(--sp-8); /* від низу гліфів wordmark до верху опису в hero «Про дім» */
+  --header-logo-fs: 26px; /* header-лого (Cormorant Infant КАПС 400): висота ВЕЛИКИХ літер (cap-height 0.625em) = 16.25px — як було в Inter 22px (0.727em = 16.0px) */
+  --header-logo-cap-top: 0.3935; /* Cormorant Infant 400, line-height --lh-body 1.4: від верху бокса до верху гліфів КАПС, em кегля (canvas: (1.4 − (0.924+0.287))/2 + (0.924 − 0.625)) */
+  --header-logo-cap-mid: 0.706; /* від верху бокса до середини висоти гліфів, em: --header-logo-cap-top + 0.625/2 */
+  --header-menu-cap-h: 0.727; /* Inter: висота ВЕЛИКИХ літер, em кегля --fs-body; пункти меню центровані в --header-h, тому cap-top меню = --header-h/2 − cap-h/2 × --fs-body */
+  --header-menu-cap-top: calc(var(--header-h) / 2 - var(--header-menu-cap-h) / 2 * var(--fs-body)); /* y верху літер меню (еталон верху лого на hero) */
+  --header-btn-h: calc(var(--fs-body-sm) * var(--lh-body) + 22px); /* висота кнопки «Підказати?» (padding 10+10, border 1+1) */
+  --header-logo-fit: 6.49; /* ширина напису KRAFTSPIRITS (Cormorant 400, ls −0.015em) = 6.49 em (виміряно: 311.3px при 48px) */
+  --header-logo-gap-min: 26px; /* мінімальний запас між лого на hero і першим пунктом меню (колонка 2) */
+  --header-logo-fs-hero: min(48px, calc(((100vw - 2 * var(--page-pad) + var(--grid-gap)) / 4 - var(--header-logo-gap-min)) / var(--header-logo-fit))); /* вордмарк KraftSpirits у header на hero (до прокрутки): 48px, на вузьких (1200) звужується, щоб не наїхати на меню; зменшується до --header-logo-fs */
+  --about-manifest-ratio: 2.4 / 1; /* співвідношення рамки маніфесту (1920 ≈ 775px, 1200 ≈ 500px) */
+  --about-manifest-pad: var(--sp-9); /* внутрішні поля блоку маніфесту */
+  --about-manifest-title-w: 22em; /* макс. ширина H2 маніфесту (вужча для 4–5 рядків, маска кілець ширша) */
+  --about-manifest-text-w: 34em; /* макс. ширина абзацу маніфесту */
+  --about-rings-opacity: 0.75; /* прозорість ліній-кілець (--c-brown) */
+  --about-section-gap: 160px; /* «Про дім»: єдиний видимий проміжок між змістовими краями сусідніх секцій */
+  --about-manifest-ink-inset: calc((100% - 2 * var(--page-pad)) / 22.2); /* маніфест: від верху/низу рамки до видимих кілець (≈10.8% висоти рамки 2.4:1, виміряно); % = ширина main (для margin) */
+  --about-rings-stroke: 1.5px; /* товщина лінії кілець (non-scaling) */
+  --about-ring-pulse: 4.4s; /* один імпульс scaleX кільця: 1 → min → 1 (WAAPI, rings.js) */
+  --about-ring-stagger: 0.7s; /* зсув старту між сусідніми кільцями у хвилі */
+  --about-ring-cycle: 20s; /* повний цикл: хвиля вліво→вправо, потім вправо→вліво */
+  --about-manifest-fade-x: 14%; /* розтушовка заливки/кілець маніфесту по лівому/правому краю */
+  --about-manifest-fade-y: 20%; /* те саме по верху/низу */
+  --about-rings-mask-rx: 42%; /* радіус еліпса маски кілець по X (покриває весь текст + запас) */
+  --about-rings-mask-ry: 50%; /* радіус еліпса маски кілець по Y (покриває весь текст + запас) */
+  --about-rings-min-scale: 0.1; /* мінімальний scaleX кільця («ребром») */
+  --c-image-shade-local: color-mix(in srgb, var(--c-image-shade) 54%, transparent); /* локальний м'який шар під лого на фото (≈35%): лише навколо напису, не на все фото */
+  --about-brands-shade-w: 38%; /* ширина (радіус по X) локального радіального шару під лого, частка ширини панелі */
+  --about-brands-shade-h: 22%; /* висота (радіус по Y) того ж шару */
+  --about-brands-count-inset: var(--sp-6); /* відступ індикатора «01 / 02» від лівого й нижнього краю лівої панелі */
+  --brands-detail-scale: 0.6667; /* масштаб деталь-фото в «Два бренди»: 1/1.5 від базової ширини */
+  --visit-photo-max: 360px; /* «Візит»: макс. ширина малого фото бочок */
+  --visit-photo-share: 45cqw; /* «Візит»: ширина малого фото = частка ширини лівої половини (container query) */
+  --visit-copy-w: 30em; /* «Візит»: макс. ширина абзацу */
+  --visit-barrels-pos: 50% 70%; /* кадрування бочок 4:5 з вертикального 2:3: напис YASNOCRAFT лишається в кадрі */
+  --visit-tour-pos: 50% 40%; /* кадрування групи в залі: центр на мідних кубах */
+  --mask-solid: #000; /* непрозорий стоп маски mask-image (альфа-канал, не колір) */
+
+  /* ---------- Radius ---------- */
+  --radius-none: 0;       /* бейджі */
+  --radius-sm: 2px;       /* кнопки-блоки, кнопка в header */
+  --about-process-gap: var(--sp-9); /* «Від зерна до пляшки»: проміжок між колонками етапів (просторіше за реф) */
+  --principle-ratio-tall: 4 / 5; /* principles-grid: висока картка (фото 01, 03) */
+  --principle-ratio-wide: 4 / 3; /* principles-grid: низька картка (фото 02, 04) */
+  --place-photo-ratio: 2.1 / 1; /* place-rows: співвідношення панорамного фото «Місце та люди» */
+  --place-desc-w: 28em; /* place-rows: максимальна ширина опису пункту */
+  --place-shade-h: 45%; /* place-rows: висота локального градієнта знизу фото під написом */
+  --process-icon-size: 64px; /* розмір слота іконки етапу (контур ≈56px, див. process-icons.js: SLOT/FILL) */
+  --process-line: 1px; /* товщина суцільної лінії під іконками */
+  --process-pin-ratio: 1; /* pinned-скрол етапів: 1px вертикального скролу = 1/ratio px вбік (runway = maxScrollLeft / ratio) */
+  --process-pin-ease: 0.18; /* частка доганяння lerp за кадр (м'якше за нативний скрол) */
+  --process-progress-h: 1px; /* pinned-скрол: висота лінії-прогресбара між іконками й текстом (база --c-divider, заповнення --c-text) */
+  --dur-process-draw: 0.9s; /* малювання іконки при вході */
+  --dur-process-sway: 5s; /* колос, діжка */
+  --dur-process-rise: 4.5s; /* бульбашки, пара */
+  --dur-process-drop: 3.5s; /* краплі */
+  --radius-pill: 999px;   /* кнопки-таблетки */
+
+  /* ---------- Z-index ---------- */
+  --z-card-badge: 1;
+  --z-card-panel: 2;
+  --z-bar: 40;      /* смуга фільтрів: над картками, під header */
+  --z-header: 50;
+
+  /* ---------- Motion ---------- */
+  --dur: 0.35s;
+  --dur-slow: 0.6s; /* масштаб фото в картці */
+  --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+/* адаптивні значення: header має фіксовану висоту на кожному брейкпоінті, щоб sticky-offset смуги збігався */
+@media (max-width: 1099px) { :root { --header-h: 76px; } }
+@media (max-width: 759px) { :root { --header-h: 84px; } }
+@media (max-width: 760px) { :root { --row-gap: 48px; } }
+@media (max-width: 700px) { :root { --section-pad-y: 96px; } }

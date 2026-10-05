@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="uk">
+  <head>
+    <!--@include head-->
+    <title>Каталог — KraftSpirits</title>
+    <meta name="description" content="Джин, кальвадос, фруктові шнапси та настоянки від YasnoCraft і Bazylsprings." />
+  </head>
+  <body class="page-catalog">
+    <!--@include header-->
+    <main class="container catalog">
+      <h1 class="page-title catalog__title" id="catalog-title">
+        <button class="page-title__filter" type="button" data-category="" aria-pressed="true">Весь каталог,</button>
+        <span role="group" aria-label="Категорія" id="catalog-cats"></span>
+      </h1>
+
+      <div class="filter-bar catalog__bar">
+        <div class="filter-bar__filters" role="group" aria-label="Фільтри">
+          <label class="filter-select">
+            <span class="filter-select__label">Бренд:</span>
+            <select class="filter-select__control" id="f-brand"></select>
+          </label>
+          <label class="filter-select">
+            <span class="filter-select__label">Категорія:</span>
+            <select class="filter-select__control" id="f-category"></select>
+          </label>
+          <label class="filter-select">
+            <span class="filter-select__label">Об’єм:</span>
+            <select class="filter-select__control" id="f-volume"></select>
+          </label>
+          <button class="filter-toggle" type="button" id="f-gift" aria-pressed="false">Лише подарункові</button>
+        </div>
+        <div class="filter-bar__tools">
+          <label class="filter-select">
+            <span class="filter-select__label">Сортування:</span>
+            <select class="filter-select__control" id="f-sort">
+              <option value="popular">Популярні</option>
+              <option value="price-asc">Спочатку дешевші</option>
+              <option value="price-desc">Спочатку дорожчі</option>
+              <option value="name">За назвою</option>
+            </select>
+          </label>
+          <span class="filter-bar__count" id="catalog-count" role="status" aria-live="polite"></span>
+        </div>
+      </div>
+
+      <div class="grid-4 catalog__grid" id="catalog-grid"></div>
+      <div class="empty-state" id="catalog-empty" hidden>
+        <p>Нічого не знайдено. <button class="link-text" type="button" id="catalog-reset">Скинути фільтри</button></p>
+      </div>
+    </main>
+    <!--@include cta-block-page-->
+    <!--@include footer-->
+    <script type="module" src="/src/js/catalog.js"></script>
+  </body>
+</html>

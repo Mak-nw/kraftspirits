@@ -1,0 +1,14 @@
+/*
+ * layout — container + grid-4 (товарна сітка)
+ * .container  — бічні поля сторінки (--page-pad).
+ * .grid-4     — сітка карток: 4 колонки, ≤1100px — 3, ≤760px — 2. Проміжки: --grid-gap, --row-gap.
+ * Коли: контейнер — для <main> повноширинних сторінок; grid-4 — для будь-яких списків карток товарів.
+ */
+.container { padding-inline: var(--page-pad); }
+
+.grid-4 {
+  display: grid; grid-template-columns: repeat(4, minmax(0, 1fr));
+  column-gap: var(--grid-gap); row-gap: var(--row-gap);
+}
+@media (max-width: 1100px) { .grid-4 { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (max-width: 760px) { .grid-4 { grid-template-columns: repeat(2, minmax(0, 1fr)); } }

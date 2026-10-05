@@ -1,0 +1,55 @@
+/*
+ * button — кнопки та текстове посилання-дія
+ * .btn              — базова прямокутна кнопка (контур; hover — заливка).
+ * .btn--primary     — темна заливка (hover — контур).
+ * .btn--outline     — контур явно (hover — заливка).
+ * .btn--block       — на всю ширину, прямокутна (кнопки в картці).
+ * .btn--sm          — компактна.
+ * .btn-pair        — контейнер двох кнопок: темною одночасно є лише одна (primary ↔ outline міняються при hover/focus на outline).
+ * .link-text        — кнопка-посилання з підкресленням (постійним).
+ * Стани: :hover, :focus-visible (глобальний контур з base.css).
+ * Коли: primary — головна дія на екрані (одна); outline/базова — другорядна; block — у вузьких панелях.
+ */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  padding: 14px 26px;
+  border: 1px solid var(--c-text); border-radius: var(--radius-none);
+  background: transparent; color: var(--c-text);
+  font-size: var(--fs-body); line-height: var(--lh-none);
+  transition: background var(--dur) var(--ease), color var(--dur) var(--ease);
+}
+.btn__icon {
+  width: 1.3em;
+  height: 1.3em;
+  margin-block: -0.15em; /* візуально більша за рядок іконка не збільшує висоту кнопки (44px) */
+  flex: none;
+}
+.btn:hover { background: var(--c-text); color: var(--c-bg); }
+.btn--outline { background: transparent; color: var(--c-text); }
+.btn--outline:hover { background: var(--c-text); color: var(--c-bg); }
+.btn--primary { background: var(--c-text); color: var(--c-bg); }
+.btn--primary:hover { background: transparent; color: var(--c-text); }
+.btn--sm { padding: 9px 18px; font-size: var(--fs-body-sm); }
+.btn--block { display: flex; width: 100%; border-radius: var(--radius-none); padding: 14px 12px; } /* 12px по боках: після збільшення шрифту «Додати в кошик · 1 250 ₴» ще вміщується в картку 3 колонок (≥800px) */
+
+/* пара кнопок: лише одна темна одночасно (картка в каталозі, сторінка товару) */
+.btn-pair .btn--primary:hover {
+  background: var(--c-text);
+  color: var(--c-bg);
+  opacity: 0.9;
+}
+.btn-pair:has(.btn--outline:is(:hover, :focus-visible)) .btn--primary {
+  background: transparent;
+  color: var(--c-text);
+}
+.btn-pair:has(.btn--outline:is(:hover, :focus-visible)) .btn--outline {
+  background: var(--c-text);
+  color: var(--c-bg);
+}
+
+.link-text {
+  padding: 0; border: 0; background: none;
+  font-size: var(--fs-body-sm); color: var(--c-text);
+  text-decoration: underline; text-underline-offset: 3px; text-decoration-color: var(--c-muted-light);
+}
+.link-text:hover { text-decoration-color: var(--c-text); }

@@ -1,0 +1,16 @@
+/*
+ * page-title — великий serif-заголовок сторінки КАПСОМ з категоріями-словами, що працюють як фільтри
+ * Елементи: __filter (кнопка-слово). Стани: [aria-pressed='true'] — активне (text), за замовчуванням — muted-light, :hover — muted.
+ * Зовнішні відступи задає сторінка (напр. .catalog__title).
+ */
+.page-title {
+  max-width: 100%; margin: 0;
+  text-align: center;
+}
+.page-title__filter {
+  padding: 0; border: 0; background: none;
+  font: inherit; letter-spacing: inherit; text-transform: inherit; color: var(--c-muted-light);
+  transition: color var(--dur);
+}
+.page-title__filter:hover { color: var(--c-text); }
+.page-title__filter[aria-pressed='true'] { color: var(--c-text); }

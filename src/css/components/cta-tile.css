@@ -1,0 +1,5 @@
+/*
+ * cta-tile — плитка-заклик без фото (заливка --c-tile, текст + кнопка); розтягується до висоти сусідів у ряду сітки карток
+ * Елементи: __name (serif, --fs-manifest). Коли: завершальна клітинка в сітці карток (головна, «Хіти»).
+ */
+.cta-tile { display: flex; flex-direction: column; justify-content: space-between; align-items: flex-start; gap: var(--sp-6); min-width: 0; padding: var(--sp-5) var(--card-pad-x); background: var(--c-tile); }

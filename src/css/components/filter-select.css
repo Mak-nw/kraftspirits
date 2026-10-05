@@ -1,0 +1,33 @@
+/*
+ * filter-select — підписаний випадайний фільтр («Бренд: Усі ⌄») + .filter-toggle (перемикач-текст)
+ * Елементи: __label (muted), __control (нативний <select> без рамки). Стани: :focus-within — контур.
+ * .filter-toggle: [aria-pressed='true'] — активний (text, підкреслений).
+ * Ширина: width = var(--filter-w) (однакова у всіх полів, рахується за найдовшим текстом, див. fit-width.js); шеврон прижатий праворуч.
+ * Розмітка: <label class="filter-select"><span class="filter-select__label">…</span><select class="filter-select__control">…</select></label>
+ */
+.filter-select {
+  position: relative; display: inline-flex; align-items: baseline; gap: 6px; font-size: var(--fs-body-sm);
+  /* однакова ширина: --filter-w виставляє fit-width.js на контейнері (найдовша «мітка + опція» + шеврон); до того — фолбек */
+  width: var(--filter-w, 18em); max-width: 100%; box-sizing: border-box;
+}
+.filter-select__label { color: var(--c-muted); }
+.filter-select__control {
+  appearance: none; -webkit-appearance: none;
+  flex: 1 1 auto; min-width: 0; font-family: inherit;
+  padding: 0 14px 0 0; border: 0; border-radius: 0; background: transparent;
+  color: var(--c-text); font-size: var(--fs-body-sm); cursor: pointer;
+}
+.filter-select::after {
+  content: ''; position: absolute; right: 2px; top: 50%;
+  width: 5px; height: 5px; margin-top: -4px;
+  border-right: 1px solid var(--c-text); border-bottom: 1px solid var(--c-text);
+  transform: rotate(45deg); pointer-events: none;
+}
+.filter-select:focus-within { outline: 1px solid var(--c-focus); outline-offset: 4px; }
+.filter-select__control:focus-visible { outline: none; }
+
+.filter-toggle {
+  padding: 0; border: 0; background: none; font-size: var(--fs-body-sm); color: var(--c-muted);
+}
+.filter-toggle[aria-pressed='true'] { color: var(--c-text); text-decoration: underline; text-underline-offset: 3px; }
+.filter-toggle:hover { color: var(--c-text); }

@@ -1,0 +1,70 @@
+/* Сторінка товару: лише специфіка сторінки; решта — компоненти (container, gallery, accordion, volume-picker, qty, price, btn, btn-pair, spec-table, badge, eyebrow, section-title, product-card, cta) */
+.product { padding-top: var(--sp-6); }
+
+/* верхній екран: 4 колонки як у header; галерея — cols 1–2, інформація — cols 3–4 (ліва вісь = колонка 3) */
+.product__top {
+  display: grid; grid-template-columns: repeat(var(--grid-cols), minmax(0, 1fr)); column-gap: var(--grid-gap);
+  align-items: start;
+}
+.product__gallery { grid-column: 1 / 3; min-width: 0; align-self: stretch; } /* на всю висоту ряду: усередині липне .gallery--sticky */
+@media (min-width: 1100px) {
+  .product__gallery { padding-right: calc(var(--page-pad) - var(--grid-gap)); } /* gap до col 3 = --page-pad (8px сітки + доплата) */
+  /* галерея стартує одразу під header, щоб її низ при scroll 0 збігався з відступом --page-pad від низу вюпорту; відступ зверху лишається в інформаційній колонці */
+  .product { padding-top: 0; }
+  .product__info { padding-top: var(--sp-6); }
+}
+.product__info { grid-column: 3 / 5; min-width: 0; }
+
+.product__crumbs ol { display: flex; flex-wrap: wrap; gap: var(--sp-1) var(--sp-2); padding: 0; margin: 0; list-style: none; }
+.product__crumbs li + li::before { content: '/'; margin-right: var(--sp-2); }
+.product__crumbs [aria-current='page'] { color: var(--c-text); }
+
+.product__title {
+  margin-top: var(--sp-5);
+}
+.product__meta { margin-top: var(--sp-2); font-size: var(--fs-body); color: var(--c-muted); }
+.product__lead { max-width: 60ch; margin-top: var(--sp-5); }
+
+.product__buy { margin-top: var(--sp-7); }
+.product__buy .volume-picker { margin-bottom: var(--sp-6); }
+/* ряд 1: ціна (ліва вісь = col 3) і степпер (права межа = права межа сітки) в одному рядку, центри збігаються */
+.product__row { display: flex; align-items: center; justify-content: space-between; gap: var(--grid-gap); margin-top: var(--sp-6); }
+.product__row .qty { height: var(--control-h); } /* висота = висоті кнопки */
+/* ряд 2: дві рівні кнопки в повну ширину колонки; темна лише одна (.btn-pair) */
+.product__actions { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--grid-gap); margin-top: var(--sp-4); }
+.product__stock { display: flex; align-items: center; gap: var(--sp-2); margin-top: var(--sp-6); font-size: var(--fs-body-sm); }
+.product__stock::before { content: ''; width: var(--sp-2); height: var(--sp-2); border-radius: 50%; background: var(--c-text); }
+.product__stock--soon::before { background: var(--c-muted-light); }
+
+.product__accordion { margin-top: var(--sp-7); }
+.product__list { padding: 0; list-style: none; }
+.product__list li { position: relative; padding-left: var(--sp-4); }
+.product__list li + li { margin-top: var(--sp-2); }
+.product__list li::before { content: '—'; position: absolute; left: 0; color: var(--c-muted); }
+.product__def dt { color: var(--c-muted); }
+.product__def dd { margin: 0 0 var(--sp-3); }
+
+/* нижні блоки на всю ширину */
+.product__gift, .product__related { margin-top: var(--sp-10); }
+.product__gift { display: grid; grid-template-columns: repeat(var(--grid-cols), minmax(0, 1fr)); column-gap: var(--grid-gap); align-items: start; }
+.product__gift-head { grid-column: 1 / 3; }
+.product__gift-body { grid-column: 3 / 5; }
+.product__gift-body .btn { margin-top: var(--sp-5); }
+.product__related-title { margin-bottom: var(--sp-7); }
+
+@media (max-width: 1100px) {
+  .product__related .product-card:nth-child(4) { display: none; } /* 3 колонки — 4-та картка лишилась би самотньою */
+}
+@media (max-width: 1099px) {
+  .product__top { grid-template-columns: minmax(0, 1fr); row-gap: var(--sp-7); }
+  .product__gallery, .product__info { grid-column: 1; }
+  .product__gift { grid-template-columns: minmax(0, 1fr); row-gap: var(--sp-5); }
+  .product__gift-head, .product__gift-body { grid-column: 1; }
+  .product__gift, .product__related { margin-top: var(--sp-9); }
+}
+@media (max-width: 759px) {
+  .product { padding-top: var(--sp-4); }
+  /* вузько: ряд 1 лишається в рядок; кнопки по одній у рядок на всю ширину, якщо половина < 140px */
+  .product__actions { grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); }
+  .product__buy { margin-top: var(--sp-6); }
+}

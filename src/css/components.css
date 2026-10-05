@@ -1,0 +1,33 @@
+/* Реєстр компонентів дизайн-системи (кожен — окремий файл із описом зверху) */
+@import './components/layout.css';
+@import './components/link-underline.css';
+@import './components/eyebrow.css';
+@import './components/section-title.css';
+@import './components/button.css';
+@import './components/badge.css';
+@import './components/price.css';
+@import './components/spec-table.css';
+@import './components/filter-select.css';
+@import './components/filter-bar.css';
+@import './components/page-title.css';
+@import './components/empty-state.css';
+@import './components/volume-picker.css';
+@import './components/qty.css';
+@import './components/bottle-icon.css';
+@import './components/marker.css';
+@import './components/product-card.css';
+@import './components/cta-block.css';
+@import './components/accordion.css';
+@import './components/gallery.css';
+@import './components/header.css';
+@import './components/footer.css';
+@import './components/parallax.css';
+@import './components/hero.css';
+@import './components/section.css';
+@import './components/stats.css';
+@import './components/category-list.css';
+@import './components/occasion-picker.css';
+@import './components/card-slider.css';
+@import './components/popular-choice.css';
+@import './components/about-manifest.css';
+@import './components/typography.css'; /* останнім: утиліти регістру перекривають компоненти */

@@ -1,0 +1,23 @@
+/*
+ * principles-grid — «Принципи дому» (about.html): об'єднані принципи 01–03 і визнання 04; сітка за рефом Feldman «Projects» (заголовок зліва зверху).
+ * Структура: .principles (section) → __head (eyebrow + H2) + ol __list → li __item (--tall | --wide) → img __photo + __caption (__num + __body: h3 __name, p __desc).
+ * Токени: --fs-principle-num, --principle-ratio-tall/-wide, --dur, --ease, --grid-gap.
+ */
+.principles { }
+.principles__head { margin-bottom: var(--sp-9); }
+.principles__head .section-title { margin-top: var(--sp-3); }
+
+.principles__list { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--grid-gap); align-items: start; }
+.principles__item { min-width: 0; }
+.principles__photo { display: block; width: 100%; height: auto; object-fit: cover; border-radius: 0; }
+.principles__item--tall .principles__photo { aspect-ratio: var(--principle-ratio-tall); }
+.principles__item--wide .principles__photo { aspect-ratio: var(--principle-ratio-wide); }
+.principles__photo--bottle { object-position: center 55%; }
+
+.principles__caption { display: flex; align-items: flex-start; gap: var(--sp-3); margin-top: var(--sp-3); min-width: 0; }
+.principles__num {
+  flex: none;
+}
+.principles__body { min-width: 0; padding-top: var(--sp-1); }
+.principles__name { margin: 0 0 var(--sp-1); }
+.principles__desc { margin: 0; max-width: 22em; color: var(--c-text-soft); }

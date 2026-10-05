@@ -1,0 +1,159 @@
+/*
+ * typography — РЕЄСТР РОЛЕЙ: єдине місце, де задано family / size / weight / line-height / letter-spacing / text-transform.
+ * Компоненти й сторінки типографіку НЕ задають (лише розкладку, колір, відступи); новий елемент → додати його селектор у відповідну роль.
+ * Утиліти-ролі `.t-<роль>` — для довідника дизайн-системи й нових блоків. Тексти в HTML не змінюються: регістр — лише через --tt-heading / --tt-sentence.
+ * Правило регістру (рішення замовника): КАПС — h1, h2 (section-title), display, wordmark, назви-бренди, маніфест «Про дім» (about);
+ *   звичайний — h3-елементи (подія, етап, рядок, категорія), списки категорій, питання FAQ, home-manifest, абзаци, кнопки.
+ * Трекінг: serif КАПС −0.01em (--ls-caps), wordmark −0.015em (--ls-wordmark), serif sentence −0.02em (--ls-heading),
+ *   sans КАПС ≤13px +0.06em (--ls-caps-sans-sm), 14–24px +0.03em (--ls-caps-sans-md), текст/кнопки 0.
+ * Розміри — токени --fs-* (tokens.css): wordmark, display, h1, h2, h3, lead, list-title, caps-lead, lead-sm, body, body-sm, caption.
+ * Контекст сторінок і розмітка — у design-system.md («Типографічна шкала»).
+ */
+
+/* ---------- serif КАПС ---------- */
+/* wordmark: напис KRAFTSPIRITS (довідник; футер — .footer__logo нижче) */
+.t-wordmark {
+  font-family: var(--font-serif); font-weight: var(--fw-serif-caps); line-height: var(--lh-wordmark);
+  letter-spacing: var(--ls-wordmark); text-transform: var(--tt-heading); font-variant-numeric: lining-nums;
+  font-size: var(--fs-wordmark);
+}
+/* статичне лого в футері: ролі wordmark, але ширина залежить від контейнера (див. footer.css) */
+.footer__logo {
+  font-family: var(--font-serif); font-weight: var(--fw-regular); line-height: var(--lh-wordmark);
+  letter-spacing: var(--ls-wordmark); text-transform: var(--tt-heading); font-variant-numeric: lining-nums;
+}
+/* wordmark hero «Про дім» (h1): ролі wordmark, але вага regular 400 (рішення замовника); кегль — fit-width на колонки 2–3 у pages/about.css (--wm-fs) */
+.hero--about .hero__wordmark {
+  font-family: var(--font-serif); font-weight: var(--fw-regular); line-height: var(--lh-wordmark);
+  letter-spacing: var(--ls-wordmark); text-transform: var(--tt-heading); font-variant-numeric: lining-nums;
+}
+
+/* display: H1 hero головної */
+.t-display, .hero__title {
+  font-family: var(--font-serif); font-size: var(--fs-display); font-weight: var(--fw-serif-caps); line-height: var(--lh-heading);
+  letter-spacing: var(--ls-caps); text-transform: var(--tt-heading); font-variant-numeric: lining-nums;
+}
+
+/* h1: назва сторінки (каталог, товар, довідник) */
+.t-h1, .page-title, .product__title, .ds-hero__title {
+  font-family: var(--font-serif); font-size: var(--fs-h1); font-weight: var(--fw-serif-caps); line-height: var(--lh-title);
+  letter-spacing: var(--ls-caps); text-transform: var(--tt-heading); font-variant-numeric: lining-nums;
+}
+
+/* h2: заголовок секції (section-title, підпис на фото «Місце та люди», лого-напис «Два бренди») */
+.t-h2, .section-title, .place__title, .about-brands__logo, .ds-font__sample--serif {
+  font-family: var(--font-serif); font-size: var(--fs-h2); font-weight: var(--fw-serif-caps); line-height: var(--lh-heading);
+  letter-spacing: var(--ls-caps); text-transform: var(--tt-heading); font-variant-numeric: lining-nums;
+}
+
+/* h3-caps: назва-бренд / назва-заклик КАПСОМ (YasnoCraft, «Увесь асортимент») */
+.t-h3-caps, .about-brands__name, .catalog-cta__name {
+  font-family: var(--font-serif); font-size: var(--fs-h3); font-weight: var(--fw-serif-caps); line-height: var(--lh-heading);
+  letter-spacing: var(--ls-caps); text-transform: var(--tt-heading); font-variant-numeric: lining-nums;
+}
+
+/* manifest-caps: довгий КАПС-текст-заява («Про дім»); вага 500, щільніші міжслівні проміжки */
+.t-manifest-caps, .about-manifest__title {
+  font-family: var(--font-serif); font-size: var(--fs-h3); font-weight: var(--fw-serif); line-height: var(--lh-lead);
+  letter-spacing: var(--ls-caps); word-spacing: var(--wm-word-spacing); text-transform: var(--tt-heading); font-variant-numeric: lining-nums;
+}
+
+/* ---------- serif звичайний регістр ---------- */
+/* h3: назви-елементи (подія, етап, рядок місця, категорія в teaser) */
+.t-h3, .occasion-picker__title, .place-rows__head, .process-track__name, .ds-sub, .ds-comp__title {
+  font-family: var(--font-serif); font-size: var(--fs-h3); font-weight: var(--fw-serif); line-height: var(--lh-heading);
+  letter-spacing: var(--ls-heading); text-transform: var(--tt-sentence); font-variant-numeric: lining-nums;
+}
+
+/* lead: великий текст-заява (маніфест «Про дім» на головній, cta-tile) */
+.t-lead, .home-manifest, .cta-tile__name {
+  font-family: var(--font-serif); font-size: var(--fs-lead); font-weight: var(--fw-serif); line-height: var(--lh-lead);
+  letter-spacing: var(--ls-heading); text-transform: var(--tt-sentence); font-variant-numeric: lining-nums;
+}
+
+/* list-title: гігантські назви списків (категорії), показники, стрічка */
+.t-list-title, .category-list__name, .stats__value, .marquee__group {
+  font-family: var(--font-serif); font-size: var(--fs-list-title); font-weight: var(--fw-serif); line-height: var(--lh-none);
+  letter-spacing: var(--ls-heading); text-transform: var(--tt-sentence); font-variant-numeric: lining-nums;
+}
+
+/* numeral: цифра-номер під фото (principles) */
+.t-numeral, .principles__num {
+  font-family: var(--font-serif); font-size: var(--fs-display); font-weight: var(--fw-serif); line-height: var(--lh-none);
+  letter-spacing: var(--ls-heading); text-transform: var(--tt-sentence); font-variant-numeric: lining-nums;
+}
+
+/* list-count: лічильник у дужках поруч із назвою категорії (Inter, ≈⅓ розміру назви) */
+.category-list__count {
+  font-family: var(--font-body); font-weight: var(--fw-regular); line-height: var(--lh-none); letter-spacing: 0; text-transform: var(--tt-sentence);
+}
+.category-list__count { font-size: calc(var(--fs-list-title) * 0.33); }
+
+/* price-lg: велика ціна в блоці покупки (Inter) */
+.t-price-lg, .price--lg, .ds-font__sample--sans {
+  font-family: var(--font-body); font-size: var(--fs-h3); font-weight: var(--fw-regular); line-height: var(--lh-none);
+  letter-spacing: var(--ls-heading); text-transform: var(--tt-sentence);
+}
+
+/* ---------- sans КАПС ---------- */
+/* caps-lead: КАПС-лід (Вибір під подію) */
+.t-caps-lead, .caps-lead {
+  font-family: var(--font-body); font-size: var(--fs-caps-lead); font-weight: var(--fw-medium); line-height: var(--lh-title);
+  letter-spacing: var(--ls-caps-sans-md); text-transform: var(--tt-heading);
+}
+
+/* hero-lead: вступ і eyebrow hero головної (на фото) */
+.t-hero-lead, .hero--home .hero__text, .hero__eyebrow {
+  font-family: var(--font-body); font-size: var(--fs-lead-sm); font-weight: var(--fw-regular); line-height: var(--lh-body);
+  letter-spacing: var(--ls-caps-sans-md); text-transform: var(--tt-heading);
+}
+
+/* label: назви товарів, принципи, події в картках (Inter КАПС 14px) */
+.t-label, .product-card__name, .occasion-picker__name, .principles__name {
+  font-family: var(--font-body); font-size: var(--fs-body); font-weight: var(--fw-medium); line-height: var(--lh-title);
+  letter-spacing: var(--ls-caps-sans-md); text-transform: var(--tt-heading);
+}
+
+/* eyebrow: дрібні КАПС-мітки 12px (над заголовками, футер, лічильники, крихти, вкладки, hint) */
+.t-eyebrow, .eyebrow, .section-title--sub, .footer__heading, .process-track__num, .about-brands__count, .about-manifest__eyebrow,
+.visit-split__age, .product__crumbs, .product-card__type, .ds-table th, .accordion:not(.accordion--cards) .accordion__trigger, .occasion-picker__hint {
+  font-family: var(--font-body); font-size: var(--fs-caption); font-weight: var(--fw-medium); line-height: var(--lh-body);
+  letter-spacing: var(--ls-caps-sans-sm); text-transform: var(--tt-heading);
+}
+
+/* badge: бейдж на картці (12px КАПС, вага 600) */
+.t-badge, .badge {
+  font-family: var(--font-body); font-size: var(--fs-caption); font-weight: var(--fw-semibold); line-height: var(--lh-none);
+  letter-spacing: var(--ls-caps-sans-sm); text-transform: var(--tt-heading);
+}
+
+/* ---------- sans звичайний регістр ---------- */
+/* logo: лого-текст header (Cormorant Infant КАПС 400, окрема роль; кегль — --header-logo-fs / на hero головної --header-logo-fs-hero) */
+.t-logo, .header__logo {
+  font-family: var(--font-serif); font-size: var(--header-logo-fs); font-weight: var(--fw-regular); line-height: var(--lh-body);
+  letter-spacing: var(--ls-wordmark); text-transform: var(--tt-heading); font-variant-numeric: lining-nums;
+}
+
+/* body-sm: підписи, фільтри, мета (13px) */
+.t-body-sm, .volume-picker__legend, .product-card__body, .principles__desc, .about-brands__fact dd, .catalog-cta__text {
+  font-family: var(--font-body); font-size: var(--fs-body-sm); font-weight: var(--fw-regular); line-height: var(--lh-body);
+  letter-spacing: 0; text-transform: var(--tt-sentence);
+}
+
+/* caption: службова мета 12px (sentence) */
+.t-caption, .product-card__meta, .ds-demo__label {
+  font-family: var(--font-body); font-size: var(--fs-caption); font-weight: var(--fw-regular); line-height: var(--lh-body);
+  letter-spacing: 0; text-transform: var(--tt-sentence);
+}
+
+/* body: текст, питання FAQ (кнопки й меню — розмір --fs-body у компонентах) */
+.t-body, .hero--about .hero__text, .about-home__lead, .accordion__content, .stats__label, .accordion--cards .accordion__trigger, .place-rows__desc, .cta-block__text, .footer__about, .product__lead, .product__gift-body {
+  font-family: var(--font-body); font-size: var(--fs-body); font-weight: var(--fw-regular); line-height: var(--lh-body);
+  letter-spacing: 0; text-transform: var(--tt-sentence);
+}
+
+/* body-reading: довгі абзаци (FAQ-відповіді, «Про дім», етапи, візит) — вільніший міжрядок */
+.t-body-reading, .accordion--cards .accordion__content, .process__lead, .process-track__desc, .about-manifest__text, .about-brands__text, .visit-split__text {
+  font-family: var(--font-body); font-size: var(--fs-body); font-weight: var(--fw-regular); line-height: var(--lh-reading);
+  letter-spacing: 0; text-transform: var(--tt-sentence);
+}

@@ -1,0 +1,35 @@
+/*
+ * visit-split — «Візит і дегустація» (сторінка «Про дім», за рефом in-grid): екран навпіл, full-bleed (без --page-pad).
+ * Структура: section.visit-split → __panel (ліва кремова: eyebrow, H2, __text, __age, __photo 4:5, __cta) + figure.__media[data-parallax] (права: img.__img.parallax__img).
+ * Розкладка: grid 2×1fr, min-height calc(100svh − --header-h), align-items:stretch; на низьких вікнах секція росте (не обрізає). Ліва панель — flex-колонка по центру (container-type:inline-size, щоб фото = 45cqw ≤ --visit-photo-max).
+ * Фото: barrels — вертикальне, ширина 1000 (джерело оригінал EXIF-orientation 6: ПЕРЕД оптимізацією повернути в справжній портрет 1080×1620), без паралакса; tour — 2000×1333, паралакс у рамці, object-position --visit-tour-pos, без затемнення.
+ * Токени: --visit-photo-max/-share, --visit-copy-w, --visit-barrels-pos, --visit-tour-pos. JS: лише initParallax (about.js).
+ */
+.visit-split {
+  display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: stretch;
+  min-height: calc(100svh - var(--header-h));
+  background: var(--c-bg);
+}
+.visit-split__panel {
+  container-type: inline-size;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;
+  padding: var(--sp-9) var(--sp-7);
+}
+.visit-split__title { margin-top: var(--sp-3); }
+.visit-split__text {
+  max-width: var(--visit-copy-w); margin-top: var(--sp-5);
+  color: var(--c-text-soft);
+}
+.visit-split__age {
+  margin-top: var(--sp-4);
+  color: var(--c-muted);
+}
+.visit-split__photo {
+  display: block; width: min(var(--visit-photo-share), var(--visit-photo-max)); height: auto; margin-top: var(--sp-7);
+  aspect-ratio: 4 / 5; object-fit: cover; object-position: var(--visit-barrels-pos); border-radius: 0;
+}
+.visit-split__cta { margin-top: var(--sp-6); min-height: var(--control-h); }
+
+/* права половина: фото на всю висоту секції; паралакс у рамці (base — components/parallax.css) */
+.visit-split__media { position: relative; margin: 0; min-height: calc(100svh - var(--header-h)); background: var(--c-tile); }
+.visit-split__media .parallax__img { --parallax-img-max: calc(100% * (1 + var(--parallax-travel))); object-position: var(--visit-tour-pos); }

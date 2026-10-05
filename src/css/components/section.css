@@ -1,0 +1,19 @@
+/*
+ * section — великий блок сторінки з сіткою як у header (4 колонки, ті самі осі)
+ * Елементи: __grid (сітка 4 кол.), __head (eyebrow + заголовок), __body (вміст), __action (кнопка праворуч від заголовка).
+ * Модифікатори: .section__head--center — голова по центру; .section__head--cell — голова як одна клітинка .grid-4 (колонка 1 першого ряду); .section__grid--split — голова в колонці 1, вміст у колонках 2–4; .section__head--wide — голова на 3 колонки (поряд із __action у колонці 4).
+ * Коли: усі смуги головної під hero (про дім, хіти, чому напряму, FAQ). Вертикальні поля — --sp-10, бічні — --page-pad.
+ */
+.section { padding: var(--sp-10) var(--page-pad); }
+.section__grid {
+  display: grid; grid-template-columns: repeat(var(--grid-cols), minmax(0, 1fr));
+  column-gap: var(--grid-gap); row-gap: var(--sp-8); align-items: start;
+}
+.section__head { grid-column: 1 / -1; display: flex; flex-direction: column; align-items: flex-start; gap: var(--sp-5); }
+.section__head--wide { grid-column: 1 / span 3; }
+.section__head--center { align-items: center; text-align: center; } /* голова по центру (над category-list) */
+.section__head--cell { grid-column: auto; } /* голова як одна клітинка сітки .grid-4 */
+.section__action { grid-column: 4; justify-self: end; align-self: end; }
+.section__grid--split > .section__head { grid-column: 1; }
+.section__grid--split > .section__body { grid-column: 2 / -1; }
+.section__body { min-width: 0; }

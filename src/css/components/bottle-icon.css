@@ -1,0 +1,24 @@
+/*
+ * bottle-icon — іконка пляшки (контур): позначення об'єму 0,5 / 0,7 / 1 л.
+ * Модифікатори: --05 (найнижча), --07 (середня), --1 (найвища); --sized — висота з атрибутів (bottleIcon(v, { size })); --filled — примусово показує заливку (bottleIcon(v, { filled: true })).
+ * Токени: --bottle-h-05/07/1 (висоти 40/50/64px), --bottle-scale (множник, 1 за замовчуванням; задається на батьківському блоці).
+ * Заливка: шар .bottle-icon__fill (тіло й кришка currentColor, штрихи етикетки --c-bg) прихований (opacity 0); видимий у вибраному об'ємі volume-picker (input:checked) або при модифікаторі --filled.
+ * Колір — currentColor: успадковується від батька (на сторінці це --c-text), змінюється через color на батьку. Ширина — за пропорцією viewBox (24).
+ * Коли: позначення об'єму (вибір об'єму, картки, фільтри); не для декору. Стану немає — лише іконка.
+ */
+.bottle-icon {
+  display: inline-block; flex: none; width: auto;
+  fill: none; stroke: currentColor;
+  stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round;
+}
+.bottle-icon--05 { height: calc(var(--bottle-h-05) * var(--bottle-scale)); }
+.bottle-icon--07 { height: calc(var(--bottle-h-07) * var(--bottle-scale)); }
+.bottle-icon--1 { height: calc(var(--bottle-h-1) * var(--bottle-scale)); }
+.bottle-icon--sized { height: auto; }
+
+.bottle-icon__fill { opacity: 0; transition: opacity var(--dur) var(--ease); }
+.bottle-icon__label { fill: none; stroke: var(--c-bg); }
+.bottle-icon--filled .bottle-icon__fill { opacity: 1; }
+/* вибраний об'єм: картка каталогу (іконка — сусід input) і плитка сторінки товару */
+.volume-picker__option input:checked ~ .volume-picker__bottle .bottle-icon__fill,
+.volume-picker__option input:checked + .volume-picker__tile .bottle-icon__fill { opacity: 1; }

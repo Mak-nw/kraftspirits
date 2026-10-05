@@ -1,0 +1,55 @@
+/*
+ * accordion — список розкривних секцій (заголовок + «+»/«−»); таби розділені не лініями, а заливкою: кожен таб — плашка кольору --c-tab-fill (трохи темніша за фон), відступ між плашками --sp-1 (4px)
+ * Елементи: __item, __heading, __trigger (кнопка), __icon («+» закрито / «−» відкрито), __panel, __inner, __content.
+ * Стани: [aria-expanded='true'] на __trigger — секція відкрита; :hover на заголовку — приглушення; :focus-visible — глобальний контур.
+ * Поведінка: src/js/components/accordion.js (aria-expanded/aria-controls, ←→↑↓/Home/End між заголовками, можна відкрити кілька, усі закриті за замовчуванням).
+ * Розкриття плавне: grid-template-rows 0fr → 1fr, без стрибків висоти; закрита панель недоступна для фокуса (visibility).
+ * Варіант --cards (FAQ на головній): .faq-grid = дві незалежні колонки (кожна по 2 з 4 колонок сітки, gap --grid-gap, align-items: start); картка — заливка --c-tab-fill, радіус 0, запитання sans --fs-base без капсу, справа SVG «+» 20px (stroke 1.5), відкрита — «+» повертається на 45° (стає «×»), відповідь --c-text-soft; у колонці відкрита лише одна.
+ * Коли використовувати: довга другорядна інформація поряд із покупкою (опис, характеристики, доставка), яку не треба показувати одразу.
+ */
+.accordion { display: flex; flex-direction: column; gap: var(--sp-1); }
+.accordion__item { background: var(--c-tab-fill); }
+.accordion__heading { margin: 0; font: inherit; }
+.accordion__trigger {
+  display: flex; align-items: center; justify-content: space-between; gap: var(--sp-4);
+  width: 100%; padding: var(--sp-4); border: 0; background: none; text-align: left;
+  color: var(--c-text);
+  transition: opacity var(--dur) var(--ease);
+}
+.accordion__trigger:hover { opacity: 0.6; }
+.accordion__icon { flex: none; font-size: var(--fs-body); line-height: var(--lh-none); }
+.accordion__icon::before { content: '+'; }
+.accordion__trigger[aria-expanded='true'] .accordion__icon::before { content: '−'; }
+
+.accordion__panel {
+  display: grid; grid-template-rows: 0fr; visibility: hidden;
+  transition: grid-template-rows var(--dur) var(--ease), visibility 0s linear var(--dur);
+}
+.accordion__item:has(> .accordion__heading .accordion__trigger[aria-expanded='true']) > .accordion__panel {
+  grid-template-rows: 1fr; visibility: visible;
+  transition: grid-template-rows var(--dur) var(--ease), visibility 0s;
+}
+.accordion__inner { min-height: 0; overflow: hidden; }
+.accordion__content { padding: 0 var(--sp-4) var(--sp-5); }
+.accordion__content > * + * { margin-top: var(--sp-3); }
+
+/* Варіант --cards */
+.faq-grid {
+  --faq-cols: 2; /* за замовчуванням 2 для сумісності */
+  display: grid; grid-template-columns: repeat(var(--faq-cols), minmax(0, 1fr)); column-gap: var(--grid-gap); align-items: start;
+}
+.faq-grid[data-cols="3"] { --faq-cols: 3; }
+.accordion--cards .accordion__trigger {
+  padding: var(--sp-4) var(--card-pad-x);
+}
+.accordion--cards .accordion__trigger:hover { opacity: 1; }
+.accordion--cards .accordion__trigger:focus-visible { outline-width: 1px; outline-offset: -1px; }
+.accordion--cards .accordion__icon { display: inline-flex; width: 20px; height: 20px; }
+.accordion--cards .accordion__icon::before, .accordion--cards .accordion__trigger[aria-expanded='true'] .accordion__icon::before { content: none; }
+.accordion--cards .accordion__icon svg { display: block; flex: none; width: 20px; height: 20px; transition: transform var(--dur) var(--ease); }
+.accordion--cards .accordion__trigger[aria-expanded='true'] .accordion__icon svg { transform: rotate(45deg); }
+.accordion--cards .accordion__content { padding: 0 var(--card-pad-x) var(--sp-4); color: var(--c-text-soft); }
+
+@media (prefers-reduced-motion: reduce) {
+  .accordion__panel, .accordion__trigger, .accordion--cards .accordion__icon svg { transition: none; }
+}

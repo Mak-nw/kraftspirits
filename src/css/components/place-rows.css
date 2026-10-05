@@ -1,0 +1,34 @@
+/*
+ * place-rows — «Місце та люди» (about.html), за рефом «Next steps»: панорамне фото на всю ширину + великий serif-напис на фото + рядки-пункти з лініями.
+ * Структура: section.place → div.place__media (img.place__photo + h2.place__title) + ol.place-rows → li.place-rows__item (span.place-rows__head: __num + __name | p.place-rows__desc).
+ * Фото: 2.1 / 1 (--place-photo-ratio), radius 0, без паралакса (джерело 1123 px — низька роздільність), без суцільного затемнення: лише локальний м'який градієнт знизу (--place-shade-h, --c-image-shade-local).
+ * Напис: ліва межа = колонка 3 сітки (як «Бренди»), низ — відступ --sp-7. Рядки: 4 колонки сітки, назва — колонки 1–2, опис — колонка 3; лінії 1px --c-divider на всю ширину.
+ */
+.place__media { position: relative; }
+.place__photo { display: block; width: 100%; height: auto; aspect-ratio: var(--place-photo-ratio); object-fit: cover; border-radius: 0; }
+.place__media::after {
+  content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: var(--place-shade-h); pointer-events: none;
+  background: linear-gradient(to top, var(--c-image-shade-local), transparent);
+}
+.place__title {
+  position: absolute; z-index: 1; bottom: var(--sp-7); right: var(--sp-7);
+  left: calc((100% - (var(--grid-cols) - 1) * var(--grid-gap)) / var(--grid-cols) * 2 + 2 * var(--grid-gap));
+  margin: 0; color: var(--c-on-image);
+}
+
+.place-rows { list-style: none; margin: var(--sp-6) 0 0; padding: 0; }
+.place-rows__item {
+  display: grid; grid-template-columns: repeat(var(--grid-cols), minmax(0, 1fr)); column-gap: var(--grid-gap); align-items: center;
+  padding-block: var(--sp-6); border-top: 1px solid var(--c-divider);
+}
+.place-rows__item:last-child { border-bottom: 1px solid var(--c-divider); }
+.place-rows__head {
+  grid-column: 1 / span 2; display: flex; align-items: baseline; gap: var(--sp-3); min-width: 0;
+}
+.place-rows__desc { grid-column: 3; margin: 0; max-width: var(--place-desc-w); color: var(--c-text-soft); }
+
+@media (max-width: 760px) {
+  .place__title { left: var(--sp-5); right: var(--sp-5); bottom: var(--sp-5); }
+  .place-rows__item { grid-template-columns: minmax(0, 1fr); row-gap: var(--sp-2); }
+  .place-rows__head, .place-rows__desc { grid-column: 1; }
+}

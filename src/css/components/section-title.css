@@ -1,0 +1,10 @@
+/*
+ * section-title — serif-заголовок секції (H2)
+ * Коли: головні заголовки блоків сторінки (cta, «Про дім», «Нагороди»). Розмір — --fs-h2.
+ * Модифікатор .section-title--sub: мінорний підзаголовок над важливим списком (category-list); мовою без uppercase, дрібний як eyebrow
+ */
+.section-title {
+}
+.section-title--sub {
+  color: var(--c-muted);
+}

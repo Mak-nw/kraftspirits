@@ -1,0 +1,18 @@
+/*
+ * cta-block — загальний блок «Залишились питання?» внизу сторінок (над footer): фон-контейнер на осях сітки
+ * Елементи: __box (фон --c-tile від колонки 1 до кінця колонки 4: x = --page-pad … clientWidth − --page-pad; радіус 0; padding --sp-9 зверху/знизу),
+ * __content (по центру; бічні відступи --card-pad-x), __title (разом із .section-title), __text, __buttons.
+ * Варіанти (два partial-и на спільних класах): .cta-block--home (partials/cta-block-home.html: «Відкрити каталог» dark + «Написати в месенджер» outline),
+ * .cta-block--page (partials/cta-block-page.html: лише dark «Зв'язатися з менеджером» + під ним occasion-picker--in-block без заголовка, медіа до країв контейнера, без нижнього padding).
+ * Підключення: <!--@include cta-block-home--> / <!--@include cta-block-page-->; на сторінці — один блок. JS: src/js/components/cta-block.js.
+ * Сторінки: index (home); catalog, product, about, faq, gifts (page). Без блоку: age-gate, checkout, order-thanks, 404, contacts, design-system (демо).
+ * Токени: --c-tile, --sp-9, --sp-10, --card-pad-x, --page-pad, --section-pad-y.
+ */
+.cta-block { padding: var(--sp-10) var(--page-pad) var(--section-pad-y); }
+.cta-block__box { padding: var(--sp-9) 0; background: var(--c-tile); border-radius: var(--radius-none); text-align: center; overflow-x: clip; }
+.cta-block--page .cta-block__box { padding-bottom: 0; }
+.cta-block__content { padding-inline: var(--card-pad-x); }
+.cta-block__title { max-width: 1100px; margin: var(--sp-5) auto 0; }
+.cta-block__text { max-width: 480px; margin: var(--sp-5) auto 0; color: var(--c-muted); }
+.cta-block__buttons { display: flex; flex-wrap: wrap; justify-content: center; gap: var(--sp-3); margin-top: var(--sp-7); }
+.cta-block .btn:not(.btn--primary):not(:hover) { background: var(--c-bg); } /* «біла» контурна кнопка на плитці */

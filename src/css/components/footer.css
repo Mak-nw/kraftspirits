@@ -1,0 +1,46 @@
+/*
+ * footer — підвал: колонки меню, підписка, статичне лого, нижній рядок
+ * Елементи: __top, __heading, __list, __soon, __about, __sub, __form, __status, __logo, __bottom, __legal.
+ * Partial: partials/footer.html.
+ */
+.footer { padding: 80px 0 24px; font-size: var(--fs-body); background: var(--c-bg); overflow: hidden; }
+.footer__top {
+  display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)) minmax(0, 1.4fr);
+  gap: 32px var(--grid-gap); padding: 0 var(--page-pad);
+}
+.footer__heading { margin-bottom: 18px; color: var(--c-muted); }
+.footer__list { display: flex; flex-direction: column; gap: 8px; }
+.footer__list a:hover { opacity: 0.55; }
+.footer__soon { color: var(--c-muted); }
+.footer__about { max-width: 360px; color: var(--c-muted); }
+.footer__sub { grid-column: 5; }
+.footer__form { display: flex; align-items: center; gap: 8px; margin-top: 22px; padding-bottom: 8px; border-bottom: 1px solid var(--c-text); }
+.footer__form input { flex: 1; min-width: 0; padding: 0; border: 0; background: transparent; font-size: var(--fs-body); }
+.footer__form input::placeholder { color: var(--c-muted); }
+.footer__form input:focus-visible { outline: none; }
+.footer__form:focus-within { border-bottom-width: 2px; }
+.footer__form button { padding: 0; border: 0; background: none; font-size: var(--fs-body); }
+.footer__status { margin-top: 10px; min-height: 1.4em; font-size: var(--fs-body-sm); color: var(--c-muted); }
+
+.footer__logo-wrapper {
+  margin-top: var(--sp-9); margin-bottom: var(--sp-7);
+  width: calc(100% - 2 * var(--page-pad)); margin-left: var(--page-pad);
+  container-type: inline-size;
+}
+.footer__logo {
+  display: block; font-size: calc(100cqw / var(--wordmark-fit-footer)); text-decoration: none; color: var(--c-text); text-align: center;
+  position: relative; left: calc(-1 * var(--footer-logo-ink-shift) * 1em);
+  margin-block: calc(-1 * var(--footer-logo-cap-top) * 1em) calc(-1 * var(--footer-logo-cap-bottom) * 1em); /* відступи футера — від чорнила гліфів, не від бокса */
+}
+
+.footer__bottom {
+  display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px;
+  margin-top: 32px; padding: 0 var(--page-pad); font-size: var(--fs-body-sm); color: var(--c-muted);
+}
+.footer__bottom a:hover { color: var(--c-text); }
+.footer__legal { display: flex; gap: 20px; }
+
+@media (max-width: 1100px) {
+  .footer__top { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .footer__sub { grid-column: auto; }
+}

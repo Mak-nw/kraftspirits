@@ -1,0 +1,31 @@
+/*
+ * qty — вибір кількості (степпер): поле з цифрою між кнопками мінус/плюс у горизонтальному ряду.
+ * Елементи: __btn (--minus, --plus), __input (поле цифри, text + inputmode numeric).
+ * Стани: __btn:disabled — на межах min/max; __btn:hover — заливка; :focus-visible — глобальний контур.
+ * Розмір: ширина --qty-w; висота = висоті .btn (42px), у flex-ряду з кнопкою розтягується до її висоти.
+ * Макет: [ − ] | поле | [ + ] — кнопки квадратні, розділювачі вертикальні.
+ * Коли: вибір кількості перед додаванням у кошик (сторінка товару), розміщується ліворуч від кнопки «В кошик».
+ */
+.qty {
+  display: flex; align-items: stretch; flex: none;
+  width: var(--qty-w); box-sizing: border-box;
+  border: 1px solid var(--c-text); border-radius: var(--radius-none);
+  background: var(--c-bg); color: var(--c-text);
+}
+.qty__btn {
+  display: flex; align-items: center; justify-content: center; flex: none;
+  width: var(--sp-5); height: auto;
+  padding: 0; border: 0; border-radius: var(--radius-none); background: transparent; color: inherit; cursor: pointer;
+  transition: background var(--dur) var(--ease), color var(--dur) var(--ease);
+}
+.qty__btn--minus { border-right: 1px solid var(--c-divider-strong); }
+.qty__btn--plus { border-left: 1px solid var(--c-divider-strong); }
+.qty__btn svg { width: var(--sp-3); height: var(--sp-3); fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+.qty__btn:hover:not(:disabled) { background: var(--c-text); color: var(--c-bg); }
+.qty__btn:disabled { color: var(--c-muted-light); cursor: default; }
+.qty__input {
+  flex: 1 1 auto; min-width: 0; padding: 0 var(--sp-3); margin: 0;
+  border: 0; border-radius: var(--radius-none); background: transparent; color: inherit;
+  font: inherit; font-size: var(--fs-body); line-height: var(--lh-none); font-variant-numeric: tabular-nums; text-align: center;
+}
+.qty__input:focus-visible { outline: 2px solid var(--c-focus); outline-offset: -2px; }

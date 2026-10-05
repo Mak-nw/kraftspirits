@@ -1,0 +1,94 @@
+/*
+ * process-track — «Від зерна до пляшки» (сторінка «Про дім»): горизонтальна смуга 8 етапів, зверху іконка-ілюстрація, під нею суцільна лінія, далі № + назва + опис.
+ * Структура: .process (секція) → __head (grid: __intro [eyebrow, H2, __lead] | __nav [.card-slider__nav: лічильник «n / 8» + ←/→]) + .process-track (container, bleed праворуч) →
+ *   __viewport (role=region, tabindex=0, overflow-x, scroll-snap x mandatory) → __list (ol, flex, gap --about-process-gap, ::before = суцільна лінія на всю довжину) → __item (li) → svg.process-icon (aria-hidden) + __body (__num, __name, __desc).
+ * Геометрія: ліво першої колонки = --page-pad; колонка W = (100cqw − 4·gap) / (4 + peek): 4 повні + 5-та на 20%. Крок = W + gap. Не зациклено; в'юпорт на всю ширину вікна (margin-inline −page-pad; 100cqw = вікно), W = (100cqw − 2·page-pad − 4·gap)/4,2 (як було від сітки); list padding-inline = --page-pad: початок на осі, остання колонка закінчується на clientWidth − page-pad.
+ * Іконки: контур currentColor, viewBox підігнано під малюнок (контур ≈56px із 64), stroke-width (атрибут) візуально 1,5px. Малювання: stroke-dashoffset 1→0 (pathLength=1), клас .is-drawn на li при вході (колонка видима ≥15%, process-track.js; peek-колонка теж малюється);
+ *   далі тихий цикл на шарах .pi-a* (transform/opacity), активний лише коли li має .is-live (інакше paused). prefers-reduced-motion: іконки одразу видимі, без анімацій.
+ * Стани: .process-track.is-ready (JS готовий — вмикає початково «непромальоване»), li:hover → номер темнішає.
+ * Pinned scroll (JS додає .is-pinned на .process, якщо трек не вміщується й немає reduced-motion): вертикальний скрол сторінки гортає трек вбік, див. process-track.js; лінія між іконками й текстом = прогрес-бар (.process-track__progress).
+ * Токени: --process-pin-ratio, --process-pin-ease, --process-progress-h, --about-process-gap, --fs-process-title, --process-icon-size, --process-line, --dur-process-draw/-sway/-rise/-drop, --slider-visible, --slider-peek.
+ */
+.process { margin: var(--sp-10) 0; padding-inline: var(--page-pad); } /* БЕЗ overflow на .process і предках: інакше ламається sticky (Safari) */
+/* pinned horizontal scroll: .process-pin (висота = вміст + runway через ::after) → __sticky (липне під хедером). runway рахує process-track.js (--process-runway = maxScrollLeft / --process-pin-ratio) */
+.process-pin::after { content: ''; display: block; height: var(--process-runway, 0px); }
+.process.is-pinned .process-pin__sticky {
+  position: sticky;
+  top: max(var(--header-h), calc(var(--header-h) + (100svh - var(--header-h) - var(--process-pin-h, 485px)) / 2)); /* центр у ВИДИМІЙ області під хедером */
+}
+.process.is-pinned .process-track__viewport { overflow-x: hidden; scroll-snap-type: none; }
+/* pinned: лінія між іконками й текстом = прогрес-бар (нерухомий по X, на всю ширину контейнера); довга лінія списку прихована. База --c-divider, заповнення --c-text довжиною p (--process-progress 0…1, ставить JS) */
+.process-track__progress { display: none; position: absolute; left: var(--page-pad); right: var(--page-pad); top: calc(var(--process-icon-size) + var(--sp-6)); height: var(--process-progress-h); background: var(--c-divider); pointer-events: none; }
+.process-track__progress::after { content: ''; position: absolute; inset: 0; background: var(--c-text); transform: scaleX(var(--process-progress, 0)); transform-origin: left center; }
+.process.is-pinned .process-track__progress { display: block; }
+.process.is-pinned .process-track__list::before { display: none; }
+.process__head { display: block; margin-bottom: var(--sp-9); }
+.process__intro .section-title { margin-top: var(--sp-3); }
+.process__lead { margin-top: var(--sp-5); max-width: 34em; color: var(--c-muted); }
+
+.process-track {
+  position: relative; container-type: inline-size; margin-inline: calc(-1 * var(--page-pad)); /* на всю ширину вікна (.process має padding-inline --page-pad) */
+  --process-col-w: calc((100cqw - 2 * var(--page-pad) - var(--slider-visible) * var(--about-process-gap)) / (var(--slider-visible) + var(--slider-peek)));
+}
+.process-track__viewport {
+  overflow-x: auto; overflow-y: clip; overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory; scrollbar-width: none; scroll-padding-inline-start: var(--page-pad);
+  padding-block: var(--sp-1); margin-block: calc(-1 * var(--sp-1));
+}
+.process-track__viewport::-webkit-scrollbar { display: none; }
+.process-track__viewport:focus-visible { outline: 1px solid var(--c-focus); outline-offset: var(--sp-1); }
+.process-track__list {
+  position: relative; display: flex; gap: var(--about-process-gap); width: max-content; min-width: 100%;
+  margin: 0; padding: 0 var(--page-pad); list-style: none; /* перша колонка на осі --page-pad, остання закінчується на clientWidth − --page-pad */
+}
+/* суцільна лінія під іконками: на всю довжину внутрішнього треку, крізь проміжки між колонками */
+.process-track__list::before {
+  content: ''; position: absolute; left: 0; right: 0; height: var(--process-line);
+  top: calc(var(--process-icon-size) + var(--sp-6)); background: var(--c-divider-strong);
+}
+.process-track__item { flex: 0 0 var(--process-col-w); min-width: 0; scroll-snap-align: start; display: flex; flex-direction: column; }
+.process-icon {
+  position: relative; flex: none; display: block; width: var(--process-icon-size); height: var(--process-icon-size);
+  margin-bottom: var(--sp-6); color: var(--c-text); --pi-u: calc(var(--process-icon-size) / 48); /* --pi-u = 1 одиниця viewBox */
+}
+.process-icon svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; } /* stroke-width — атрибут із process-icons.js (1,5px візуально) */
+.process-track__body { padding-top: var(--sp-5); }
+.process-track__num {
+  display: block; margin-bottom: var(--sp-2); font-variant-numeric: tabular-nums; color: var(--c-muted);
+  transition: color var(--dur) var(--ease);
+}
+.process-track__item:hover .process-track__num { color: var(--c-text); }
+.process-track__name { margin: 0 0 var(--sp-3); }
+.process-track__desc { margin: 0; max-width: 24em; color: var(--c-text-soft); }
+
+/* іконки: малювання при вході (обводка 1→0), тихий цикл — лише без reduced-motion; з reduced-motion іконки статичні й повністю видимі */
+.process-icon :is(path, circle) { stroke-dasharray: 1; stroke-dashoffset: 0; }
+@media (prefers-reduced-motion: no-preference) {
+  .process-track.is-ready .process-icon :is(path, circle) { stroke-dashoffset: 1; }
+  .process-track.is-ready .is-drawn .process-icon :is(path, circle) { animation: pi-draw var(--dur-process-draw) ease-out both; animation-delay: var(--pi-delay, 0s); }
+
+  /* цикл: рухомі шари — окремі <svg> з transform/opacity на кореневому елементі (композитор, без layout); початок після домальовки; поза зоною видимості — paused */
+  .pi-a { transform-origin: 50% 50%; }
+  .process-track.is-ready .is-drawn .pi-a {
+    animation-duration: var(--dur-process-rise); animation-timing-function: ease-in-out; animation-iteration-count: infinite;
+    animation-delay: calc(var(--pi-delay, 0s) + var(--dur-process-draw) + var(--o, 0s)); animation-play-state: paused;
+  }
+  .process-track.is-ready .is-drawn.is-live .pi-a { animation-play-state: running; }
+  .pi-o1 { --o: 0s; } .pi-o2 { --o: 0.9s; } .pi-o3 { --o: 1.8s; } .pi-o4 { --o: 2.7s; }
+  .process-track.is-ready .is-drawn .pi-sway { animation-name: pi-sway; animation-duration: var(--dur-process-sway); transform-origin: 50% 91.7%; }
+  .process-track.is-ready .is-drawn .pi-breath { animation-name: pi-breath; animation-duration: var(--dur-process-sway); animation-direction: alternate; }
+  .process-track.is-ready .is-drawn .pi-steam,
+  .process-track.is-ready .is-drawn .pi-rise { animation-name: pi-rise; }
+  .process-track.is-ready .is-drawn .pi-pulse { animation-name: pi-pulse; transform-origin: 33.3% 10.4%; }
+  .process-track.is-ready .is-drawn .pi-fall { animation-name: pi-fall; animation-duration: var(--dur-process-drop); }
+  .process-track.is-ready .is-drawn .pi-merge { animation-name: pi-merge; animation-duration: var(--dur-process-drop); }
+  .pi-m1 { --tx: 12; --ty: 9; } .pi-m2 { --tx: 0; --ty: 11; } .pi-m3 { --tx: -12; --ty: 9; }
+}
+@keyframes pi-draw { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
+@keyframes pi-sway { 0%, 100% { transform: rotate(-3deg); } 50% { transform: rotate(3deg); } }
+@keyframes pi-breath { from { transform: scale(1); } to { transform: scale(1.02); } }
+@keyframes pi-rise { 0% { opacity: 1; transform: none; } 60% { opacity: 0; transform: translateY(calc(var(--pi-u) * -3)); } 61% { opacity: 0; transform: translateY(calc(var(--pi-u) * 2)); } 100% { opacity: 1; transform: none; } }
+@keyframes pi-pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.35; transform: scale(1.15); } }
+@keyframes pi-fall { 0% { opacity: 1; transform: none; } 60% { opacity: 0; transform: translateY(calc(var(--pi-u) * 3)); } 61% { opacity: 0; transform: translateY(calc(var(--pi-u) * -2)); } 100% { opacity: 1; transform: none; } }
+@keyframes pi-merge { 0% { opacity: 1; transform: none; } 60% { opacity: 0; transform: translate(calc(var(--pi-u) * var(--tx)), calc(var(--pi-u) * var(--ty))); } 61% { opacity: 0; transform: none; } 100% { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { .process-track__num { transition: none; } }

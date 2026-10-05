@@ -1,0 +1,7 @@
+/*
+ * empty-state — порожній стан списку («Нічого не знайдено» + дія)
+ * Розмітка: <div class="empty-state"><p>Текст. <button class="link-text">Дія</button></p></div>
+ * Керується атрибутом [hidden].
+ */
+.empty-state { padding: var(--sp-10) 0; text-align: center; font-size: var(--fs-body); color: var(--c-muted); }
+.empty-state .link-text { font-size: inherit; color: var(--c-text); }

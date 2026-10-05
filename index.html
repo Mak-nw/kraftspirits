@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="uk">
+  <head>
+    <!--@include head-->
+    <title>KraftSpirits — крафтова дистилерія: джин, кальвадос</title>
+    <meta name="description" content="Українська крафтова дистилерія повного циклу. Джин, кальвадос, шнапси й настоянки YasnoCraft, віскі Bazylsprings. Подарункові набори, доставка." />
+  </head>
+  <body class="page-index">
+    <!--@include header-->
+    <main>
+      <section class="hero hero--home" data-hero aria-labelledby="hero-title">
+        <div class="hero__media" data-parallax="top"><img class="hero__img parallax__img" src="/assets/img/hero/hero-home.jpg" alt="Інтер'єр крафтової дистилерії: мідна перегонна апаратура, дерев'яні бочки та готові пляшки" fetchpriority="high" /></div>
+        <div class="hero__inner">
+          <div class="hero__lead">
+            <p class="hero__text">Bazylsprings — віскі. YasnoCraft — джин, кальвадос і фруктові шнапси. Повний цикл від зерна до пляшки, під одним дахом.</p>
+            <a class="btn btn--primary" href="/catalog.html">Перейти до каталогу ↗</a>
+          </div>
+          <!-- кнопку месенджера прибрано макетом; посилання від клієнта ще не надано, повернути при потребі (home-copy.md, п. 2) -->
+          <div class="hero__head">
+            <h1 class="hero__title" id="hero-title">Два характери<br> Одна майстерня</h1>
+            <p class="hero__eyebrow">Українська дистилерія · Ясногородка</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section about-home" aria-labelledby="about-title">
+        <h2 class="visually-hidden" id="about-title">Про дім</h2>
+        <div class="about-home__row">
+          <figure class="about-home__figure" data-parallax>
+            <img class="about-home__photo parallax__img" src="/assets/img/about/about-home.jpg" alt="Мідні перегонні куби на виробництві" width="933" height="1400" loading="lazy">
+          </figure>
+          <p class="home-manifest">Дистилерія — це не просто виробництво. У Ясногородці ми пройшли весь шлях від зерна до пляшки: осолодження, варіння, зброджування, дистиляція — і далі, до самого розливу.</p>
+          <div class="about-home__more">
+            <p class="about-home__lead">Два бренди живуть під одним дахом і мають один підхід: кожен етап ми контролюємо самі. Bazylsprings — віскі. YasnoCraft — джин, кальвадос, шнапси й настоянки. Ми розповідаємо про напій так, як його робимо: послідовно, без прикрас.</p>
+            <a class="btn btn--outline about-home__link" href="/about.html">Про дім ↗</a>
+          </div>
+        </div>
+        <!-- ⚠ 8 етапів (перелік), 400 л за зміну (актуальність), нагорода White Whiskey (рік і організатор): потребують підтвердження клієнтом — home-copy.md, «Дані для підтвердження» 2–4 -->
+        <div class="stats about-home__stats">
+          <div class="stats__item"><p class="stats__value">2</p><p class="stats__label">бренди під одним дахом</p></div>
+          <div class="stats__item"><p class="stats__value">8</p><p class="stats__label">етапів — від зерна до пляшки</p></div>
+          <div class="stats__item"><p class="stats__value">400 л</p><p class="stats__label">напоїв за одну зміну</p></div>
+          <div class="stats__item"><p class="stats__value">1</p><p class="stats__label">місце — White Whiskey · Ukrainian Craft Spirits Awards</p></div>
+        </div>
+      </section>
+
+      <section class="section" aria-labelledby="categories-title">
+        <div class="section__head section__head--center"><h2 class="section-title section-title--sub" id="categories-title">Усе, що варто спробувати</h2></div>
+        <ul class="category-list" id="home-categories"></ul>
+      </section>
+
+      <section class="section popular-choice" aria-labelledby="hits-title" data-popular-choice></section>
+
+      <section class="section occasion-section" id="occasions" aria-labelledby="occasions-title">
+        <div class="occasion-picker" id="home-occasions"></div>
+      </section>
+
+      <!-- Блок 8 «Бренди та приводи» пропущено: 4 з 6 карток мають непідтверджені ⚠-цілі (home-copy.md, п. 8) -->
+
+      <section class="section faq-section" aria-labelledby="faq-title">
+        <!-- ⚠ відповіді FAQ 1, 2, 4, 5, 6 мають непідтверджені дані — перелік у src/js/home.js та home-copy.md, п. 11 -->
+        <div class="section__grid">
+          <div class="section__head faq-section__head">
+            <p class="eyebrow">Питання</p>
+            <h2 class="section-title" id="faq-title">Коротко про головне.</h2>
+          </div>
+          <div class="section__body faq-section__body" id="home-faq"></div>
+        </div>
+      </section>
+
+    </main>
+    <!--@include cta-block-home-->
+    <!--@include footer-->
+    <script type="module" src="/src/js/header-overlay.js"></script>
+    <script type="module" src="/src/js/home.js"></script>
+  </body>
+</html>

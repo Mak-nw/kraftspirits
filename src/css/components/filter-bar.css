@@ -1,0 +1,17 @@
+/*
+ * filter-bar — смуга фільтрів над сіткою (верхня лінія, ліворуч фільтри, праворуч сортування і лічильник)
+ * Елементи: __filters, __tools, __count. Модифікатор --static вимикає sticky (для довідника).
+ * Поведінка: липне під header (top: --header-h, z-index: --z-bar).
+ * Всередині: .filter-select, .filter-toggle.
+ */
+.filter-bar {
+  display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between;
+  gap: var(--sp-4) var(--sp-7);
+  border-top: 1px solid var(--c-text); padding-top: var(--sp-4); padding-bottom: 20px;
+  position: sticky; top: var(--header-h); z-index: var(--z-bar); background: var(--c-bg);
+}
+.filter-bar--static { position: static; }
+.filter-bar__filters, .filter-bar__tools {
+  display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--sp-3) var(--filter-gap); font-size: var(--fs-body-sm);
+}
+.filter-bar__count { color: var(--c-muted); }

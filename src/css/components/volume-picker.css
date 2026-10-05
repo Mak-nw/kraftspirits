@@ -1,0 +1,47 @@
+/*
+ * volume-picker — вибір об'єму (група радіо-кнопок у fieldset)
+ * Елементи: __legend, __options, __option (label з input[type=radio] і підписом).
+ * Стани: input:checked — колір --c-text + пляшка із заливкою (без підкреслення); input:focus-visible — контур.
+ * Коли: товар має кілька об'ємів (картка, сторінка товару).
+ * На картці каталогу кожний варіант має іконку пляшки праворуч (__bottle).
+ */
+.volume-picker { margin: 0 0 14px; padding: 0; border: 0; min-width: 0; }
+.volume-picker__legend { display: block; width: 100%; padding: 0; margin-bottom: var(--sp-3); text-align: left; color: var(--c-muted); }
+.volume-picker__options { display: flex; flex-wrap: wrap; gap: var(--volume-gap); }
+.volume-picker__option {
+  display: flex; align-items: center; gap: var(--sp-2); font-size: var(--fs-body-sm); cursor: pointer;
+  color: var(--c-muted); transition: color var(--dur) var(--ease);
+  position: relative;
+}
+.volume-picker__option:hover { color: var(--c-text); }
+.volume-picker__option input {
+  appearance: none; -webkit-appearance: none; flex: none;
+  position: absolute; margin: 0; width: 0; height: 0; padding: 0; border: 0; opacity: 0;
+}
+.volume-picker__option input:checked ~ span { color: var(--c-text); }
+.volume-picker__option:has(input:focus-visible) { outline: 2px solid var(--c-focus); outline-offset: 2px; }
+.volume-picker__bottle { display: inline-flex; align-items: center; --bottle-scale: 0.35; }
+
+/*
+ * volume-picker--icons — модифікатор: горизонтальна кнопка вибору об'єму з іконкою пляшки зліва від підпису.
+ * Елементи: __tile (рамка), __icon (обгортка іконки), __text (підпис). Радіо візуально приховане, лишається доступним з клавіатури.
+ * Стани: невибраний — --c-muted; :hover — --c-text; вибраний (input:checked) — --c-text + рамка 1px + пляшка із заливкою; :focus-visible — контур.
+ * Плитки горизонтальні: висота --control-h (44px), ширина за вмістом (min-width для однакової ширини всіх). Масштаб іконок × 0.5.
+ * Коли: сторінка товару. На картці каталогу лишається компактний radio (без модифікатора).
+ */
+.volume-picker--icons { --bottle-scale: 0.5; }
+.volume-picker--icons .volume-picker__options { align-items: stretch; }
+.volume-picker--icons .volume-picker__option { position: relative; display: flex; align-items: stretch; gap: 0; }
+.volume-picker--icons .volume-picker__option input {
+  position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: 0; border: 0; cursor: pointer;
+}
+.volume-picker--icons .volume-picker__tile {
+  display: flex; flex-direction: row; align-items: center; justify-content: flex-start; gap: var(--sp-2);
+  height: var(--control-h); padding: var(--sp-1) var(--sp-3); border: 1px solid transparent; border-radius: var(--radius-none);
+  color: var(--c-muted); transition: color var(--dur) var(--ease), border-color var(--dur) var(--ease);
+}
+.volume-picker--icons .volume-picker__icon { display: flex; align-items: center; justify-content: center; line-height: var(--lh-none); flex: none; }
+.volume-picker--icons .volume-picker__text { flex: none; }
+.volume-picker--icons .volume-picker__option:hover .volume-picker__tile { color: var(--c-text); }
+.volume-picker--icons .volume-picker__option input:checked + .volume-picker__tile { color: var(--c-text); border-color: var(--c-text); }
+.volume-picker--icons .volume-picker__option input:focus-visible + .volume-picker__tile { outline: 2px solid var(--c-focus); outline-offset: 2px; }

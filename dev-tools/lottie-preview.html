@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="uk"><head><meta charset="utf-8"><title>Lottie preview (dev only)</title>
+<style>
+body{font:14px system-ui;margin:16px;background:#f4efe6;color:#2b1d14}
+.row{display:flex;flex-wrap:wrap;gap:24px;align-items:flex-end;margin:8px 0 20px}
+.cell{text-align:center}.box{background:#fff;border:1px solid #ccc;padding:0}
+h2{margin:12px 0 4px;font-size:15px}button{padding:6px 14px;font-size:14px}
+pre{background:#fff;padding:8px;white-space:pre-wrap}
+</style></head><body>
+<button id="replay">Повтор</button>
+<h2>Анімовані (Lottie, svg)</h2><div class="row" id="anim"></div>
+<h2>Статичні (Lottie)</h2><div class="row" id="stat"></div>
+<h2>SVG-оригінали</h2><div class="row" id="svg"></div>
+<h2>Результати перевірки</h2><pre id="out">…</pre>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.12.2/lottie.min.js"></script>
+<script>
+const S=6, keys=['0-5','0-7','1','basket'], H={'0-5':40,'0-7':50,'1':64,'basket':24}, nm=k=>k==='basket'?'basket':'bottle-'+k;
+const errors=[]; window.addEventListener('error',e=>errors.push(String(e.message)));
+const mk=(host,k,label)=>{const c=document.createElement('div');c.className='cell';const b=document.createElement('div');b.className='box';b.style.width=24*S+'px';b.style.height=H[k]*S+'px';c.append(b,label+' '+k);host.append(c);return b;};
+const anims={}, stats={};
+const loadL=(host,k,path,loop)=>new Promise((res,rej)=>{
+  const a=lottie.loadAnimation({container:mk(host,k,loop?'anim':'static'),renderer:'svg',loop:false,autoplay:loop,path});
+  a.addEventListener('data_failed',()=>rej(new Error('data_failed '+path)));
+  a.addEventListener('DOMLoaded',()=>res(a));
+});
+const cnt=(ctx,w,h)=>{const d=ctx.getImageData(0,0,w,h).data;let n=0,x0=w,y0=h,x1=-1,y1=-1;
+  for(let y=0;y<h;y++)for(let x=0;x<w;x++){if(d[(y*w+x)*4+3]>128){n++;if(x<x0)x0=x;if(x>x1)x1=x;if(y<y0)y0=y;if(y>y1)y1=y;}}
+  return {n,bbox:n?[x0,y0,x1,y1]:null};};
+function lottieCanvas(k,path,frame){return new Promise((res,rej)=>{
+  const host=document.createElement('div');host.style.cssText='position:absolute;left:-9999px;width:'+24*S+'px;height:'+H[k]*S+'px';document.body.append(host);
+  const a=lottie.loadAnimation({container:host,renderer:'svg',loop:false,autoplay:false,path});
+  a.addEventListener('data_failed',()=>rej(new Error('fail '+path)));
+  a.addEventListener('DOMLoaded',()=>{a.goToAndStop(frame,true);setTimeout(()=>{
+    const el=host.querySelector('svg');el.setAttribute('width',24*S);el.setAttribute('height',H[k]*S);
+    const xml=new XMLSerializer().serializeToString(el);const im=new Image();
+    im.onload=()=>{const cv=document.createElement('canvas');cv.width=24*S;cv.height=H[k]*S;const c=cv.getContext('2d');c.drawImage(im,0,0);res(cnt(c,cv.width,cv.height));a.destroy();host.remove();};
+    im.onerror=rej;im.src='data:image/svg+xml;charset=utf-8,'+encodeURIComponent(xml);},50);});
+});}
+function svgCanvas(k){return new Promise((res,rej)=>{const im=new Image();im.onload=()=>{const cv=document.createElement('canvas');cv.width=24*S;cv.height=H[k]*S;const c=cv.getContext('2d');c.drawImage(im,0,0,cv.width,cv.height);res(cnt(c,cv.width,cv.height));};im.onerror=rej;im.src='/assets/icons/'+nm(k)+'.svg';});}
+(async()=>{
+  const out={};
+  try{
+    for(const k of keys){
+      anims[k]=await loadL(document.getElementById('anim'),k,`/assets/icons/${nm(k)}.json`,true);
+      stats[k]=await loadL(document.getElementById('stat'),k,`/assets/icons/${nm(k)}.static.json`,false);
+      const im=document.createElement('img');im.src=`/assets/icons/${nm(k)}.svg`;im.width=24*S;im.height=H[k]*S;im.className='box';
+      const c=document.createElement('div');c.className='cell';c.append(im,'svg '+k);document.getElementById('svg').append(c);
+    }
+    out.loaded=8;
+    for(const k of keys){
+      const sv=await svgCanvas(k);
+      const f90=await lottieCanvas(k,`/assets/icons/${nm(k)}.json`,89);
+      const st=await lottieCanvas(k,`/assets/icons/${nm(k)}.static.json`,0);
+      const f0=await lottieCanvas(k,`/assets/icons/${nm(k)}.json`,0);
+      const f22=await lottieCanvas(k,`/assets/icons/${nm(k)}.json`,22);
+      const dev=(a,b)=>Math.round(Math.abs(a-b)/b*1000)/10;
+      out[k]={svg:sv,f89:f90,static:st,f0:f0.n,f22:f22.n,dev89pct:dev(f90.n,sv.n),devStaticPct:dev(st.n,sv.n)};
+      const bd=(a,b)=>a&&b?Math.max(...a.map((v,i)=>Math.abs(v-b[i]))):null;
+      out[k].bboxDiff89=bd(f90.bbox,sv.bbox);
+      if(k==='basket'){
+        const f0s=f0.n===0, f22p=f22.n>0&&f22.n<f90.n;
+        out.basket.checks={dev89Le15:out.basket.dev89pct<=15,bboxLe6:out.basket.bboxDiff89!==null&&out.basket.bboxDiff89<=6,frame0Empty:f0s,frame22Partial:f22p,
+          insideViewBox:sv.bbox&&sv.bbox[0]>=0&&sv.bbox[1]>=0&&sv.bbox[2]<=24*S-1&&sv.bbox[3]<=24*S-1};
+        out.basket.checks.all=Object.values(out.basket.checks).every(Boolean);
+      }
+    }
+  }catch(e){out.error=String(e);}
+  out.errors=errors;window.__lottieCheck=out;
+  document.getElementById('out').textContent=JSON.stringify(out,null,1);
+  document.getElementById('replay').onclick=()=>keys.forEach(k=>anims[k].goToAndPlay(0,true));
+  keys.forEach(k=>anims[k]&&anims[k].goToAndStop(89,true));
+})();
+</script></body></html>

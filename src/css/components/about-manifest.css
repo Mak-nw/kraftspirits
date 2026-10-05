@@ -1,0 +1,59 @@
+/*
+ * about-manifest — блок «Маніфест» сторінки «Про дім»: eyebrow + H2-речення + абзац по центру на теплій картці з фоном-кільцями.
+ * Елементи: __rings (div aria-hidden, absolute inset 0) → 9 __ring (окремий інлайн-svg з одним еліпсом), __content (центр, z-index над кільцями), __eyebrow, __title (.is-sentence), __text.
+ * Кільця: stroke currentColor (--c-brown, теплий коричневий) × --about-rings-opacity; рух лише transform: scaleX (композитор), хвиля WAAPI у rings.js (пауза поза екраном — animation.pause()); reduced-motion — статичні масштаби.
+ * Краї: mask-image (2 лінійні градієнти, intersect) на __bg; текст поза маскою. Розрив навколо тексту: mask-image на __rings (радіальний градієнт; --mask-solid — альфа-стоп, не колір).
+ * Коли: смуга-заява під hero «Про дім». Токени: --fs-manifest-about, --about-manifest-*, --about-rings-*, --about-ring-pulse/-stagger/-cycle, --about-manifest-fade-x/-y, --mask-solid.
+ */
+.about-manifest {
+  position: relative; isolation: isolate; overflow: hidden;
+  margin: var(--sp-10) var(--page-pad);
+  aspect-ratio: var(--about-manifest-ratio);
+  display: flex; align-items: center; justify-content: center;
+  padding: var(--about-manifest-pad);
+}
+/* шар фону (заливка + кільця): краї розчиняються в --c-bg маскою (feathering); текст — сусідній шар поза маскою */
+.about-manifest__bg {
+  position: absolute; inset: 0; z-index: 0; pointer-events: none;
+  background:
+    radial-gradient(ellipse 60% 70% at 50% 55%, var(--c-tile) 0%, transparent 100%),
+    radial-gradient(ellipse 45% 55% at 82% 20%, color-mix(in srgb, var(--c-text) 7%, transparent) 0%, transparent 100%);
+  -webkit-mask-image:
+    linear-gradient(to right, transparent 0, var(--mask-solid) var(--about-manifest-fade-x), var(--mask-solid) calc(100% - var(--about-manifest-fade-x)), transparent 100%),
+    linear-gradient(to bottom, transparent 0, var(--mask-solid) var(--about-manifest-fade-y), var(--mask-solid) calc(100% - var(--about-manifest-fade-y)), transparent 100%);
+  mask-image:
+    linear-gradient(to right, transparent 0, var(--mask-solid) var(--about-manifest-fade-x), var(--mask-solid) calc(100% - var(--about-manifest-fade-x)), transparent 100%),
+    linear-gradient(to bottom, transparent 0, var(--mask-solid) var(--about-manifest-fade-y), var(--mask-solid) calc(100% - var(--about-manifest-fade-y)), transparent 100%);
+  -webkit-mask-composite: source-in;
+  mask-composite: intersect;
+}
+.about-manifest__rings {
+  position: absolute; inset: 0;
+  color: var(--c-brown); opacity: var(--about-rings-opacity);
+  -webkit-mask-image: radial-gradient(ellipse var(--about-rings-mask-rx) var(--about-rings-mask-ry) at 50% 50%, transparent 0 75%, var(--mask-solid) 100%);
+  mask-image: radial-gradient(ellipse var(--about-rings-mask-rx) var(--about-rings-mask-ry) at 50% 50%, transparent 0 75%, var(--mask-solid) 100%);
+}
+/* кожне кільце — власний <svg> (transform на кореневому svg іде через композитор без перерахунку layout, на відміну від transform дочірніх SVG-елементів) */
+.about-manifest__ring {
+  position: absolute; top: 10%; height: 80%; overflow: visible;
+  transform-origin: center; will-change: transform;
+  transform: scaleX(1); /* без JS — статично; хвилю веде rings.js (WAAPI) */
+}
+.about-manifest__ring ellipse { fill: none; stroke: currentColor; stroke-width: var(--about-rings-stroke); vector-effect: non-scaling-stroke; }
+.about-manifest__ring:nth-child(1) { left: -1.25%; width: 7.5%; --ring-scale: 1; }
+.about-manifest__ring:nth-child(2) { left: 2.5%; width: 18.75%; --ring-scale: 0.9; }
+.about-manifest__ring:nth-child(3) { left: 18.125%; width: 15%; --ring-scale: 0.7; }
+.about-manifest__ring:nth-child(4) { left: 34%; width: 12%; --ring-scale: 0.5; }
+.about-manifest__ring:nth-child(5) { left: 49.375%; width: 8.75%; --ring-scale: 0.35; }
+.about-manifest__ring:nth-child(6) { left: 63.125%; width: 6.25%; --ring-scale: 0.25; }
+.about-manifest__ring:nth-child(7) { left: 75.375%; width: 4.25%; --ring-scale: 0.18; }
+.about-manifest__ring:nth-child(8) { left: 86.125%; width: 2.75%; --ring-scale: 0.12; }
+.about-manifest__ring:nth-child(9) { left: 95.375%; width: 1.75%; --ring-scale: 0.08; }
+@media (prefers-reduced-motion: reduce) {
+  .about-manifest__ring { will-change: auto; transform: scaleX(var(--ring-scale, 1)); }
+}
+.about-manifest__content { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; text-align: center; gap: var(--sp-4); }
+.about-manifest__eyebrow { margin: 0; color: var(--c-muted); }
+.about-manifest__title { margin: 0; max-width: var(--about-manifest-title-w); color: var(--c-text); }
+.about-manifest__text { margin: 0; max-width: var(--about-manifest-text-w); color: var(--c-text-soft); }
+@media (max-width: 900px) { .about-manifest { aspect-ratio: auto; padding-block: var(--sp-9); } } /* вузькі екрани: висота за вмістом */

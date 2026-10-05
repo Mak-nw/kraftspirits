@@ -1,0 +1,59 @@
+/*
+ * brand-split — sticky-split «Два бренди» (сторінка «Про дім»): ліва половина — фото бренду, що ЗАЛИПАЄ й змінюється (crossfade) разом із текстом справа.
+ * Структура: .about-brands (секція) → __head (.container: eyebrow + H2) + __split (grid 50/50, align-items:start, на всю ширину вікна) →
+ *   __media (sticky; top --header-h; height 100svh − --header-h; aria-hidden) → __layer×2 (absolute inset 0; .is-active = opacity 1) → __img + __logo (заглушка);
+ *   __panels → __panel×2 (min-height як у media; flex-колонка по центру; aria-current) → __intro (__copy: eyebrow/__name/__text | __detail фото 4:5), __facts (dl: __fact), __cta.
+ * Права панель на осях сітки сайту: padding-left = --grid-gap/2, padding-right = --page-pad → колонки 3 і 4 хедера (ліво тексту = left колонки 3, право фото = right колонки 4).
+ * Sticky: між __media і __split немає предків з overflow. Перемикання: JS brand-split.js (IntersectionObserver, rootMargin -45% 0 -45% 0) ставить .is-active на шар.
+ * Читабельність лого: лише локальний радіальний шар (--c-image-shade-local) навколо напису, фото не затемнюється. reduced-motion: без анімації.
+ * Токени: --fs-brand-logo, --fs-brand-title, --c-image-shade-local, --about-brands-shade-w/-h, --about-brands-count-inset, --dur-slow.
+ */
+.about-brands__split {
+  display: grid; grid-template-columns: calc(50% + var(--grid-gap) / 2 - var(--page-pad)) minmax(0, 1fr); column-gap: calc(var(--page-pad) - var(--grid-gap) / 2); align-items: start;
+}
+
+/* ліва половина: липка рамка зі шарами */
+.about-brands__media {
+  position: sticky; top: var(--header-h);
+  height: calc(100svh - var(--header-h));
+  background: var(--c-tile);
+}
+.about-brands__layer { position: absolute; inset: 0; opacity: 0; transition: opacity var(--dur-slow) var(--ease); }
+.about-brands__layer.is-active { opacity: 1; }
+.about-brands__img { display: block; width: 100%; height: 100%; object-fit: cover; }
+/* локальний м'який шар лише навколо лого */
+.about-brands__layer::after {
+  content: ''; position: absolute; inset: 0; pointer-events: none;
+  background: radial-gradient(ellipse var(--about-brands-shade-w) var(--about-brands-shade-h) at 50% 50%, var(--c-image-shade-local) 0%, transparent 100%);
+}
+.about-brands__logo {
+  position: absolute; inset: 0; z-index: 1; display: flex; align-items: center; justify-content: center; margin: 0;
+  color: var(--c-on-image);
+  text-shadow: 0 0 var(--sp-6) var(--c-image-shade); /* м'яке сяйво лише навколо літер (не затемнення фото) */
+}
+
+/* права половина: панелі */
+.about-brands__panel {
+  min-height: calc(100svh - var(--header-h));
+  display: flex; flex-direction: column; justify-content: center; gap: var(--sp-7);
+  padding: var(--sp-6) var(--page-pad) var(--sp-6) calc(var(--grid-gap) / 2);
+  background: var(--c-bg);
+}
+.about-brands__intro { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: var(--grid-gap); align-items: start; }
+.about-brands__copy { display: flex; flex-direction: column; gap: var(--sp-5); min-width: 0; }
+.about-brands__name {
+  overflow-wrap: anywhere; color: var(--c-text); margin: 0;
+}
+.about-brands__text { margin: 0; }
+.about-brands__detail { display: block; width: calc(100% * var(--brands-detail-scale)); height: auto; aspect-ratio: 4 / 5; object-fit: cover; border-radius: var(--radius-none); justify-self: end; align-self: start; }
+
+.about-brands__facts { margin: 0; }
+.about-brands__fact {
+  display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: var(--grid-gap);
+  padding-block: var(--sp-4); border-top: 1px solid var(--c-divider);
+}
+.about-brands__fact:last-child { border-bottom: 1px solid var(--c-divider); }
+.about-brands__fact dd { margin: 0; }
+.about-brands__cta { align-self: flex-start; }
+
+@media (prefers-reduced-motion: reduce) { .about-brands__layer { transition: none; } }

@@ -1,0 +1,20 @@
+/*
+ * parallax — фото всередині рамки зі зміщенням при прокрутці (рамка нерухома, ковзає лише зображення)
+ * Розмітка: рамка [data-parallax] (позиціонована; задає розмір сама: aspect-ratio / висота батька) + <img class="parallax__img"> усередині.
+ * Атрибути: data-parallax — p від входу рамки знизу до виходу вгору; data-parallax="top" — p = 0 на scrollY=0 (hero), до 1 коли рамка пішла вгору.
+ * Фото розміром: img.height = frame.height + (frame.height × --parallax-travel × --parallax-factor) → завжди повністю перекриває рамку.
+ * Рух: transform: translate3d(0, var(--parallax-y), 0); --parallax-y пише parallax.js на рамку з інерційним згладжуванням (lerp за --parallax-ease).
+ * prefers-reduced-motion: reduce — паралакс вимкнено: фото заповнює рамку (object-fit: cover), без transform. Не застосовувати до фото товарів, іконок, SVG.
+ * JS: src/js/components/parallax.js (initParallax(root)). Токени: --parallax-travel (0.12), --parallax-factor (0.45), --parallax-ease (0.1).
+ */
+[data-parallax] { overflow: hidden; }
+.parallax__img {
+  position: absolute; left: 0; top: 0; display: block; width: 100%; height: auto;
+  min-height: calc(100% * (1 + var(--parallax-travel)));
+  max-height: var(--parallax-img-max, none);
+  object-fit: cover; object-position: center;
+  transform: translate3d(0, var(--parallax-y, 0px), 0);
+}
+@media (prefers-reduced-motion: reduce) {
+  .parallax__img { top: 0; height: 100%; min-height: 0; max-height: none; will-change: auto; transform: none; }
+}

@@ -1,0 +1,87 @@
+/*
+ * header — липка шапка: логотип, меню (дві групи), кошик, кнопка «Підказати?»
+ * Елементи: __logo, __nav, __group, __actions, __cart, __contact--hint. Пункти меню мають .link-underline ([aria-current='page'] — активний).
+ * Сітка та сама, що в каталозі (tokens: --page-pad, --grid-gap, --grid-cols); висота фіксована --header-h на кожному брейкпоінті.
+ * Partial: partials/header.html.
+ */
+.header {
+  display: grid; grid-template-columns: repeat(var(--grid-cols), minmax(0, 1fr)); column-gap: var(--grid-gap);
+  position: sticky; top: 0; z-index: var(--z-header);
+  align-items: center; height: var(--header-h);
+  padding-inline: var(--page-pad);
+  font-size: var(--fs-body); color: var(--c-text); background: var(--c-bg);
+}
+.header__logo { white-space: nowrap; }
+.header__nav { display: contents; }
+.header__group { display: flex; align-items: center; gap: var(--nav-gap); white-space: nowrap; }
+.header__actions { display: flex; align-items: center; justify-content: space-between; gap: var(--nav-gap); white-space: nowrap; }
+.header__cart {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-2);
+  padding: var(--sp-2) var(--sp-3);
+  border: 1px solid transparent;
+  margin: calc(-1 * (var(--sp-2) + 1px)) calc(-1 * (var(--sp-3) + 1px));
+  background: none;
+  border-radius: var(--radius-none);
+  font-size: var(--fs-body);
+  transition: border-color var(--dur) var(--ease);
+}
+.header__cart:hover,
+.header__cart:focus-visible {
+  border-color: var(--c-text);
+}
+.header__cart:focus-visible {
+  outline: none;
+}
+.header__cart-icon {
+  width: 1.4em;
+  height: 1.4em;
+  flex-shrink: 0;
+}
+.header__contact--hint {
+  background: var(--c-text);
+  color: var(--c-bg);
+  padding: 10px 18px;
+  border-radius: var(--radius-none);
+  font-size: var(--fs-body-sm);
+  border: 1px solid var(--c-text);
+  transition: opacity var(--dur) var(--ease);
+}
+.header__contact--hint:hover,
+.header__contact--hint:focus-visible {
+  opacity: 0.9;
+}
+
+/* сторінки з hero під шапкою: головна (.page-index, білий overlay-стиль) і «Про дім» (.has-hero-overlay--light: прозорий фон, ТЕМНІ кольори, hero-небо світле); фіксований header поверх hero, після прокрутки — звичайний (.header--solid, src/js/header-overlay.js) */
+body:is(.page-index, .has-hero-overlay--light) .header { position: fixed; inset: 0 0 auto 0; transition: background var(--dur) var(--ease), color var(--dur) var(--ease), height var(--dur) var(--ease); }
+/* hero-стан ЛИШЕ на головній (.page-index): великий вордмарк і вища шапка; меню/кошик лишаються на осі дефолтної висоти (центр --header-h від верху); .header--compact (scrollY > 24px, header-overlay.js) — дефолтні лого й висота. На .page-about лого завжди compact (--fs-logo), бо вордмарк KraftSpirits уже в hero */
+body.page-index .header:not(.header--compact) { height: var(--header-h-hero); align-items: start; }
+body.page-index .header:not(.header--compact) .header__group,
+body.page-index .header:not(.header--compact) .header__actions { height: var(--header-h); align-items: center; }
+body:is(.page-index, .has-hero-overlay--light) .header .header__logo { align-self: center; transition: font-size var(--dur) var(--ease), margin-top var(--dur) var(--ease); }
+/* головна: лого завжди align-self:start + margin-top (щоб перехід hero→compact був плавним без стрибка вирівнювання): compact — центр гліфів на осі центру --header-h; hero — верх гліфів КАПС на лінії верху літер меню (--header-menu-cap-top) */
+body.page-index .header .header__logo { align-self: start; margin-top: calc(var(--header-h) / 2 - var(--header-logo-cap-mid) * 1em); }
+body.page-index .header:not(.header--compact) .header__logo { font-size: var(--header-logo-fs-hero); margin-top: calc(var(--header-menu-cap-top) - var(--header-logo-cap-top) * 1em); }
+@media (prefers-reduced-motion: reduce) {
+  body:is(.page-index, .has-hero-overlay--light) .header, body:is(.page-index, .has-hero-overlay--light) .header .header__logo { transition: none; }
+}
+body:is(.page-index, .has-hero-overlay--light) .header:not(.header--solid) { background: transparent; }
+body.page-index .header:not(.header--solid) { color: var(--c-on-image); }
+body.page-index .header:not(.header--solid) .header__cart:hover,
+body.page-index .header:not(.header--solid) .header__cart:focus-visible { border-color: var(--c-on-image); }
+body.page-index .header:not(.header--solid) .header__contact--hint { background: var(--c-on-image); border-color: var(--c-on-image); color: var(--c-text); }
+body.page-index .header:not(.header--solid) a:focus-visible { outline-color: var(--c-on-image); }
+
+@media (max-width: 1099px) {
+  .header { grid-template-columns: auto 1fr auto; column-gap: var(--nav-gap); padding-block: 12px; }
+  .header__nav { display: flex; flex-wrap: wrap; gap: 6px var(--nav-gap); }
+}
+@media (max-width: 759px) {
+  .header { grid-template-columns: 1fr auto; row-gap: 8px; }
+  .header__nav {
+    grid-column: 1 / -1; grid-row: 2; flex-wrap: nowrap; overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .header__nav::-webkit-scrollbar { display: none; }
+}

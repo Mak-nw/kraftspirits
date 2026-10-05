@@ -1,0 +1,65 @@
+/*
+ * card-slider — горизонтальний слайдер карток товарів із «виглядом» наступної картки
+ * Елементи: __viewport (прокрутка, scroll-snap), __track, __item (клітинка з product-card), __tools (кнопка «Весь каталог» у шапці секції), .slider-arrow (круглі ‹ › ПОВЕРХ слайдера, див. нижче).
+ * Геометрія: слайдер займає ВСЮ ширину вікна (margin-inline = −--page-pad); у __viewport padding-inline-start = scroll-padding-inline-start = --page-pad → перша картка на осі, під час прокрутки картки йдуть під лівий і правий край вікна (не обрізаються контейнером).
+ *   Ширина картки W = (ширина вікна − --page-pad − 4·--grid-gap) / (4 + --slider-peek): 4 повні картки + 5-та видима на --slider-peek (20%) ширини. Рахує CSS (cqw), без JS.
+ * Гортання: крок рівно одна картка (card-slider.js, scrollBy W+gap), scroll-snap x mandatory; не зациклено. Кінець: padding-inline-end треку = --page-pad, тож права межа останньої картки = краю вікна − --page-pad (ліворуч виглядає попередня картка).
+ * Стрілки slider-arrow (спец-компонент, виняток із «лише прямокутні» за макетом): діаметр --slider-arrow-size, 1px контур, position:absolute у .card-slider; ліва — left: --slider-arrow-inset,
+ *   (відлік від вікна: ліва — --page-pad + --slider-arrow-inset), права — right: --slider-arrow-inset; вертикальний центр = --slider-arrow-top-ratio висоти плитки (плитка 1:1 = ширині картки). Стани за scrollLeft (клас на .card-slider):
+ *   .is-at-start — лише права (primary); .is-mid — обидві, ліва secondary (напівпрозора, світліший контур); .is-at-end — лише ліва (primary). Прихована = opacity 0 + visibility hidden + aria-hidden.
+ * Коли: добірка карток на головній («Популярний вибір»). Слайдер = вся ширина вікна, тож горизонтального скролу сторінки немає (overflow-x: clip на секції home.css не потрібен, але не шкодить).
+ */
+.card-slider { container-type: inline-size; position: relative; margin-inline: calc(-1 * var(--page-pad)); } /* слайдер на всю ширину вікна (предок .section має padding-inline --page-pad) */
+.card-slider__viewport {
+  overflow-x: auto; overflow-y: clip; overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory; scrollbar-width: none;
+  padding-block: var(--sp-1); margin-block: calc(-1 * var(--sp-1));
+  padding-inline-start: var(--page-pad); scroll-padding-inline-start: var(--page-pad); /* перша картка на осі --page-pad, а під час прокрутки картки йдуть під лівий край вікна */
+}
+.card-slider__viewport::-webkit-scrollbar { display: none; }
+.card-slider__viewport:focus-visible { outline: 1px solid var(--c-focus); outline-offset: var(--sp-1); }
+.card-slider__track {
+  display: flex; gap: var(--grid-gap); width: max-content; min-width: 100%;
+  padding-inline-end: var(--page-pad); /* кінець: права межа останньої картки = краю вікна − --page-pad */
+}
+.card-slider {
+  --slider-card-w: calc((100cqw - var(--page-pad) - var(--slider-visible) * var(--grid-gap)) / (var(--slider-visible) + var(--slider-peek)));
+}
+.card-slider__item { flex: 0 0 var(--slider-card-w); min-width: 0; display: flex; scroll-snap-align: start; }
+.card-slider__item > .product-card { flex: 1; }
+.card-slider .product-card__media { aspect-ratio: var(--card-slider-media-ratio); }
+
+.card-slider__tools { grid-row: 1; grid-column: 3 / -1; justify-self: end; align-self: end; display: flex; align-items: center; gap: var(--sp-5); }
+.card-slider__nav { display: flex; align-items: center; gap: var(--gallery-nav-gap); }
+.card-slider__nav .gallery__nav-btn { background: var(--c-tile); }
+.card-slider__nav .gallery__nav-btn[aria-disabled='true'] { opacity: 0.35; cursor: default; }
+
+.slider-arrow {
+  position: absolute; z-index: calc(var(--z-card-panel) + 1);
+  top: calc(var(--slider-card-w) * var(--slider-arrow-top-ratio) - var(--slider-arrow-size) / 2);
+  display: flex; align-items: center; justify-content: center; padding: 0;
+  width: var(--slider-arrow-size); height: var(--slider-arrow-size);
+  color: var(--c-text); border: 1px solid var(--c-text); border-radius: 50%;
+  background: color-mix(in srgb, var(--c-bg) 86%, transparent);
+  transition: opacity var(--dur) var(--ease), visibility var(--dur) var(--ease), border-color var(--dur) var(--ease), background-color var(--dur) var(--ease);
+}
+.slider-arrow--prev { left: calc(var(--page-pad) + var(--slider-arrow-inset)); }
+.slider-arrow--next { right: var(--slider-arrow-inset); }
+.slider-arrow svg { width: 20px; height: 20px; stroke: currentColor; fill: none; stroke-width: 1.5; }
+.slider-arrow:hover { background: var(--c-bg); border-color: var(--c-text); }
+.slider-arrow:focus-visible { outline: 1px solid var(--c-focus); outline-offset: 3px; }
+.card-slider.is-mid .slider-arrow--prev {
+  background: color-mix(in srgb, var(--c-bg) 55%, transparent);
+  border-color: color-mix(in srgb, var(--c-text) 45%, transparent);
+}
+.card-slider.is-mid .slider-arrow--prev:hover { background: var(--c-bg); border-color: var(--c-text); }
+.slider-arrow[aria-hidden='true'] { opacity: 0; visibility: hidden; pointer-events: none; }
+@media (prefers-reduced-motion: reduce) { .slider-arrow { transition: none; } }
+
+/* Остання картка-заклик (renderCardSlider({ cta })): заливка --c-tile, вгорі ліворуч КАПС-заголовок (2 рядки) і Inter-абзац (відступи --sp-6), кнопка btn--primary btn--block FLUSH до низу (радіус 0) → висота = товарним (stretch) */
+.card-slider__item > .catalog-cta { flex: 1; }
+.catalog-cta { display: flex; flex-direction: column; justify-content: space-between; min-width: 0; background: var(--c-tile); border-radius: var(--radius-none); }
+.catalog-cta__body { display: flex; flex-direction: column; align-items: flex-start; text-align: left; gap: var(--sp-5); padding: var(--sp-6) var(--sp-6) 0; }
+.catalog-cta__name { overflow-wrap: normal; }
+.catalog-cta__text { color: var(--c-muted-strong); }
+.catalog-cta__btn { height: var(--control-h); align-items: center; justify-content: center; padding-block: 0; border-radius: var(--radius-none); }

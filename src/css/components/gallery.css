@@ -1,0 +1,77 @@
+/*
+ * gallery — галерея товару: колонка мініатюр + головна плитка 4:5 на --c-tile
+ * Елементи: __main (плитка з бейджем), __img (фото, mix-blend-mode: multiply), __rail (обгортка слайдера мініатюр), __thumbs (список-вьюпорт зі scroll-snap), __thumb (кнопка з фото), __thumb-img.
+ * Стани: __thumb[aria-current='true'] — активна, рамка 1px --c-text; :hover — приглушення; :focus-visible — глобальний контур.
+ * Мініатюри — вертикальний слайдер (≥1100px): колонка завжди рівно висотою головної плитки (__rail не впливає на висоту ряду, __thumbs позиціонований absolute), overflow: hidden без нативної прокрутки (scroll-snap y mandatory, overscroll-behavior: contain). Якщо мініатюри вміщаються — вони зверху, під ними порожньо.
+ * Адаптив: ≥1100px — мініатюри ліворуч вузькою колонкою (1/6 ширини); ≤1099px — під фото горизонтальний ряд (scroll-snap x, ширина мініатюри — --gallery-thumb-w).
+ * Навігація кадрів (__nav, __nav-btn): смуга внизу головної плитки, відступ --card-pad-x; кнопки ←/→ (--gallery-nav-size, gap --gallery-nav-gap); лише коли кадрів > 1; зациклення; ←/→ на плитці, свайп ≥40px (touch-action: pan-y); crossfade --dur (.is-swap).
+ * Бейдж картки (.badge) — зліва вгорі плитки, як у каталозі.
+ * Поведінка і шаблон: src/js/components/gallery.js (renderGallery, bindGalleries).
+ * Модифікатор --sticky (≥1100px): галерея липне під header (top: --header-h), висота = 100svh − --header-h − --page-pad; головна плитка заповнює висоту, мініатюри — вертикальний слайдер тієї ж висоти. Батьківський grid-елемент має бути на всю висоту ряду (align-self: stretch), без overflow у предках. ≤1099px — звичайна галерея.
+ * Коли використовувати: сторінка товару, кілька кадрів одного товару.
+ */
+.gallery {
+  display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 5fr); column-gap: var(--grid-gap);
+  grid-template-areas: 'thumbs main'; align-items: start; min-width: 0;
+}
+.gallery__main { grid-area: main; position: relative; overflow: hidden; aspect-ratio: 4 / 5; background: var(--c-tile); }
+.gallery__img { width: 100%; height: 100%; object-fit: cover; mix-blend-mode: multiply; }
+.gallery__img.is-swap { animation: gallery-fade var(--dur) var(--ease); }
+@keyframes gallery-fade { from { opacity: 0; } to { opacity: 1; } }
+@media (prefers-reduced-motion: reduce) { .gallery__img.is-swap { animation: none; } }
+.gallery__main[tabindex] { touch-action: pan-y; }
+
+/* навігація кадрів: смуга внизу плитки; лічильник ліворуч, ←/→ праворуч; фон плашок --c-bg з легкою прозорістю */
+.gallery__nav {
+  position: absolute; left: 0; right: 0; bottom: var(--card-pad-x); z-index: var(--z-card-badge);
+  display: flex; align-items: center; justify-content: space-between; gap: var(--gallery-nav-gap); padding: 0 var(--card-pad-x); pointer-events: none;
+}
+.gallery__steps { display: flex; align-items: center; gap: var(--gallery-nav-gap); }
+.gallery__nav-btn {
+  pointer-events: auto; flex: none; display: flex; align-items: center; justify-content: center;
+  width: var(--gallery-nav-size); height: var(--gallery-nav-size); padding: 0;
+  color: var(--c-text); background: color-mix(in srgb, var(--c-bg) 88%, transparent); border: 0; border-radius: var(--radius-none);
+  transition: opacity var(--dur) var(--ease);
+}
+.gallery__nav-btn svg { width: 20px; height: 20px; stroke: currentColor; fill: none; stroke-width: 1.5; }
+.gallery__nav-btn:hover { opacity: 0.7; }
+.gallery .badge { position: absolute; top: var(--sp-3); left: 0; z-index: var(--z-card-badge); }
+
+.gallery__rail { grid-area: thumbs; align-self: stretch; position: relative; min-width: 0; }
+.gallery__rail-box { position: absolute; inset: 0; display: flex; flex-direction: column; gap: var(--grid-gap); min-height: 0; }
+.gallery__thumbs {
+  flex: 1 1 0; min-height: 0; margin: 0; padding: 0; list-style: none;
+  display: flex; flex-direction: column; gap: var(--grid-gap);
+  overflow: hidden auto; scroll-snap-type: y mandatory; overscroll-behavior: contain; scrollbar-width: none;
+}
+.gallery__thumbs::-webkit-scrollbar { display: none; }
+.gallery__thumbs > li { flex: none; scroll-snap-align: start; }
+.gallery__thumb {
+  display: block; width: 100%; padding: 0; overflow: hidden;
+  aspect-ratio: 4 / 5; background: var(--c-tile);
+  border: 1px solid transparent; border-radius: var(--radius-none);
+  transition: opacity var(--dur) var(--ease), border-color var(--dur) var(--ease);
+}
+.gallery__thumb:hover { opacity: 0.7; }
+.gallery__thumb[aria-current='true'] { border-color: var(--c-text); opacity: 1; }
+.gallery__thumb-img { width: 100%; height: 100%; object-fit: cover; mix-blend-mode: multiply; }
+
+@media (max-width: 1099px) {
+  .gallery { grid-template-columns: minmax(0, 1fr); grid-template-areas: 'main' 'thumbs'; row-gap: var(--grid-gap); }
+  .gallery__rail { align-self: start; }
+  .gallery__rail-box { position: static; }
+  .gallery__thumbs { flex: none; flex-direction: row; overflow: auto hidden; scroll-snap-type: x mandatory; overscroll-behavior: contain; }
+  .gallery__thumbs > li { width: var(--gallery-thumb-w); }
+}
+
+/* sticky на висоту вюпорту: [header … --page-pad від низу вікна]; svh/dvh з fallback на vh */
+@media (min-width: 1100px) {
+  .gallery--sticky {
+    position: sticky; top: var(--header-h);
+    height: calc(100vh - var(--header-h) - var(--page-pad));
+    height: calc(100svh - var(--header-h) - var(--page-pad));
+    grid-template-rows: minmax(0, 1fr);
+  }
+  .gallery--sticky .gallery__main { aspect-ratio: auto; height: 100%; min-height: 0; }
+  .gallery--sticky .gallery__img { object-fit: cover; object-position: center; }
+}
