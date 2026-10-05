@@ -45,7 +45,7 @@
 .product__def dd { margin: 0 0 var(--sp-3); }
 
 /* нижні блоки на всю ширину */
-.product__gift, .product__related { margin-top: var(--sp-10); }
+.product__gift, .product__related { margin-top: var(--section-pad-y); }
 .product__gift { display: grid; grid-template-columns: repeat(var(--grid-cols), minmax(0, 1fr)); column-gap: var(--grid-gap); align-items: start; }
 .product__gift-head { grid-column: 1 / 3; }
 .product__gift-body { grid-column: 3 / 5; }

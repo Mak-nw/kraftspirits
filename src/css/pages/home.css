@@ -12,3 +12,7 @@ body.page-index main { display: block; }
 /* FAQ: шапка на 3 ліві колонки, під нею вся ширина сітки для трьох колонок карток */
 .faq-section__head { grid-column: 1 / span 3; }
 .faq-section__body { grid-column: 1 / -1; }
+
+/* Категорії: відступ до списку міряється по чорнилу першої назви (як eyebrow у інших секцій) = --section-pad-y.
+   Від верху списку до cap-top назви: padding посилання (--sp-5) + половина (line-height 1 − cap-height) шрифту --fs-list-title. */
+body.page-index main > .section.home-categories { margin-top: calc(var(--section-pad-y) - var(--sp-5) - var(--fs-list-title) * (1 - var(--cap-h-serif)) / 2); }

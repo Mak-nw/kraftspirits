@@ -5,9 +5,10 @@
 // basketIcon({ className }) → інлайн-SVG іконка продуктового кошика 24×24 для кнопок (контур, currentColor).
 // icon(name) → інлайн-SVG <use> зі спрайта partials/icon-sprite.html (контур currentColor, бокс 1.25em, стилі — button.css .btn__icon).
 // name: 'arrow-up-right' (кнопка на ІНШУ сторінку/назовні), 'arrow-down' (якір на секцію нижче), 'headset' («Підказати?»). Правило стрілок — design-system.md «Кнопки».
+// name 'arrow-up-right-ink' — стрілка з viewBox, обрізаним по чорнилу (бокс = штрих; category-list), без viewBox на зовнішньому svg.
 // linkIcon(href) → стрілка за типом посилання: '#…' (або та сама сторінка + хеш) → arrow-down, інакше arrow-up-right.
 export function icon(name, cls = 'btn__icon') {
-  return `<svg class="${cls}" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="#i-${name}"/></svg>`;
+  return `<svg class="${cls}" ${name.endsWith('-ink') ? '' : 'viewBox="0 0 24 24" '}aria-hidden="true" focusable="false"><use href="#i-${name}"/></svg>`;
 }
 export function linkIcon(href = '') {
   return icon(String(href).startsWith('#') ? 'arrow-down' : 'arrow-up-right');

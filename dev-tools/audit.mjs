@@ -721,6 +721,7 @@ const contrast = (page) => page.evaluate((skipSel) => {
 // eyebrow→заголовок = --section-head-eyebrow-gap; заголовок→абзац (cta/manifest/visit/process/brand) = --section-title-text-gap;
 // шапка→контент (верх боксу контенту) = --section-head-body-gap; співвідношення: eyebrow-gap ≥ title-text-gap + 4px (у кожному блоці, де є eyebrow→заголовок→текст, ink-вимір те саме за токенами); всі ±2px; кнопка в .section__bar: |центр кнопки − ink-центр групи (cap-top eyebrow … baseline заголовка)| ≤ 2px.
 // Ink: Range.getClientRects (content-area, не залежить від line-height/trim) + canvas measureText('H').actualBoundingBoxAscent (cap) і fontBoundingBox{Ascent,Descent}. Діакритика Й/І не береться (cap-height).
+// + Відступ між сусідніми секціями (ink останній → eyebrow/перший елемент наступної) = --section-pad-y ±3 (винятки: .process, .cta-block, .about-manifest, каталожні смуги); FAQ title→контент = --section-head-body-gap ±2 (є в перевірці faq-page__title / .section__head).
 // Виняток: .process (pinned) — лише статичний layout; шапка→контент для cta/manifest/visit/brand не міряється (всередині панелі).
 const headRhythm = (page) => page.evaluate(() => {
   const tok = (name) => { const d = document.createElement('div'); d.style.cssText = `position:absolute;visibility:hidden;height:var(${name})`; document.body.appendChild(d); const h = d.getBoundingClientRect().height; d.remove(); return h; };
@@ -772,6 +773,54 @@ const headRhythm = (page) => page.evaluate(() => {
     const e = head.querySelector('.eyebrow'), t = head.querySelector(TITLE); const a = e && ink(e), c = t && ink(t); if (!a || !c) continue;
     const b = btn.getBoundingClientRect(), d = Math.abs((a.capTop + c.base) / 2 - (b.top + b.bottom) / 2);
     n++; if (d > 2) fails.push({ sel: lab(bar) + ' кнопка/ink-група', measured: d.toFixed(1) + 'px', expected: '≤2px (ink)' });
+  }
+  // FAQ: ink заголовка (baseline) → верх ПЕРШОЇ картки/акордеона (а не контейнера) = --section-head-body-gap ±2.
+  for (const t of document.querySelectorAll('#faq-title')) {
+    const root = t.closest('section'), card = root && [...root.querySelectorAll('.accordion')].find(vis);
+    const a = card && ink(t); if (!a) continue;
+    chk('FAQ ' + lab(t) + ' → перша картка', card.getBoundingClientRect().top - a.base, B);
+  }
+  // Відступ між СУСІДНІМИ секціями (main > *): ink останнього елемента попередньої → ink першого елемента наступної (eyebrow/заголовок/назва категорії/медіа) = --section-pad-y ±3px.
+  // Винятки (не міряються): dark full-bleed (.process, .cta-block / pre-footer — власний padding усередині фону), .about-manifest (розтушований фон з кільцями — відступ рахується від кілець, див. about.css), порожні/сховані блоки.
+  // Пара «блок → .cta-block» міряється до верху фону cta (full-bleed). Остання пара перед .process теж пропускається.
+  {
+    const P = tok('--section-pad-y'), vis2 = (e) => { const r = e.getBoundingClientRect(); return r.width > 0 && r.height > 0; };
+    const absPos = (e) => ['absolute', 'fixed'].includes(getComputedStyle(e).position);
+    const lastBottom = (root) => {
+      const rec = (c) => {
+        const cs = getComputedStyle(c), bb = c.getBoundingClientRect().bottom;
+        if (c !== root && (parseFloat(cs.borderBottomWidth) > 0 || cs.backgroundColor !== 'rgba(0, 0, 0, 0)' || c.matches('img,svg,video,picture,figure'))) return bb;
+        const kids = [...c.children].filter((k) => vis2(k) && !absPos(k)); if (!kids.length) return bb;
+        return Math.max(...kids.map(rec));
+      };
+      return rec(root);
+    };
+    const firstTop = (root) => {
+      let best = Infinity;
+      const walk = (c) => {
+        if (!vis2(c) || absPos(c) || c.matches('.visually-hidden')) return;
+        const cs = getComputedStyle(c);
+        if (c.matches('img,svg,picture,video,figure') || (c !== root && (cs.backgroundColor !== 'rgba(0, 0, 0, 0)' || parseFloat(cs.borderTopWidth) > 0))) { best = Math.min(best, c.getBoundingClientRect().top); return; }
+        if ([...c.childNodes].some((x) => x.nodeType === 3 && x.textContent.trim())) { const a = ink(c); if (a) best = Math.min(best, a.capTop); }
+        [...c.children].forEach(walk);
+      };
+      walk(root); return best;
+    };
+    const DARK = '.process, .cta-block, .pre-footer, .about-manifest';
+    const main = document.querySelector('main');
+    if (main && !main.matches('[class*="under-construction"]')) { // заглушки (under-construction): main — один блок, не секції
+      const list = [...main.children].filter(vis2), tail = document.querySelector('.cta-block');
+      if (tail && !main.contains(tail) && vis2(tail)) list.push(tail);
+      for (let i = 0; i < list.length - 1; i++) {
+        const a = list[i], b = list[i + 1];
+        if (a.matches(DARK) || b.matches('.process, .about-manifest') || a.matches('.ds-hero, .ds-section')) continue; // дизайн-система — службова сторінка зі своїм ритмом
+        if (a.matches('.page-title, .filter-bar, .catalog__title, .catalog__bar, [class*="catalog__"]') && !b.matches('.cta-block')) continue; // каталог: заголовок/смуга/сітка — власний ритм, міряємо лише сітка → cta
+        const top = b.matches(DARK) ? b.getBoundingClientRect().top : firstTop(b);
+        if (!isFinite(top)) continue;
+        const gap = top - lastBottom(a);
+        n++; if (Math.abs(gap - P) > 3) fails.push({ sel: lab(a) + ' → ' + lab(b), measured: gap.toFixed(1) + 'px', expected: P + 'px ±3 (--section-pad-y, ink)' });
+      }
+    }
   }
   return { fails, info: { checked: n, eyebrowGap: E, bodyGap: B, titleTextGap: T } };
 });
@@ -882,15 +931,20 @@ async function btnSystem(page) {
       const cs = getComputedStyle(a), ab = a.getBoundingClientRect(), lb = e.getBoundingClientRect(), nb = n.getBoundingClientRect();
       const nfs = parseFloat(getComputedStyle(n).fontSize), cap = nfs * (parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--cap-h-serif')) || 0.634);
       const pad = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--page-pad')) || 30;
-      return { hover: e.matches(':hover'), op: parseFloat(cs.opacity), h: ab.height, cap, right: ab.right, want: innerWidth - pad - (document.documentElement.clientWidth < innerWidth ? innerWidth - document.documentElement.clientWidth : 0), lright: lb.right, cy: (ab.top + ab.bottom) / 2, ncy: (nb.top + nb.bottom) / 2, href: a.querySelector('use')?.getAttribute('href'), name: n.textContent };
+      // ЧОРНИЛО символу: об'єднаний getBBox штрихів + stroke-width відносно viewBox символу (ink-tight: частка ≈1)
+      const sym = document.querySelector((a.querySelector('use')?.getAttribute('href') || '#x')), vb = (sym?.getAttribute('viewBox') || '0 0 24 24').split(/\s+/).map(Number);
+      let x0 = 1e9, y0 = 1e9, x1 = -1e9, y1 = -1e9;
+      for (const pth of sym ? sym.querySelectorAll('path') : []) { const bb = pth.getBBox(), sw = parseFloat(pth.getAttribute('stroke-width') || 1.5) / 2; x0 = Math.min(x0, bb.x - sw); y0 = Math.min(y0, bb.y - sw); x1 = Math.max(x1, bb.x + bb.width + sw); y1 = Math.max(y1, bb.y + bb.height + sw); }
+      const k = a.getBoundingClientRect().height / vb[3], inkH = (y1 - y0) * k, inkR = ab.right - (vb[0] + vb[2] - x1) * k, inkCY = ab.top + ((y0 + y1) / 2 - vb[1]) * k;
+      return { hover: e.matches(':hover'), inkH, inkR, inkCY, op: parseFloat(cs.opacity), h: ab.height, cap, right: ab.right, want: innerWidth - pad - (document.documentElement.clientWidth < innerWidth ? innerWidth - document.documentElement.clientWidth : 0), lright: lb.right, cy: (ab.top + ab.bottom) / 2, ncy: (nb.top + nb.bottom) / 2, href: a.querySelector('use')?.getAttribute('href'), name: n.textContent };
     });
     if (r.none) { fails.push({ sel: '.category-list__item', measured: 'нема .category-list__arrow', expected: 'стрілка в кожному рядку' }); break; }
     if (!r.hover) continue;
     if (!(r.op > 0.9)) fails.push({ sel: '.category-list__arrow', measured: `opacity=${r.op} при hover «${r.name}»`, expected: '>0.9' });
-    if (Math.abs(r.h - r.cap) > 1.5) fails.push({ sel: '.category-list__arrow', measured: `висота ${r.h.toFixed(1)}px`, expected: `${r.cap.toFixed(1)}px (cap-height назви ±1.5)` });
-    if (Math.abs(r.right - r.lright) > 1 || Math.abs(r.right - r.want) > 1.5) fails.push({ sel: '.category-list__arrow', measured: `right=${r.right.toFixed(1)}, рядок=${r.lright.toFixed(1)}`, expected: `${r.want.toFixed(1)} (вікно − --page-pad) ±1` });
-    if (Math.abs(r.cy - r.ncy) > 3) fails.push({ sel: '.category-list__arrow', measured: `центр стрілки зміщено на ${(r.cy - r.ncy).toFixed(1)}px від центру назви`, expected: '≤3px' });
-    if (r.href !== '#i-arrow-up-right') fails.push({ sel: '.category-list__arrow', measured: String(r.href), expected: '#i-arrow-up-right' });
+    if (Math.abs(r.inkH - r.cap) > 1.5) fails.push({ sel: '.category-list__arrow', measured: `висота ЧОРНИЛА ${r.inkH.toFixed(1)}px (бокс ${r.h.toFixed(1)})`, expected: `${r.cap.toFixed(1)}px (cap-height назви ±1.5)` });
+    if (Math.abs(r.inkR - r.lright) > 1 || Math.abs(r.inkR - r.want) > 1.5) fails.push({ sel: '.category-list__arrow', measured: `правий край чорнила=${r.inkR.toFixed(1)}, рядок=${r.lright.toFixed(1)}`, expected: `${r.want.toFixed(1)} (вікно − --page-pad) ±1` });
+    if (Math.abs(r.inkCY - r.ncy) > 1.5) fails.push({ sel: '.category-list__arrow', measured: `центр чорнила зміщено на ${(r.inkCY - r.ncy).toFixed(1)}px від центру назви`, expected: '≤1.5px' });
+    if (r.href !== '#i-arrow-up-right-ink') fails.push({ sel: '.category-list__arrow', measured: String(r.href), expected: '#i-arrow-up-right-ink' });
   }
   return fails;
 }

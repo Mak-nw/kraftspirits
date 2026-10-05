@@ -2,9 +2,12 @@
  * section — великий блок сторінки з сіткою як у header (4 колонки, ті самі осі)
  * Елементи: __grid (сітка 4 кол.), __head (eyebrow + заголовок), __body (вміст), __action (кнопка праворуч від заголовка).
  * Модифікатори: .section__head--center — голова по центру; .section__head--cell — голова як одна клітинка .grid-4 (колонка 1 першого ряду); .section__grid--split — голова в колонці 1, вміст у колонках 2–4; .section__head--wide — голова на 3 колонки (поряд із __action у колонці 4).
- * Коли: усі смуги головної під hero (про дім, хіти, чому напряму, FAQ). Вертикальні поля — --sp-10, бічні — --page-pad.
+ * Коли: усі смуги головної під hero (про дім, хіти, чому напряму, FAQ). Вертикальні поля — 0 (відступ між сусідніми секціями — margin-top: --section-pad-y), бічні — --page-pad.
  */
-.section { padding: var(--sp-10) var(--page-pad); }
+.section { padding: 0 var(--page-pad); }
+/* Єдиний відступ між СУСІДНІМИ секціями: рівно --section-pad-y між контентом попередньої (hero чи секції) і eyebrow наступної — без подвоєння padding+margin.
+   Поля секції по вертикалі = 0, відступ задає лише margin-top наступної. Винятки: dark full-bleed (process, cta-block/pre-footer — власний padding усередині фону), pinned. */
+main > * + .section { margin-top: var(--section-pad-y); }
 .section__grid {
   display: grid; grid-template-columns: repeat(var(--grid-cols), minmax(0, 1fr));
   column-gap: var(--grid-gap); row-gap: 0; align-items: start;
@@ -39,8 +42,9 @@
   .about-manifest :is(.about-manifest__eyebrow, .about-manifest__title),
   .visit-split__panel > :is(.eyebrow, .visit-split__title),
   .about-brands__copy > :is(.eyebrow, .about-brands__name),
+  .product__gift-head > .section-title,
   .product__related-title, .faq-page__title { text-box: trim-both cap alphabetic; }
-  .trim-start,
+  .trim-start, .product__gift-body > p,
   .ds-section__lead, .process__lead, .visit-split__text, .about-brands__text, .about-manifest__text, .cta-block__text { text-box: trim-start cap alphabetic; }
   .process__lead { text-box: trim-both cap alphabetic; } /* останній у шапці: низ теж по чорнилу */
 }

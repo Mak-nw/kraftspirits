@@ -274,6 +274,7 @@
         </div>
         <div class="grid-4"><div class="ds-box">контент</div><div class="ds-box">контент</div><div class="ds-box">контент</div><div class="ds-box">контент</div></div>
         <p class="ds-section__lead">Ритм рахується по ЧОРНИЛУ: у шапках eyebrow/заголовок обрізані <code>text-box: trim-both cap alphabetic</code> (section.css, утиліта <code>.trim</code>; Firefox — box-gap без trim). Схема: eyebrow → <code>--section-head-eyebrow-gap</code> → заголовок → (з описом: <code>--section-title-text-gap</code>) → <code>--section-head-body-gap</code> → контент. Шапка з кнопкою — <code>.section__bar</code> (<code>align-items:center</code>: кнопка по центру групи eyebrow+заголовок). Один клас <code>.section__head</code> для всіх блоків.</p>
+        <p class="ds-section__lead">Відступ між сусідніми секціями — один: <code>--section-pad-y</code> (160px) між контентом попередньої і eyebrow наступної (<code>.section</code> без вертикального padding, <code>main &gt; * + .section { margin-top }</code>); без подвоєння. Винятки: dark full-bleed (<code>.process</code>, <code>.cta-block</code>), <code>.about-manifest</code>, pinned. FAQ: заголовок → перша картка = <code>--section-head-body-gap</code>. Picker «приводів»: padding-inline колонки = <code>--grid-gap × 2</code>.</p>
 
         <h3 class="ds-sub">Сітка: <code>.grid-4</code></h3>
         <div class="grid-4">

@@ -17,7 +17,7 @@
 .category-list__arrow {
   position: absolute; right: 0; top: calc(var(--sp-5) + var(--fs-list-title) / 2 - var(--category-arrow-size) / 2);
   width: var(--category-arrow-size); height: var(--category-arrow-size);
-  fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round;
+  fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; /* символ ink-tight: бокс = чорнило, товщина штриха задана в символі */
   color: var(--c-text); opacity: 0; transform: translateX(calc(var(--category-arrow-shift) * -1)); pointer-events: none;
   transition: opacity var(--dur) var(--ease), transform var(--dur) var(--ease);
 }

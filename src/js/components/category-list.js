@@ -9,6 +9,6 @@ import { icon } from './icons.js';
 export function renderCategoryList(items) {
   return items.map(({ name, href, count }) => `
   <li class="category-list__item">
-    <a class="category-list__link" href="${esc(href)}"><span class="category-list__name">${esc(name)}</span>${Number.isFinite(count) ? `<span class="category-list__count">(${count})</span>` : ''}${icon('arrow-up-right', 'category-list__arrow')}</a>
+    <a class="category-list__link" href="${esc(href)}"><span class="category-list__name">${esc(name)}</span>${Number.isFinite(count) ? `<span class="category-list__count">(${count})</span>` : ''}${icon('arrow-up-right-ink', 'category-list__arrow')}</a>
   </li>`).join('');
 }
