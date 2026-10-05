@@ -57,6 +57,7 @@ const pages = Object.fromEntries(
 );
 
 export default defineConfig({
+  base: '/kraftspirits/',
   plugins: [htmlPartials(), devTools()],
   build: { rollupOptions: { input: pages } },
 });
