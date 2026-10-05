@@ -46,7 +46,8 @@ const CFG = {
     { id: 'price-lg', sel: '.price--lg', ls: '--ls-heading', tt: '--tt-sentence' },
     { id: 'caps-lead', sel: '.caps-lead', ls: '--ls-caps-sans-md', tt: '--tt-heading' },
     { id: 'hero-lead', sel: '.hero--home .hero__text, .hero__eyebrow', ls: '--ls-caps-sans-md', tt: '--tt-heading' },
-    { id: 'label', sel: '.product-card__name, .occasion-picker__name, .principles__name', ls: '--ls-caps-sans-md', tt: '--tt-heading' },
+    { id: 'card-title', sel: '.t-card-title, .product-card__name, .occasion-picker__name', ls: '--ls-card-title', tt: '--tt-heading' },
+    { id: 'label', sel: '.t-label, .principles__name', ls: '--ls-caps-sans-md', tt: '--tt-heading' },
     { id: 'eyebrow', sel: '.eyebrow, .section-title--sub, .footer__heading, .process-track__num, .about-brands__count, .about-manifest__eyebrow, .visit-split__age, .product__crumbs, .product-card__type, .accordion:not(.accordion--cards) .accordion__trigger, .occasion-picker__hint', ls: '--ls-caps-sans-sm', tt: '--tt-heading' },
     { id: 'badge', sel: '.badge', ls: '--ls-caps-sans-sm', tt: '--tt-heading' },
     { id: 'list-count', sel: '.category-list__count', ls: null, tt: '--tt-sentence', skipSize: true },
@@ -55,7 +56,7 @@ const CFG = {
   // ДОЗВОЛЕНІ РОЛІ-ПІДПИСИ (реєстр замовника; нова роль без явного дозволу = FAIL): serif=Cormorant лише uppercase; sans=Google Sans у ролях нижче.
   typoAllowed: {
     display: 'serif', numeral: 'serif-sentence', h1: 'serif', h2: 'serif', 'h3-caps': 'serif', 'manifest-caps': 'serif', h3: 'serif', 'h3-doc': 'sans-sentence', lead: 'serif',
-    'list-title': 'serif', 'price-lg': 'sans-sentence', 'caps-lead': 'sans', 'hero-lead': 'sans', label: 'sans', eyebrow: 'sans', badge: 'sans', 'list-count': 'sans-sentence', caption: 'sans-sentence',
+    'list-title': 'serif', 'price-lg': 'sans-sentence', 'caps-lead': 'sans', 'hero-lead': 'sans', 'card-title': 'serif', label: 'sans', eyebrow: 'sans', badge: 'sans', 'list-count': 'sans-sentence', caption: 'sans-sentence',
   },
   typoSansSentenceMaxPx: 20,                 // sans у звичайному регістрі більший за це (крім дозволених ролей) = FAIL (ловить «lead-text»)
   typoIslandMax: 2,                          // «острівець» = унікальний підпис стилю з ≤2 елементів (по всіх робочих сторінках на ширині), де жоден елемент не належить до ролі (typoRoles)

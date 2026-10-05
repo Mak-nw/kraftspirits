@@ -31,7 +31,7 @@
 
 .product-card__body { padding-top: 14px; display: flex; flex-direction: column; gap: 3px; }
 .product-card__type { color: var(--c-muted-strong); }
-.product-card__name { display: flex; justify-content: space-between; align-items: flex-start; gap: var(--sp-2); min-height: calc(var(--fs-body) * var(--lh-title) * 2); }
+.product-card__name { display: flex; justify-content: space-between; align-items: flex-start; gap: var(--sp-2); min-height: calc(var(--fs-card-title) * var(--lh-card-title) * 2); }
 .product-card__name a { flex: 1; }
 .product-card__name a:hover { opacity: var(--hover-dim); }
 .product-card__notes { color: var(--c-muted); }

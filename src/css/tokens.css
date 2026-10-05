@@ -80,12 +80,14 @@
   --category-arrow-shift: var(--sp-2); /* зсув стрілки зліва направо при появі (8px) */
   --fs-caps-lead: clamp(18px, 1.25vw, 24px);   /* caps-lead: sans КАПС-лід (occasion, h1 «Про дім») — 18 / 18 / 24 */
   --fs-lead-sm: clamp(14px, 1vw, 20px);        /* hero-lead: вступ і eyebrow hero головної (sans КАПС) — 14 / 14.4 / 19.2 */
+  --fs-card-title: clamp(18px, 1.35vw, 24px);   /* card-title (Cormorant КАПС малий): назва товару в картці — 18 / 19.4 / 24; cap-height 0.634em ≥ 1.3× cap-height типу (12px sans = 8.6px) на всіх ширинах */
   --fs-body: 14px;                             /* body: абзаци, кнопки, меню, label-назви, ціна */
   --fs-body-sm: 13px;                          /* body-sm: службові підписи, фільтри */
   --fs-caption: 12px;                          /* caption / eyebrow / badge */
 
   --ls-caps: -0.01em;      /* serif КАПС: h1, h2, display, h3-caps, manifest-caps */
   --ls-heading: -0.02em;   /* serif sentence: h3, list-title, lead, numeral */
+  --ls-card-title: 0.03em; /* serif КАПС малий (≤24px): card-title; −0.01em великих капсів на малому кеглі склеює літери */
   --ls-caps-sans-sm: 0.05em; /* sans КАПС дрібний (≤13px): eyebrow, badge */
   --ls-caps-sans-md: 0.03em; /* sans КАПС середній (14–24px): label, caps-lead, hero-lead, sign */
 
@@ -96,6 +98,7 @@
   --lh-body: 1.4;
   --lh-title: 1.08;      /* h1, label, caps-lead */
   --lh-heading: 1.05;    /* h2, display, h3 */
+  --lh-card-title: 1.1;  /* card-title: до 2 рядків */
   --lh-lead: 1.1;        /* lead, manifest-caps */
   --lh-reading: 1.6;     /* довгі абзаци (FAQ, «Про дім») */
   --lh-none: 1;
@@ -157,9 +160,9 @@
   --bottle-h-1: 64px;    /* іконка пляшки 1 л (найвища) */
   --bottle-scale: 1;     /* множник розміру іконок пляшки (пропорції 40:50:64 зберігаються) */
   /* Ритм шапки секції (єдиний для всіх блоків): eyebrow → заголовок → контент */
-  --section-head-eyebrow-gap: 20px;  /* eyebrow → заголовок по чорнилу: 20px (> title-text-gap ≥ +4px) */
+  --section-head-eyebrow-gap: var(--sp-7);  /* eyebrow → заголовок по чорнилу: 40px (≥ title-text-gap + 4px) */
   --section-head-body-gap: var(--sp-7);     /* заголовок (чи шапка з кнопкою) → контент: 40px */
-  --section-title-text-gap: var(--sp-4);    /* заголовок → абзац/lead під ним (process, visit, manifest, pre-footer, brand): 16px по чорнилу */
+  --section-title-text-gap: var(--sp-6);    /* заголовок → абзац/lead під ним (process, visit, manifest, pre-footer, brand): 32px по чорнилу */
   --section-pad-y: 160px; /* вертикальні поля великих блоків (cta); ≤700px: 96px */
   --hero-bottom-pad: var(--sp-8); /* відступ низу кнопки hero від низу екрана */
   --header-h: 64px;      /* фіксована висота header; на вужчих екранах перевизначається нижче */

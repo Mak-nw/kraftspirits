@@ -85,6 +85,12 @@
   letter-spacing: var(--ls-heading); text-transform: var(--tt-sentence);
 }
 
+/* card-title: назва товару в картці (product-card, picker-картка «Вибір під подію») — Cormorant КАПС малий (рішення замовника 2026-10-06, єдина нова роль) */
+.t-card-title, .product-card__name, .occasion-picker__name {
+  font-family: var(--font-serif); font-size: var(--fs-card-title); font-weight: var(--fw-serif); line-height: var(--lh-card-title);
+  letter-spacing: var(--ls-card-title); text-transform: var(--tt-heading); font-variant-numeric: lining-nums;
+}
+
 /* ---------- sans КАПС ---------- */
 /* caps-lead: КАПС-лід (Вибір під подію) */
 .t-caps-lead, .caps-lead {
@@ -98,8 +104,8 @@
   letter-spacing: var(--ls-caps-sans-md); text-transform: var(--tt-heading);
 }
 
-/* label: назви товарів, принципи, події в картках (Google Sans КАПС 14px) */
-.t-label, .product-card__name, .occasion-picker__name, .principles__name {
+/* label: принципи (Google Sans КАПС 14px) */
+.t-label, .principles__name {
   font-family: var(--font-body); font-size: var(--fs-body); font-weight: var(--fw-medium); line-height: var(--lh-title);
   letter-spacing: var(--ls-caps-sans-md); text-transform: var(--tt-heading);
 }
