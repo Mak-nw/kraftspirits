@@ -1,0 +1,14 @@
+/*
+ * under-construction — заглушка «Упс! Сторінка в розробці…» для ще не зроблених сторінок (кошик, подарункові набори, контакти, оформлення, подяка, вік-гейт)
+ * Розмітка: partials/under-construction.html (<main> з eyebrow, H1, lead і двома кнопками); у сторінці: <!--@include under-construction eyebrow="Кошик"-->.
+ * Елементи: __eyebrow (назва розділу, КАПС 12px), __title (H1, роль h1), __lead (роль body), __actions («На головну» primary + «Відкрити каталог»).
+ * Типографіка — у typography.css (ролі h1 / body); тут лише розкладка: усе по центру, відступи з токенів. Без затемнень і графіки.
+ */
+.under-construction {
+  display: flex; flex-direction: column; align-items: center; text-align: center;
+  min-height: calc(100svh - var(--header-h) - var(--sp-10));
+  padding-top: var(--page-top-gap); padding-bottom: var(--sp-10);
+}
+.under-construction__title { margin-top: var(--sp-4); max-width: 18ch; }
+.under-construction__lead { margin-top: var(--sp-5); max-width: 52ch; color: var(--c-muted); }
+.under-construction__actions { display: flex; flex-wrap: wrap; justify-content: center; gap: var(--sp-4); margin-top: var(--sp-7); }

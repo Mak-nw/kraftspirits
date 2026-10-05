@@ -5,7 +5,7 @@
  * Варіанти (два partial-и на спільних класах): .cta-block--home (partials/cta-block-home.html: «Відкрити каталог» dark + «Написати в месенджер» outline),
  * .cta-block--page (partials/cta-block-page.html: лише dark «Зв'язатися з менеджером» + під ним occasion-picker--in-block без заголовка, медіа до країв контейнера, без нижнього padding).
  * Підключення: <!--@include cta-block-home--> / <!--@include cta-block-page-->; на сторінці — один блок. JS: src/js/components/cta-block.js.
- * Сторінки: index (home); catalog, product, about, faq, gifts (page). Без блоку: age-gate, checkout, order-thanks, 404, contacts, design-system (демо).
+ * Сторінки: index (home); catalog, product, about, faq (page). Без блоку: gifts, cart, age-gate, checkout, order-thanks, 404, contacts, design-system (демо).
  * Токени: --c-tile, --sp-9, --sp-10, --card-pad-x, --page-pad, --section-pad-y.
  */
 .cta-block { padding: var(--sp-10) var(--page-pad) var(--section-pad-y); }

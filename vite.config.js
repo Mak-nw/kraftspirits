@@ -56,8 +56,9 @@ const pages = Object.fromEntries(
     .map((f) => [f.replace('.html', ''), resolve(root, f)])
 );
 
-export default defineConfig({
-  base: '/kraftspirits/',
+// base: '/kraftspirits/' лише для збірки й `vite preview` (GitHub Pages); dev — корінь http://localhost:5173/
+export default defineConfig(({ command, isPreview }) => ({
+  base: command === 'build' || isPreview ? '/kraftspirits/' : '/',
   plugins: [htmlPartials(), devTools()],
   build: { rollupOptions: { input: pages } },
-});
+}));

@@ -53,3 +53,8 @@
 @media (prefers-reduced-motion: reduce) {
   .accordion__panel, .accordion__trigger, .accordion--cards .accordion__icon svg { transition: none; }
 }
+
+/* Послідовна розкладка колонок (data-split, напр. 5-5-5): закриті картки однієї висоти --faq-card-h (2 рядки питання + padding), тому низи колонок збігаються;
+   розкрита картка росте вниз (align-items: start), інші колонки не рухаються. */
+.faq-grid[data-split] { --faq-card-h: calc(2 * var(--fs-body) * var(--lh-body) + 2 * var(--sp-4)); align-items: start; }
+.faq-grid[data-split] .accordion--cards .accordion__trigger { min-height: var(--faq-card-h); }

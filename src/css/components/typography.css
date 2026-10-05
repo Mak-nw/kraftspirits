@@ -35,7 +35,7 @@
 }
 
 /* h1: назва сторінки (каталог, товар, довідник) */
-.t-h1, .page-title, .product__title, .ds-hero__title {
+.t-h1, .page-title, .product__title, .ds-hero__title, .under-construction__title {
   font-family: var(--font-serif); font-size: var(--fs-h1); font-weight: var(--fw-serif-caps); line-height: var(--lh-title);
   letter-spacing: var(--ls-caps); text-transform: var(--tt-heading); font-variant-numeric: lining-nums;
 }
@@ -147,7 +147,7 @@
 }
 
 /* body: текст, питання FAQ (кнопки й меню — розмір --fs-body у компонентах) */
-.t-body, .hero--about .hero__text, .about-home__lead, .accordion__content, .stats__label, .accordion--cards .accordion__trigger, .place-rows__desc, .cta-block__text, .footer__about, .product__lead, .product__gift-body {
+.t-body, .under-construction__lead, .hero--about .hero__text, .about-home__lead, .accordion__content, .stats__label, .accordion--cards .accordion__trigger, .place-rows__desc, .cta-block__text, .footer__about, .product__lead, .product__gift-body {
   font-family: var(--font-body); font-size: var(--fs-body); font-weight: var(--fw-regular); line-height: var(--lh-body);
   letter-spacing: 0; text-transform: var(--tt-sentence);
 }

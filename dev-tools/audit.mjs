@@ -11,11 +11,11 @@ const ROOT = resolve(import.meta.dirname, '..');
 // ───────────────────────────── КОНФІГ (виключення й списки селекторів) ─────────────────────────────
 const CFG = {
   chrome: process.env.CHROME_PATH || '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome',
-  base: 'http://localhost:5173/kraftspirits',
+  base: 'http://localhost:5173',
   widths: [1920, 1440, 1200],
   defaultProducts: ['gin-yasnyi', 'calvados-5', 'fruit-watermelon'],
   skipPages: ['product', '404'],            // product.html без slug не міряємо; 404 — службова
-  stubPages: ['age-gate', 'checkout', 'contacts', 'gifts', 'order-thanks'], // ще не зверстані: виключаємо з шрифтів (4) й типографіки (5)
+  stubPages: ['age-gate', 'brands', 'cart', 'checkout', 'contacts', 'gifts', 'order-thanks'], // ще не зверстані: виключаємо з шрифтів (4) й типографіки (5)
   concurrency: 4,                           // скільки сторінок вантажимо паралельно
   maxPerCheck: 3,                           // скільки провалів друкувати на перевірку (решта — у JSON)
   // 2. Переповнення: що міряємо; що пропускаємо (стрічки, що навмисно виходять за межі)

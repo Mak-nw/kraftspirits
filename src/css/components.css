@@ -11,6 +11,7 @@
 @import './components/filter-bar.css';
 @import './components/page-title.css';
 @import './components/empty-state.css';
+@import './components/under-construction.css';
 @import './components/volume-picker.css';
 @import './components/qty.css';
 @import './components/bottle-icon.css';

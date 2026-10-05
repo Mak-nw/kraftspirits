@@ -11,7 +11,7 @@ const scan = async (buf, ) => q.evaluate(async (b64) => {
 const out=[];
 for (const [w,h] of [[1200,700],[1200,900],[1440,900],[1920,1080],[2000,1145]]) {
   await p.setViewport({width:w,height:h});
-  await p.goto('http://localhost:5173/kraftspirits/about.html',{waitUntil:'networkidle0'});
+  await p.goto('http://localhost:5173/about.html',{waitUntil:'networkidle0'});
   await p.evaluate(()=>document.fonts.ready); await new Promise(r=>setTimeout(r,600));
   const g = await p.evaluate(()=>{
     const R=e=>{const b=document.querySelector(e).getBoundingClientRect();return {l:b.left,r:b.right,t:b.top,b:b.bottom}};

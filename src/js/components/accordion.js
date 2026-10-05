@@ -23,19 +23,23 @@ function renderItem(it, i, base, open, cards) {
 /**
  * @param {{ title: string, html: string }[]} items — html вже безпечний (екранує викликач)
  * @param {{ label?: string, variant?: 'cards', open?: number }} [opts] — aria-label групи; variant 'cards' = дві незалежні колонки карток
- *   (елементи чергуються: 1→ліва, 2→права…, у колонці відкрита лише одна), open — індекс відкритої за замовчуванням, lead — індекс колонки з місцем під заголовок (FAQ-сторінка)
+ *   (елементи чергуються: 1→ліва, 2→права…, у колонці відкрита лише одна), open — індекс відкритої за замовчуванням, lead — індекс колонки з місцем під заголовок (FAQ-сторінка), split — масив кількостей карток по колонках (послідовно, напр. [5, 5, 5] на FAQ-сторінці; закриті картки однієї висоти → низи колонок збігаються)
  * @returns {string} HTML-рядок
  */
-export function renderAccordion(items, { label = '', variant = '', open = -1, cols = 2, lead = -1 } = {}) {
+export function renderAccordion(items, { label = '', variant = '', open = -1, cols = 2, lead = -1, split = null } = {}) {
   const base = `acc${++uid}`;
   const attr = label ? ` role="group" aria-label="${esc(label)}"` : '';
   if (variant === 'cards') {
+    // split: послідовна розкладка за кількістю карток у колонці (напр. [6, 3, 6]); без split — по модулю (i % cols)
+    if (Array.isArray(split) && split.length) cols = split.length;
+    const starts = Array.isArray(split) ? split.reduce((a, n, k) => (a.push(k ? a[k - 1] + split[k - 1] : 0), a), []) : [];
+    const inCol = (i, n) => (Array.isArray(split) ? i >= starts[n] && i < starts[n] + split[n] : i % cols === n);
     const col = (n) => `
-  <div class="accordion accordion--cards" data-accordion data-single${attr}>${items.map((it, i) => (i % cols === n ? renderItem(it, i, base, i === open, true) : '')).join('')}
+  <div class="accordion accordion--cards" data-accordion data-single${attr}>${items.map((it, i) => (inCol(i, n) ? renderItem(it, i, base, i === open, true) : '')).join('')}
   </div>`;
     // lead: індекс колонки, над якою стоїть порожня обгортка .faq-grid__col[data-lead] (сторінка кладе туди власний заголовок)
     const columns = Array.from({ length: cols }, (_, i) => (i === lead ? `<div class="faq-grid__col" data-lead>${col(i)}</div>` : col(i))).join('');
-    return `<div class="faq-grid" data-cols="${cols}">${columns}
+    return `<div class="faq-grid" data-cols="${cols}"${Array.isArray(split) ? ` data-split="${split.join('-')}"` : ''}>${columns}
 </div>`;
   }
   return `

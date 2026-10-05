@@ -82,7 +82,7 @@ function renderBuy(p, stock) {
       </span>
     </label>`).join('');
   const actions = stock === 'soon'
-    ? `<a class="btn btn--primary btn--block" href="${url('/contacts.html')}">Повідомити про реліз</a>`
+    ? `<a class="btn btn--primary btn--block" href="${url('/contacts.html#release')}">Повідомити про реліз</a>`
     : `<div class="product__row">
         <p class="price price--lg product__price" data-price-out>${formatPrice(p.volumes[0].price)}</p>
         ${renderQty({ value: 1, min: 1, max: 99 })}

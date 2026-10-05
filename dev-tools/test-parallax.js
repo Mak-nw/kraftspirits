@@ -10,7 +10,7 @@ const puppeteer = require('puppeteer-core');
   await page.setViewport({ width: 1920, height: 1440 });
 
   try {
-    await page.goto('http://localhost:5173/kraftspirits/index.html', { waitUntil: 'networkidle0', timeout: 10000 });
+    await page.goto('http://localhost:5173/index.html', { waitUntil: 'networkidle0', timeout: 10000 });
     
     // Get frame sizes
     const frameSizes = await page.evaluate(() => {
