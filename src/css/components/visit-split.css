@@ -15,7 +15,6 @@
   display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;
   padding: var(--sp-9) var(--sp-7);
 }
-.visit-split__title { margin-top: var(--sp-3); }
 .visit-split__text {
   max-width: var(--visit-copy-w); margin-top: var(--sp-5);
   color: var(--c-text-soft);

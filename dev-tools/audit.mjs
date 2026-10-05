@@ -702,6 +702,45 @@ const contrast = (page) => page.evaluate((skipSel) => {
   return { fails, info: { checked: n } };
 }, CFG.contrastSkip);
 
+// 17. Ритм шапки секції (design-system.md, «Ритм шапки секції»): gap eyebrow→заголовок = --section-head-eyebrow-gap; кінець шапки → контент = --section-head-body-gap
+// (допуск ±2px); кнопка в .section__bar: |центр кнопки − центр групи eyebrow+заголовок| ≤ 2px.
+// Виняток (pinned, лише перша перевірка): .process (шапка в sticky-блоці: міряємо eyebrow→title і шапка→трек, геометрія pin не змінюється).
+// Лише eyebrow→title (без контенту під ним у цьому ж ритмі): cta-block (title→text = eyebrow-gap), about-manifest, visit-split (центровані, в одній панелі з текстом/фото).
+const headRhythm = (page) => page.evaluate(() => {
+  const px = (v) => parseFloat(getComputedStyle(document.documentElement).getPropertyValue(v)) || 0;
+  const tok = (name) => { const d = document.createElement('div'); d.style.cssText = `position:absolute;visibility:hidden;height:var(${name})`; document.body.appendChild(d); const h = d.getBoundingClientRect().height; d.remove(); return h; };
+  const E = tok('--section-head-eyebrow-gap'), B = tok('--section-head-body-gap');
+  const fails = []; let n = 0;
+  const lab = (el) => el.tagName.toLowerCase() + [...el.classList].slice(0, 2).map((c) => '.' + c).join('');
+  const chk = (sel, got, exp) => { n++; if (Math.abs(got - exp) > 2) fails.push({ sel, measured: got.toFixed(1) + 'px', expected: exp + 'px ±2' }); };
+  const vis = (el) => { const r = el.getBoundingClientRect(); return r.width > 0 && r.height > 0; };
+  for (const eb of document.querySelectorAll('.eyebrow, .about-manifest__eyebrow')) {
+    const t = eb.nextElementSibling;
+    if (!t || !t.matches('.section-title, h2, .about-manifest__title') || !vis(eb) || !vis(t)) continue;
+    chk(lab(t) + ' eyebrow→title', t.getBoundingClientRect().top - eb.getBoundingClientRect().bottom, E);
+  }
+  const headSel = '.section__head, .principles__head, .process__head';
+  for (const h of document.querySelectorAll(headSel)) {
+    if (!vis(h)) continue;
+    const top = h.closest('.section__bar') || h;
+    const next = top.nextElementSibling;
+    if (!next || !vis(next)) continue;
+    chk(lab(h) + ' шапка→контент', next.getBoundingClientRect().top - top.getBoundingClientRect().bottom, B);
+  }
+  for (const t of document.querySelectorAll('.product__related-title, .faq-page__title')) {
+    if (!vis(t) || !t.nextElementSibling) continue;
+    chk(lab(t) + ' заголовок→контент', t.nextElementSibling.getBoundingClientRect().top - t.getBoundingClientRect().bottom, B);
+  }
+  for (const bar of document.querySelectorAll('.section__bar')) {
+    const head = bar.querySelector('.section__head'), btn = bar.querySelector('.btn');
+    if (!head || !btn || !vis(btn)) continue;
+    const a = head.getBoundingClientRect(), b = btn.getBoundingClientRect();
+    n++; const d = Math.abs((a.top + a.bottom) / 2 - (b.top + b.bottom) / 2);
+    if (d > 2) fails.push({ sel: lab(bar) + ' кнопка/група', measured: d.toFixed(1) + 'px', expected: '≤2px' });
+  }
+  return { fails, info: { checked: n, eyebrowGap: E, bodyGap: B } };
+});
+
 // Реєстр: [id, заголовок, функція, scope]; scope: all (кожна ширина) | first (лише найширша) | index (лише головна) | global (після обходу)
 const CHECKS = [
   ['noHScroll', 'noHScroll', noHScroll, 'all'],
@@ -720,6 +759,7 @@ const CHECKS = [
   ['parallax', 'Паралакс у рамці', parallax, 'all'],
   ['heroOverlap', 'Hero без накладань', heroOverlap, 'first'],
   ['contrast', 'Контраст кольорів', contrast, 'first'],
+  ['headRhythm', 'Ритм шапки секції', headRhythm, 'all'],
 ];
 
 // ───────────────────────────── Завантаження сторінки ─────────────────────────────

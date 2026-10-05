@@ -24,8 +24,7 @@
 .process-track__progress::after { content: ''; position: absolute; inset: 0; background: var(--c-on-dark-strong); transform: scaleX(var(--process-progress, 0)); transform-origin: left center; }
 .process.is-pinned .process-track__progress { display: block; }
 .process.is-pinned .process-track__list::before { display: none; }
-.process__head { display: block; margin-bottom: var(--sp-9); }
-.process__intro .section-title { margin-top: var(--sp-3); }
+.process__head { display: block; margin-bottom: var(--section-head-body-gap); }
 .process__lead { margin-top: var(--sp-5); max-width: 34em; color: var(--c-on-dark); }
 
 .process-track {

@@ -1,7 +1,7 @@
 /* FAQ: вертикальна композиція — H1 (.t-h1, капс, по центру) над сіткою з 3 колонок карток (компонент accordion--cards, split 5-5-5); лише специфіка сторінки */
 body.page-faq main { display: block; }
 .faq-page { padding: var(--page-top-gap) var(--page-pad) var(--sp-7); }
-.faq-page__title { margin: 0 0 var(--sp-8); text-align: center; overflow-wrap: anywhere; }
+.faq-page__title { margin: 0 0 var(--section-head-body-gap); text-align: center; overflow-wrap: anywhere; }
 .faq-grid__col { min-width: 0; }
 .accordion__content a { text-decoration: underline; text-underline-offset: 0.2em; color: var(--c-text); }
 .accordion__content a:hover { color: var(--c-muted-strong); }

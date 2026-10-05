@@ -19,14 +19,12 @@ export const POPULAR_CTA = {
 export function renderPopularChoice(products, { cta = POPULAR_CTA, headButton = true } = {}) {
   const hits = products.filter((p) => p.badge === 'Хіт');
   return `
-  <div class="section__grid">
-    <div class="section__head section__head--wide">
+  <div class="section__bar">
+    <div class="section__head">
       <p class="eyebrow">Хіти та нові релізи</p>
       <h2 class="section-title" id="hits-title">Популярний вибір</h2>
     </div>${headButton ? `
-    <div class="card-slider__tools">
-      <a class="btn btn--outline" href="${url('/catalog.html')}">Весь каталог ↗</a>
-    </div>` : ''}
+    <a class="btn btn--outline" href="${url('/catalog.html')}">Весь каталог ↗</a>` : ''}
   </div>
   <div class="card-slider popular-choice__slider">${renderCardSlider(hits.map((p) => renderProductCard(p)), { label: 'Популярний вибір', cta })}</div>`;
 }

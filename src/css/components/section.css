@@ -7,9 +7,15 @@
 .section { padding: var(--sp-10) var(--page-pad); }
 .section__grid {
   display: grid; grid-template-columns: repeat(var(--grid-cols), minmax(0, 1fr));
-  column-gap: var(--grid-gap); row-gap: var(--sp-8); align-items: start;
+  column-gap: var(--grid-gap); row-gap: 0; align-items: start;
 }
-.section__head { grid-column: 1 / -1; display: flex; flex-direction: column; align-items: flex-start; gap: var(--sp-5); }
+/* Ритм шапки секції (токени --section-head-*): eyebrow → заголовок = eyebrow-gap; шапка → контент = body-gap. Єдине правило для всіх блоків. */
+.section__head { grid-column: 1 / -1; display: flex; flex-direction: column; align-items: flex-start; gap: 0; margin-bottom: var(--section-head-body-gap); }
+.eyebrow + :is(.section-title, h2) { margin-top: var(--section-head-eyebrow-gap); }
+.about-manifest__eyebrow + .about-manifest__title { margin-top: var(--section-head-eyebrow-gap); }
+/* шапка з кнопкою праворуч: ліворуч група eyebrow+заголовок, кнопка по вертикальному центру групи */
+.section__bar { grid-column: 1 / -1; display: flex; align-items: center; justify-content: space-between; gap: var(--grid-gap); margin-bottom: var(--section-head-body-gap); }
+.section__bar > .section__head { margin-bottom: 0; }
 .section__head--wide { grid-column: 1 / span 3; }
 .section__head--center { align-items: center; text-align: center; } /* голова по центру (над category-list) */
 .section__head--cell { grid-column: auto; } /* голова як одна клітинка сітки .grid-4 */

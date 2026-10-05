@@ -4,8 +4,7 @@
  * Токени: --fs-principle-num, --principle-ratio-tall/-wide, --dur, --ease, --grid-gap.
  */
 .principles { }
-.principles__head { margin-bottom: var(--sp-9); }
-.principles__head .section-title { margin-top: var(--sp-3); }
+.principles__head { margin-bottom: var(--section-head-body-gap); }
 
 .principles__list { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--grid-gap); align-items: start; }
 .principles__item { min-width: 0; }

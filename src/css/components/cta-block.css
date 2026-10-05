@@ -10,8 +10,8 @@
 .cta-block { padding: var(--section-pad-y) var(--page-pad) var(--section-pad-y); }
 .cta-block__box { padding: var(--sp-9) 0 0; background: var(--c-dark-bg); color: var(--c-on-dark); border-radius: var(--radius-none); text-align: center; overflow-x: clip; }
 .cta-block__content { padding-inline: var(--card-pad-x); }
-.cta-block__title { max-width: 1100px; margin: var(--sp-5) auto 0; }
-.cta-block__text { max-width: 480px; margin: var(--sp-5) auto 0; color: var(--c-on-dark); }
+.cta-block__title { max-width: 1100px; margin: 0 auto; }
+.cta-block__text { max-width: 480px; margin: var(--section-head-eyebrow-gap) auto 0; color: var(--c-on-dark); }
 .cta-block__title, .cta-block .eyebrow { color: var(--c-on-dark-strong); }
 .cta-block__buttons { display: flex; flex-wrap: wrap; justify-content: center; gap: var(--sp-3); margin-top: var(--sp-7); }
 .cta-block .btn { border-color: var(--c-on-dark-strong); color: var(--c-on-dark-strong); } /* інверсія на коричневому: світла заливка + коричневий текст */

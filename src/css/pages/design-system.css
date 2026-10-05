@@ -9,8 +9,7 @@
 .ds-nav--sub { margin-top: var(--sp-4); font-size: var(--fs-body-sm); color: var(--c-muted); }
 
 .ds-section { padding-top: var(--sp-9); border-top: 1px solid var(--c-text); margin-top: var(--sp-9); }
-.ds-section__head { margin-bottom: var(--sp-7); }
-.ds-section__head .section-title { margin-top: var(--sp-3); }
+.ds-section__head { margin-bottom: var(--section-head-body-gap); }
 .ds-section__lead { max-width: 640px; margin-top: var(--sp-4); font-size: var(--fs-body); color: var(--c-muted); }
 .ds-sub { margin: var(--sp-8) 0 var(--sp-4); } /* підзаголовок — роль h3 (typography.css) */
 
