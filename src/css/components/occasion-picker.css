@@ -3,14 +3,13 @@
  * Елементи: __lead (заголовок КАПС sans, max-width ≈ 2 рядки), __tabs (горизонтальний tablist, 5 рівних колонок у сітці page-pad…page-pad), __tab (кнопка: __title serif звичайний регістр + __hint дрібний sans КАПС),
  * __stage (role=tabpanel, на всю ширину вікна; position:relative; верх відступає на --occasion-card-lift + --sp-8 від ряду), __media (полотно, aspect-ratio --occasion-ratio, шари __bg з crossfade),
  * __front (вісь вікна, виступає над __media на --occasion-card-lift; ширина = картка + стрілки з відступом --occasion-nav-gap, картка по центру), __tile/__photo (фото товару на --c-tile 1/1), __info (назва КАПС, ціна, кнопка «Дивитись»).
- * Секція .occasion-section без бічних padding (full-bleed без 100vw); page-pad мають лише заголовок і ряд подій. Лічильник «n з N» — лише .visually-hidden (aria-live).
+ * Коли: підбір напою від приводу використовується у pre-footer (cta-block, без заголовка).
  * Стани: активна подія і її hint темніші (--c-text), решта --c-muted-light; :hover ряду приглушує сусідів; :focus-visible — контур 1px; зміна події/товару — crossfade --dur (prefers-reduced-motion — без анімації).
  * Клавіатура: ←/→ на tablist — інша подія, Home/End — перша/остання; ←/→ на stage (tabindex=0) — інший товар (зациклення). Вибір не переходить на іншу сторінку.
  * Регістр: заголовок — .caps-lead (КАПС sans), назви подій — serif звичайний, hint — sans КАПС. Токени: --fs-occasion, --fs-lead-caps, --ls-caps-sans, --occasion-ratio, --occasion-card-w, --occasion-card-lift, --occasion-nav-gap.
  * Модифікатор .occasion-picker--in-block (усередині cta-block, без заголовка): ряд подій по ширині контейнера, медіа без full-bleed — від краю до краю контейнера блоку; висота за --occasion-ratio, картка/стрілки без змін.
  * HTML: src/js/components/occasion-picker.js (renderOccasionPicker, bindOccasionPicker); дані — src/data/occasions.json.
  */
-.occasion-section { padding-inline: 0; overflow-x: clip; }
 .occasion-picker { display: block; }
 .occasion-picker__lead { margin-inline: var(--page-pad); padding-inline: max(0px, calc((100% - 44ch) / 2)); } /* ширина рядка ≈44ch → 2 рядки, бокси на осях page-pad */
 .occasion-picker__tabs {

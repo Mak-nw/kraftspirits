@@ -25,19 +25,17 @@ const CFG = {
   radiusSel: 'a,button,input,select,textarea,[class*="btn"],.qty button',
   // .slider-arrow — круглі стрілки слайдерів: навмисний виняток за макетом замовника (border-radius 50%)
   radiusExclude: '.marker, .product__stock, .slider-arrow',
-  // 4. Serif-елементи (мають бути Cormorant); sans-заголовки за дизайном — у serifExclude
-  serifSel: '.header__logo,h1,.hero__title,.section-title,.category-list__name,.stats__value,.page-title,.product__title',
+  // 4. Serif-елементи (мають бути Cormorant, лише КАПСОМ); sans-заголовки за дизайном — у serifExclude
+  serifSel: 'h1,.hero__title,.section-title,.category-list__name,.stats__value,.page-title,.product__title',
   serifExclude: '.section-title--sub,.footer__heading,.product-card__name,.accordion__heading,.occasion-picker__name',
   // 5. Типографіка: РОЛІ (реєстр components/typography.css). Кожна роль: усі її елементи мають однакові computed
   //    (family, size ±0.5px на тій самій ширині, weight, ls ±0.002em, text-transform, lh ±0.02) і відповідають токенам ролі.
-  //    ls — токен трекінгу, tt — токен регістру; skipSize — розмір не токеном (fit-width wordmark: hero ≠ футер).
+  //    ls — токен трекінгу, tt — токен регістру; skipSize — розмір не токеном.
   typoTol: { size: 0.5, ls: 0.002, lh: 0.02 },
   typoRoles: [
-    { id: 'wordmark-hero', sel: '.hero--about .hero__wordmark, .hero--about .hero__wordmark > span', ls: '--ls-wordmark', tt: '--tt-heading', skipSize: true }, // вага regular 400 (рішення замовника); кегль — fit-width
-    { id: 'wordmark', sel: '.footer__logo', ls: '--ls-wordmark', tt: '--tt-heading', skipSize: true },
     { id: 'display', sel: '.hero__title', ls: '--ls-caps', tt: '--tt-heading' },
     { id: 'numeral', sel: '.principles__num', ls: '--ls-heading', tt: '--tt-sentence' },
-    { id: 'h1', sel: '.page-title, .product__title, .ds-hero__title', ls: '--ls-caps', tt: '--tt-heading' },
+    { id: 'h1', sel: '.page-title, .product__title, .ds-hero__title, .hero--about .hero__top > h1', ls: '--ls-caps', tt: '--tt-heading' },
     { id: 'h2', sel: '.section-title:not(.section-title--sub), .place__title, .about-brands__logo', ls: '--ls-caps', tt: '--tt-heading' },
     { id: 'h3-caps', sel: '.about-brands__name, .catalog-cta__name', ls: '--ls-caps', tt: '--tt-heading' },
     { id: 'manifest-caps', sel: '.about-manifest__title', ls: '--ls-caps', tt: '--tt-heading' },
@@ -50,12 +48,13 @@ const CFG = {
     { id: 'label', sel: '.product-card__name, .occasion-picker__name, .principles__name', ls: '--ls-caps-sans-md', tt: '--tt-heading' },
     { id: 'eyebrow', sel: '.eyebrow, .section-title--sub, .footer__heading, .process-track__num, .about-brands__count, .about-manifest__eyebrow, .visit-split__age, .product__crumbs, .product-card__type, .accordion:not(.accordion--cards) .accordion__trigger, .occasion-picker__hint', ls: '--ls-caps-sans-sm', tt: '--tt-heading' },
     { id: 'badge', sel: '.badge', ls: '--ls-caps-sans-sm', tt: '--tt-heading' },
-    { id: 'logo', sel: '.header__logo', ls: '--ls-wordmark', tt: '--tt-heading', skipSize: true },
     { id: 'list-count', sel: '.category-list__count', ls: null, tt: '--tt-sentence', skipSize: true },
     { id: 'caption', sel: '.product-card__meta', ls: null, tt: '--tt-sentence' },
   ],
   typoIslandMax: 2,                          // «острівець» = унікальний підпис стилю з ≤2 елементів (по всіх робочих сторінках на ширині), де жоден елемент не належить до ролі (typoRoles)
   typoSkipSummary: ['design-system'],        // у зведення унікальних стилів не входять довідник і заглушки
+  // 16. Контраст: контейнери, текст у яких лежить на фото/відео (не міряємо)
+  contrastSkip: '.hero, [data-hero], .place__media, body.page-index .header:not(.header--solid), .brand-split, .place-rows__media, .about-brands, .visit-split__media, .gallery__nav, .occasion-picker__media, .sr-only, .visually-hidden',
   // 6. Сітка: блоки, краї яких мають збігатися з колонками 4-сітки (ліво/право)
   gridTargets: ['.product__info', '.product__gallery', '.grid-4 > *', '#occasions .occasion-picker > *', '.faq', '.section__body'],
   gridTol: 1,
@@ -70,7 +69,7 @@ const CFG = {
   // 15. Hero: матриця вікон (ширини × висоти), допуски
   heroWidths: [1200, 1440, 1920, 2000],
   heroHeights: [700, 800, 900, 1080, 1200],
-  heroDescGapMin: 32, heroInkTol: 2, heroCenterTol: 3, // about v2: мін. зазор гліфи wordmark → опис (--sp-6); допуск ширини чорнила wordmark vs колонки 2–3; допуск спільної вертикальної осі лого/wordmark
+  heroDescGapMin: 32, heroInkTol: 2, // about v3: мін. зазор низ лого → опис (--sp-6); допуск країв ряду лого vs межі контейнера
 };
 
 // ───────────────────────────── Аргументи ─────────────────────────────
@@ -169,7 +168,7 @@ const radii = (page) => page.evaluate((cfg) => {
   return fails;
 }, CFG);
 
-// 4. Шрифти: Cormorant Infant у serif-елементах, реально завантажені Cormorant Infant/Inter (не fallback)
+// 4. Шрифти: Cormorant Infant у serif-елементах, Cormorant ЛИШЕ капсом (uppercase або без малих літер), body = Google Sans, обидва шрифти реально завантажені (не fallback)
 const fonts = (page, ctx) => {
   if (ctx.name && CFG.stubPages.includes(ctx.name)) return { fails: [], info: { loaded: [] } };
   return page.evaluate(async (cfg) => {
@@ -179,16 +178,27 @@ const fonts = (page, ctx) => {
     const first = (el) => getComputedStyle(el).fontFamily.split(',')[0].trim().replace(/["']/g, '');
     for (const el of document.querySelectorAll(cfg.serifSel))
       if (visible(el) && !el.matches(cfg.serifExclude) && first(el) !== 'Cormorant Infant') fails.push({ sel: describe(el), measured: first(el), expected: 'Cormorant Infant' });
-    if (first(document.body) !== 'Inter') fails.push({ sel: 'body', measured: first(document.body), expected: 'Inter' });
+    if (first(document.body) !== 'Google Sans') fails.push({ sel: 'body', measured: first(document.body), expected: 'Google Sans' });
+    // Cormorant ТІЛЬКИ КАПСОМ: видимий текстовий вузол з Cormorant має мати uppercase або не містити малих літер
+    {
+      const wk = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
+      for (let n; (n = wk.nextNode()); ) {
+        const t = n.textContent.trim(); const el = n.parentElement;
+        if (!t || !el || /^(SCRIPT|STYLE)$/.test(el.tagName) || !visible(el)) continue;
+        const cs = getComputedStyle(el);
+        if (!/Cormorant/.test(cs.fontFamily) || cs.textTransform === 'uppercase') continue;
+        if (/[a-zа-яіїєґ]/.test(t)) fails.push({ sel: describe(el), measured: 'Cormorant sentence-case: «' + t.slice(0, 30) + '»', expected: 'Cormorant лише КАПСОМ (або Google Sans)' });
+      }
+    }
     // реальна підстановка: ширина тексту зі шрифтом ≠ ширині в усіх generic-fallback
     const ctx = document.createElement('canvas').getContext('2d');
     const w = (f) => { ctx.font = `500 32px ${f}`; return ctx.measureText('Hamburgefonstiv Яснодарка').width; };
     const real = (name) => ['serif', 'sans-serif', 'monospace'].every((g) => Math.abs(w(`"${name}", ${g}`) - w(g)) > 0.5);
     const loaded = [...document.fonts].filter((f) => f.status === 'loaded').map((f) => f.family.replace(/["']/g, ''));
     if (!document.fonts.check('500 16px Cormorant Infant')) fails.push({ sel: 'document.fonts', measured: 'check=false', expected: 'Cormorant Infant 500 true' });
-    if (!document.fonts.check('400 16px Inter')) fails.push({ sel: 'document.fonts', measured: 'check=false', expected: 'Inter 400 true' });
+    if (!document.fonts.check('400 16px Google Sans')) fails.push({ sel: 'document.fonts', measured: 'check=false', expected: 'Google Sans 400 true' });
     if (!real('Cormorant Infant')) fails.push({ sel: 'Cormorant Infant', measured: 'метрики = fallback', expected: 'справжній шрифт' });
-    if (!real('Inter')) fails.push({ sel: 'Inter', measured: 'метрики = fallback', expected: 'справжній шрифт' });
+    if (!real('Google Sans')) fails.push({ sel: 'Google Sans', measured: 'метрики = fallback', expected: 'справжній шрифт' });
     return { fails, info: { loaded: [...new Set(loaded)] } };
   }, CFG);
 };
@@ -256,12 +266,20 @@ const gridAxes = (page) => page.evaluate((cfg) => {
   const L = [], R = [];
   for (let k = 0; k < n; k++) { L.push(pad + k * (cw + gap)); R.push(pad + k * (cw + gap) + cw); }
   const fails = [], nearest = (v, arr) => arr.reduce((a, c) => (Math.abs(c - v) < Math.abs(a - v) ? c : a), arr[0]);
-  const hdr = [['.header__logo', 0, 'лого = колонка 1 (--page-pad)'], ['.header__nav .header__group:nth-child(1) a', 1, 'Каталог = колонка 2'], ['.header__nav .header__group:nth-child(2) a', 2, 'Бренди = колонка 3']];
-  for (const [sel, col, label] of hdr) {
+  // header v3: ліве меню починається від лівої межі сітки, правий блок («Підказати?») закінчується правою межею; два лого по центру — центр = центр вікна ±2px
+  const hdr = [['.header__nav--start a', 'l', 0, 'Головна = ліва межа сітки (--page-pad)'], ['.header__contact--hint', 'r', n - 1, '«Підказати?» = права межа сітки']];
+  for (const [sel, side, col, label] of hdr) {
     const el = document.querySelector(sel);
     if (!el) { fails.push({ sel, measured: 'не знайдено', expected: label }); continue; }
-    const l = el.getBoundingClientRect().left;
-    if (Math.abs(l - L[col]) > cfg.gridTol) fails.push({ sel: describe(el), measured: `left=${l.toFixed(1)}`, expected: `${L[col].toFixed(1)} (${label})` });
+    const bb = el.getBoundingClientRect(), v = side === 'l' ? bb.left : bb.right, ref = side === 'l' ? L[col] : R[col];
+    if (Math.abs(v - ref) > cfg.gridTol) fails.push({ sel: describe(el), measured: `${side === 'l' ? 'left' : 'right'}=${v.toFixed(1)}`, expected: `${ref.toFixed(1)} (${label})` });
+  }
+  {
+    const sp = document.querySelector('.header__brand-sep');
+    if (sp) {
+      const q = sp.getBoundingClientRect(), c = (q.left + q.right) / 2;
+      if (Math.abs(c - W / 2) > 1) fails.push({ sel: '.header__brand-sep', measured: `центр розділювача=${c.toFixed(1)}`, expected: `${(W / 2).toFixed(1)} (центр вікна ±1px)` });
+    } else fails.push({ sel: '.header__brand-sep', measured: 'не знайдено', expected: 'розділювач по центру' });
   }
   let checked = 0;
   for (const sel of cfg.gridTargets) {
@@ -404,39 +422,71 @@ async function focusRing(page) {
 async function headerStates(page, ctx) {
   const fails = [];
   const st = () => page.evaluate(() => {
-    const h = document.querySelector('.header'), l = document.querySelector('.header__logo');
-    return { compact: h.classList.contains('header--compact'), solid: h.classList.contains('header--solid'), fs: parseFloat(getComputedStyle(l).fontSize), ih: innerHeight };
+    const h = document.querySelector('.header'), ls = [...document.querySelectorAll('.header__brand .brand-logo')];
+    const r = ls.map((l) => l.getBoundingClientRect());
+    return { compact: h.classList.contains('header--compact'), solid: h.classList.contains('header--solid'), fs: r[0].height * parseFloat(getComputedStyle(h).getPropertyValue('--logo-word-yasnocraft')), ih: innerHeight, color: getComputedStyle(h).color, logoColors: ls.map((l) => getComputedStyle(l).color), hb: h.getBoundingClientRect().height, rects: r.map((q) => [q.left, q.right, q.top, q.bottom]) };
   });
-  // скрол + очікування (до 3с), доки стан не відповість очікуванню й font-size не стабілізується (лого анімується transition-ом)
+  // скрол + очікування (до 3с), доки стан не відповість очікуванню й висота лого не стабілізується (лого анімується transition-ом)
   const at = async (y, ok = () => true) => {
     await page.evaluate((v) => window.scrollTo(0, v), y);
     let s = await st(), prev = null;
     for (let i = 0; i < 30 && !(ok(s) && prev && Math.abs(s.fs - prev.fs) < 0.01); i++) { await new Promise((r) => setTimeout(r, 100)); prev = s; s = await st(); }
     return s;
   };
-  const tok = (name) => page.evaluate((n) => window.__A.resolveVar(n, 'fontSize'), name);
+  // очікувана ВИСОТА ЛІТЕР слова = min(токен, формула вільної ширини кожної половини центру: (50% − 0.5px − --header-side-w − --header-menu-gap-min − --header-brand-gap) / (ar / word))
+  const expH = (tokName) => page.evaluate((t) => {
+    const { resolveVar } = window.__A, h = document.querySelector('.header'), cs = getComputedStyle(h);
+    const cw = h.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight);
+    const num = (n) => parseFloat(cs.getPropertyValue(n));
+    const half = cw / 2, bg = resolveVar('--header-brand-gap'), gm = resolveVar('--header-menu-gap-min');
+    const fit = Math.min((half - 0.5 - resolveVar('--header-side-w') - gm - bg) / (num('--logo-ar-yasnocraft') / num('--logo-word-yasnocraft')), (half - 0.5 - resolveVar('--header-side-w') - gm - bg) / (num('--logo-ar-bazylsprings') / num('--logo-word-bazylsprings')));
+    return Math.min(resolveVar(t), fit);
+  }, tokName);
   const near = (a, b) => Math.abs(a - b) <= 0.5;
+  // геометрія лого (скан пікселів у scripts окремо; тут — боксы): центр пари = центр вікна ±2px, зазор до найближчого пункту меню ≥ --header-menu-gap-min, лого в межах хедера
+  const geom = async (tag) => {
+    const g = await page.evaluate(() => {
+      const { resolveVar } = window.__A, W = document.documentElement.clientWidth;
+      const rs = [...document.querySelectorAll('.header__brand .brand-logo')].map((l) => l.getBoundingClientRect());
+      const items = [...document.querySelectorAll('.header__nav a, .header__cart, .header__contact--hint')].map((a) => a.getBoundingClientRect());
+      const L = rs[0].left, R = rs[1].right, sep = document.querySelector('.header__brand-sep').getBoundingClientRect(), sc = (sep.left + sep.right) / 2;
+      const gapL = L - Math.max(...items.filter((q) => q.right <= L).map((q) => q.right)), gapR = Math.min(...items.filter((q) => q.left >= R).map((q) => q.left)) - R;
+      const hh = document.querySelector('.header').getBoundingClientRect();
+      return { cw: document.querySelector('.header__cart').getBoundingClientRect().width, hw: document.querySelector('.header__contact--hint').getBoundingClientRect().width, dc: sc - W / 2, ds: (sc - rs[0].right) - (rs[1].left - sc), gap: Math.min(gapL, gapR), top: Math.min(...rs.map((q) => q.top)) - hh.top, bot: hh.bottom - Math.max(...rs.map((q) => q.bottom)), min: resolveVar('--header-menu-gap-min') };
+    });
+    if (Math.abs(g.dc) > 1) fails.push({ sel: '.header__brand-sep', measured: `${tag}: розділювач ${g.dc.toFixed(1)}px від центру вікна`, expected: '±1px' });
+    if (Math.abs(g.ds) > 1) fails.push({ sel: '.header__brand', measured: `${tag}: відстань розділювач→лого ліве−праве = ${g.ds.toFixed(1)}px`, expected: '±1px (симетрія)' });
+    if (Math.abs(g.cw - g.hw) > 0.5) fails.push({ sel: '.header__actions', measured: `${tag}: «Кошик» ${g.cw.toFixed(1)}px vs «Підказати?» ${g.hw.toFixed(1)}px`, expected: 'однакова ширина ±0.5px' });
+    if (g.gap < g.min - 0.01) fails.push({ sel: '.header__brand', measured: `${tag}: зазор до меню ${g.gap.toFixed(1)}px`, expected: `≥ ${g.min}px (--header-menu-gap-min)` });
+    if (g.top < -0.5 || g.bot < -0.5) fails.push({ sel: '.header__brand', measured: `${tag}: лого виходить за хедер (верх ${g.top.toFixed(1)}, низ ${g.bot.toFixed(1)})`, expected: 'у межах хедера' });
+  };
   if (ctx.name === 'index') {
-    const hero = await tok('--header-logo-fs-hero'), logo = await tok('--header-logo-fs');
+    const hero = await expH('--header-logo-h-hero'), logo = await expH('--header-logo-h');
     const s0 = await at(0, (x) => !x.compact);
     if (s0.compact) fails.push({ sel: '.header', measured: 'compact при scrollY=0', expected: 'без .header--compact' });
-    if (!near(s0.fs, hero)) fails.push({ sel: '.header__logo', measured: `font-size=${s0.fs}`, expected: `${hero} (--header-logo-fs-hero)` });
+    if (!near(s0.fs, hero)) fails.push({ sel: '.header__brand .brand-logo', measured: `висота=${s0.fs.toFixed(2)}`, expected: `${hero.toFixed(2)} (min(--header-logo-h-hero, формула вільної ширини))` });
+    await geom('hero scrollY=0');
     const s1 = await at(CFG.headerCompactY, (x) => x.compact);
     if (!s1.compact) fails.push({ sel: '.header', measured: `без compact при scrollY=${CFG.headerCompactY}`, expected: '.header--compact' });
-    else if (!near(s1.fs, logo)) fails.push({ sel: '.header__logo', measured: `compact font-size=${s1.fs}`, expected: `${logo} (--header-logo-fs)` });
+    else if (!near(s1.fs, logo)) fails.push({ sel: '.header__brand .brand-logo', measured: `compact висота=${s1.fs.toFixed(2)}`, expected: `${logo.toFixed(2)} (--header-logo-h)` });
+    await geom(`compact scrollY=${CFG.headerCompactY}`);
+    // колір лого на hero (прозорий header) = колір меню = --c-on-image
+    if (s0.logoColors.some((c) => c !== s0.color)) fails.push({ sel: '.header__brand .brand-logo', measured: `hero: лого ${s0.logoColors.join('/')} vs color ${s0.color}`, expected: 'колір лого = color хедера (currentColor)' });
     const s2 = await at(s1.ih + 200, (x) => x.solid);
     if (!s2.solid) fails.push({ sel: '.header', measured: `без solid при scrollY=${s1.ih + 200}`, expected: '.header--solid' });
     const s3 = await at(0, (x) => !x.solid && !x.compact);
     if (s3.solid || s3.compact) fails.push({ sel: '.header', measured: `після повернення: solid=${s3.solid} compact=${s3.compact}`, expected: 'класи зняті' });
   } else {
-    const logo = await tok('--header-logo-fs'), s = await at(0, (x) => x.fs > 0);
-    if (!near(s.fs, logo)) fails.push({ sel: '.header__logo', measured: `font-size=${s.fs}`, expected: `${logo} (--header-logo-fs)` });
+    const logo = await expH('--header-logo-h'), s = await at(0, (x) => x.fs > 0);
+    if (!near(s.fs, logo)) fails.push({ sel: '.header__brand .brand-logo', measured: `висота=${s.fs.toFixed(2)}`, expected: `${logo.toFixed(2)} (--header-logo-h)` });
+    await geom('scrollY=0');
+    if (s.logoColors.some((c) => c !== s.color)) fails.push({ sel: '.header__brand .brand-logo', measured: `лого ${s.logoColors.join('/')} vs color ${s.color}`, expected: 'колір лого = color хедера (currentColor)' });
     // «Про дім» (body.has-hero-overlay--light): початковий стан — прозорий фон + ТЕМНІ кольори (--c-text, кнопка «Підказати?» темна заливка); після початку прокрутки — solid (--c-bg), ті самі кольори
     if (await page.evaluate(() => document.body.classList.contains('has-hero-overlay--light'))) {
-      const colors = () => page.evaluate(() => { const h = document.querySelector('.header'), b = document.querySelector('.header__contact--hint'), t = document.createElement('i'); t.style.cssText = 'color:var(--c-text);background:var(--c-bg)'; document.body.appendChild(t); const ct = getComputedStyle(t); const ref = { text: ct.color, bg: ct.backgroundColor }; t.remove(); const hs = getComputedStyle(h); return { bg: hs.backgroundColor, color: hs.color, hint: getComputedStyle(b).backgroundColor, hintColor: getComputedStyle(b).color, ref }; });
+      const colors = () => page.evaluate(() => { const h = document.querySelector('.header'), b = document.querySelector('.header__contact--hint'), t = document.createElement('i'); t.style.cssText = 'color:var(--c-text);background:var(--c-bg);border:1px solid var(--c-btn-contact-bg)'; document.body.appendChild(t); const ct = getComputedStyle(t); const ref = { text: ct.color, bg: ct.backgroundColor, btn: ct.borderTopColor }; t.remove(); const hs = getComputedStyle(h); return { bg: hs.backgroundColor, color: hs.color, hint: getComputedStyle(b).backgroundColor, hintColor: getComputedStyle(b).color, ref }; });
       const chk = (c, tag, transparent) => {
         if (c.color !== c.ref.text) fails.push({ sel: '.header', measured: `${tag}: color=${c.color}`, expected: `${c.ref.text} (--c-text)` });
-        if (c.hint !== c.ref.text) fails.push({ sel: '.header__contact--hint', measured: `${tag}: фон=${c.hint}`, expected: `${c.ref.text} (темна заливка)` });
+        if (c.hint !== c.ref.btn) fails.push({ sel: '.header__contact--hint', measured: `${tag}: фон=${c.hint}`, expected: `${c.ref.btn} (--c-btn-contact-bg)` });
         if (transparent ? !/^rgba\(\d+, \d+, \d+, 0\)$|^transparent$/.test(c.bg) : c.bg !== c.ref.bg) fails.push({ sel: '.header', measured: `${tag}: background=${c.bg}`, expected: transparent ? 'прозорий' : `${c.ref.bg} (--c-bg)` });
       };
       await at(0, (x) => !x.solid); await new Promise((r) => setTimeout(r, 500)); chk(await colors(), 'scrollY=0', true);
@@ -517,9 +567,9 @@ async function parallax(page) {
 }
 
 // 15. Hero без накладань: на матриці вікон (heroWidths × heroHeights) для кожної сторінки з [data-hero] збираємо прямокутники ГЛІФІВ
-// (Range по текстових вузлах; кнопки/посилання — їхній бокс; wordmark — реальний прямокутник літер: baseline через нульовий inline-block зонд ± canvas actualBoundingBox*)
-// і перевіряємо: жодна пара різних елементів не перетинається; about v2 (лого YasnoCraft | wordmark KRAFTSPIRITS | лого Bazylsprings + опис): ІНК wordmark = ширина колонок 2–3 ±2px,
-// лого по центрах колонок 1/4 ±2, вертикальні центри лого й гліфів wordmark ±3, зазор гліфи wordmark → опис ≥ --sp-6 (32), опис по центру колонок 2–3 ±2; ніщо не під хедером і не виходить за hero.
+// (Range по текстових вузлах; кнопки/посилання — їхній бокс)
+// і перевіряємо: жодна пара різних елементів не перетинається; about v3 (два лого YasnoCraft | Bazylsprings на всю ширину контейнера + опис): краї ряду лого = межі контейнера ±2px,
+// зазор низ лого → опис ≥ --sp-6 (32), опис по центру колонок 2–3 ±2; ніщо не під хедером і не виходить за hero.
 async function heroOverlap(page, ctx) {
   const has = await page.evaluate(() => !!document.querySelector('[data-hero]'));
   if (!has) return { fails: [], info: { combos: 0 } };
@@ -540,7 +590,6 @@ async function heroOverlap(page, ctx) {
       const label = (el) => (el.tagName.toLowerCase() + [...el.classList].slice(0, 2).map((c) => '.' + c).join(''));
       const inner = hero.querySelector('.hero__inner') || hero;
       const skipMedia = hero.querySelector('.hero__media');
-      const wm = inner.querySelector('.hero__wordmark [aria-hidden]');
       const seen = new Set();
       const interactive = [...inner.querySelectorAll('a,button')];
       interactive.forEach((el) => { items.push({ name: label(el), group: 'row', rects: [rect(el.getBoundingClientRect())] }); seen.add(el); });
@@ -550,7 +599,7 @@ async function heroOverlap(page, ctx) {
       for (let n = walker.nextNode(); n; n = walker.nextNode()) {
         if (!n.textContent.trim()) continue;
         const el = n.parentElement;
-        if (el.closest('a,button,.visually-hidden') || el === wm || (skipMedia && skipMedia.contains(el))) continue;
+        if (el.closest('a,button,.visually-hidden') || (skipMedia && skipMedia.contains(el))) continue;
         const rg = document.createRange(); rg.selectNodeContents(n);
         const rs = [...rg.getClientRects()].filter((q) => q.width > 0 && q.height > 0).map(rect);
         const key = el.closest('p,h1,h2,h3,div,span') || el;
@@ -558,35 +607,20 @@ async function heroOverlap(page, ctx) {
         e.rects.push(...rs); byEl.set(key, e);
       }
       byEl.forEach((e) => items.push(e));
-      let glyphTop = null, glyphBottom = null, inkL = null, inkR = null;
-      if (wm) {
-        const cs = getComputedStyle(wm);
-        const probe = document.createElement('span'); probe.style.cssText = 'display:inline-block;width:0;height:0';
-        wm.appendChild(probe); const base = probe.getBoundingClientRect().bottom; probe.remove();
-        const c = document.createElement('canvas').getContext('2d');
-        c.font = `${cs.fontWeight} ${cs.fontSize} ${cs.fontFamily}`;
-        if ('letterSpacing' in c) c.letterSpacing = cs.letterSpacing;
-        const m = c.measureText(wm.textContent.trim().toUpperCase());
-        const rg = document.createRange(); rg.selectNodeContents(wm);
-        const rr = rg.getBoundingClientRect();
-        glyphTop = base - m.actualBoundingBoxAscent; glyphBottom = base + m.actualBoundingBoxDescent;
-        inkL = rr.left - m.actualBoundingBoxLeft; inkR = rr.left + m.actualBoundingBoxRight;
-        items.push({ name: 'wordmark(гліфи)', group: 'wordmark', rects: [{ l: inkL, t: glyphTop, r: inkR, b: glyphBottom }] });
-      }
-      // about v2: колонки сітки .hero__top (колонки 2–3 = wordmark/опис), лого, опис
+      // about v3: два лого (.hero__brands) на всю ширину контейнера, опис по центру колонок 2–3
       let about = null;
-      const top = inner.querySelector('.hero__top');
-      if (wm && top) {
+      const top = inner.querySelector('.hero__top'), brands = top && top.querySelector('.hero__brands');
+      if (brands) {
         const tcs = getComputedStyle(top), tb = top.getBoundingClientRect();
         const tr = tcs.gridTemplateColumns.split(' ').map(parseFloat), gap = parseFloat(tcs.columnGap);
         const x0 = tb.left + parseFloat(tcs.paddingLeft);
         const colL = (i) => x0 + tr.slice(0, i).reduce((a, v) => a + v + gap, 0), colR = (i) => colL(i) + tr[i];
-        const imgs = [...top.querySelectorAll('.hero__logo img')].map((i) => rect(i.getBoundingClientRect()));
+        const logos = [...brands.querySelectorAll('.brand-logo')].map((i) => rect(i.getBoundingClientRect()));
         const txt = top.querySelector('.hero__text'); const trg = document.createRange(); trg.selectNodeContents(txt);
         const lines = [...trg.getClientRects()].map(rect);
-        about = { c23: [colL(1), colR(2)], c1: [colL(0), colR(0)], c4: [colL(3), colR(3)], imgs, lines };
+        about = { c23: [colL(1), colR(2)], edge: [colL(0), colR(tr.length - 1)], logos, lines };
       }
-      return { items, hb: rect(hb), hdrBottom, glyphTop, glyphBottom, inkL, inkR, about, cw: document.documentElement.clientWidth };
+      return { items, hb: rect(hb), hdrBottom, about, cw: document.documentElement.clientWidth };
     }, CFG);
     combos++;
     const tag = `${ctx.name}@${w}×${h}`;
@@ -608,17 +642,13 @@ async function heroOverlap(page, ctx) {
       if (res.hdrBottom && top < res.hdrBottom - 0.5) fails.push({ sel: `hero: ${it.name}`, measured: `${tag} під хедером: top=${top.toFixed(1)} < header.bottom=${res.hdrBottom.toFixed(1)}`, expected: 'нижче хедера' });
     }
     if (res.about) {
-      const a = res.about, mid = (x, y) => (x + y) / 2, wmC = mid(res.glyphTop, res.glyphBottom);
-      const dL = res.inkL - a.c23[0], dR = res.inkR - a.c23[1];
-      if (Math.abs(dL) > CFG.heroInkTol || Math.abs(dR) > CFG.heroInkTol) fails.push({ sel: 'hero: wordmark (чорнило) ↔ колонки 2–3', measured: `${tag} ліво ${dL.toFixed(1)}px, право ${dR.toFixed(1)}px (ширина ${(res.inkR - res.inkL).toFixed(1)} vs ${(a.c23[1] - a.c23[0]).toFixed(1)})`, expected: `межі чорнила = межі колонок 2–3 ±${CFG.heroInkTol}px` });
-      [[a.imgs[0], a.c1, 'YasnoCraft ↔ колонка 1'], [a.imgs[1], a.c4, 'Bazylsprings ↔ колонка 4']].forEach(([im, col, nm]) => {
-        const dx = mid(im.l, im.r) - mid(col[0], col[1]), dy = mid(im.t, im.b) - wmC;
-        if (Math.abs(dx) > 2) fails.push({ sel: `hero: лого ${nm}`, measured: `${tag} зсув центра по X ${dx.toFixed(1)}px`, expected: 'центр лого = центр колонки ±2px' });
-        if (Math.abs(dy) > CFG.heroCenterTol) fails.push({ sel: `hero: лого ${nm}`, measured: `${tag} зсув центра по Y відносно гліфів wordmark ${dy.toFixed(1)}px`, expected: `спільна вертикальна вісь ±${CFG.heroCenterTol}px` });
-      });
-      const gap = Math.min(...a.lines.map((l) => l.t)) - res.glyphBottom;
+      const a = res.about, mid = (x, y) => (x + y) / 2;
+      // ліве лого впритул до лівої межі контейнера, праве — до правої (viewBox ink-tight ⇒ бокс = чорнило) ±2px
+      const dL = a.logos[0].l - a.edge[0], dR = a.logos[1].r - a.edge[1];
+      if (Math.abs(dL) > CFG.heroInkTol || Math.abs(dR) > CFG.heroInkTol) fails.push({ sel: 'hero: ряд лого ↔ межі контейнера', measured: `${tag} ліво ${dL.toFixed(1)}px, право ${dR.toFixed(1)}px`, expected: `±${CFG.heroInkTol}px` });
+      const gap = Math.min(...a.lines.map((l) => l.t)) - Math.max(...a.logos.map((l) => l.b));
       rows.push(`${w}×${h}:${gap.toFixed(1)}`);
-      if (gap < CFG.heroDescGapMin) fails.push({ sel: 'hero: гліфи wordmark → опис', measured: `${tag} зазор ${gap.toFixed(1)}px`, expected: `≥ ${CFG.heroDescGapMin}px (--sp-6)` });
+      if (gap < CFG.heroDescGapMin) fails.push({ sel: 'hero: лого → опис', measured: `${tag} зазор ${gap.toFixed(1)}px`, expected: `≥ ${CFG.heroDescGapMin}px (--sp-6)` });
       const lx = a.lines.map((l) => mid(l.l, l.r) - mid(a.c23[0], a.c23[1]));
       if (lx.some((d) => Math.abs(d) > 2)) fails.push({ sel: 'hero: опис', measured: `${tag} зсув центрів рядків від центру колонок 2–3: ${lx.map((d) => d.toFixed(1)).join('/')}px`, expected: 'по центру колонок 2–3 ±2px' });
     }
@@ -626,6 +656,48 @@ async function heroOverlap(page, ctx) {
   await page.setViewport({ width: ctx.width, height: 900, deviceScaleFactor: 1 });
   return { fails, info: { combos, gaps: rows } };
 }
+
+// 16. Контраст кольорів (WCAG): computed color текстових елементів проти ефективного фону (композит предків); ≥4.5 звичайний текст, ≥3 великий (≥24px або ≥18.66px bold).
+// Пропускаємо елементи на фото (hero, фото-блоки, предок із background-image), aria-hidden, disabled; placeholder — через ::placeholder.
+const contrast = (page) => page.evaluate((skipSel) => {
+  const { describe, visible } = window.__A;
+  document.getAnimations().forEach((a) => { try { a.finish(); } catch {} }); // завершити fade-анімації (opacity у процесі дає хибні провали)
+  const cv = document.createElement('canvas'); cv.width = cv.height = 1;
+  const cx = cv.getContext('2d', { willReadFrequently: true });
+  const rgba = (css) => { cx.clearRect(0, 0, 1, 1); cx.fillStyle = '#000'; cx.fillStyle = css; cx.fillRect(0, 0, 1, 1); const d = cx.getImageData(0, 0, 1, 1).data; return [d[0], d[1], d[2], css === 'transparent' || /rgba\(0, 0, 0, 0\)/.test(css) ? 0 : d[3] / 255]; };
+  const over = (f, b) => { const a = f[3]; return [f[0] * a + b[0] * (1 - a), f[1] * a + b[1] * (1 - a), f[2] * a + b[2] * (1 - a), 1]; };
+  const lum = (c) => { const f = (v) => { v /= 255; return v <= 0.03928 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4; }; return 0.2126 * f(c[0]) + 0.7152 * f(c[1]) + 0.0722 * f(c[2]); };
+  const ratio = (a, b) => { const x = lum(a), y = lum(b); return (Math.max(x, y) + 0.05) / (Math.min(x, y) + 0.05); };
+  const bgOf = (el) => { // ефективний фон або null (фото)
+    const chain = []; for (let e = el; e; e = e.parentElement) chain.push(e);
+    let base = rgba(getComputedStyle(document.documentElement).backgroundColor); if (base[3] === 0) base = [255, 255, 255, 1];
+    base = base.length ? [base[0], base[1], base[2], 1] : base;
+    for (let i = chain.length - 1; i >= 0; i--) {
+      const cs = getComputedStyle(chain[i]);
+      if (cs.backgroundImage !== 'none') return null;
+      const c = rgba(cs.backgroundColor); if (c[3] > 0) base = over(c, base);
+    }
+    return base;
+  };
+  const alphaOf = (el) => { let a = 1; for (let e = el; e; e = e.parentElement) a *= parseFloat(getComputedStyle(e).opacity); return a; };
+  const fails = []; let n = 0; const seen = new Set();
+  const test = (el, css, label, size, weight) => {
+    if (el.closest(skipSel) || el.closest('[aria-hidden="true"]')) return;
+    const bg = bgOf(el); if (!bg) return;
+    let fg = rgba(css); fg[3] *= alphaOf(el); const eff = over(fg, bg);
+    const large = size >= 24 || (size >= 18.66 && weight >= 700);
+    const need = large ? 3 : 4.5, r = ratio(eff, bg); n++;
+    const key = label + '|' + css; if (r < need && !seen.has(key)) { seen.add(key); fails.push({ sel: label, measured: `${r.toFixed(2)}:1 (${size}px)`, expected: `≥${need}:1` }); }
+  };
+  for (const el of document.querySelectorAll('body *')) {
+    if (!visible(el) || el.disabled || ['SCRIPT', 'STYLE', 'SVG', 'svg', 'IMG', 'PATH'].includes(el.tagName)) continue;
+    const hasText = [...el.childNodes].some((x) => x.nodeType === 3 && x.textContent.trim());
+    const cs = getComputedStyle(el);
+    if (hasText) test(el, cs.color, describe(el), parseFloat(cs.fontSize), parseInt(cs.fontWeight, 10));
+    if ((el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') && el.placeholder) { const pc = getComputedStyle(el, '::placeholder'); test(el, pc.color, describe(el) + '::placeholder', parseFloat(cs.fontSize), 400); }
+  }
+  return { fails, info: { checked: n } };
+}, CFG.contrastSkip);
 
 // Реєстр: [id, заголовок, функція, scope]; scope: all (кожна ширина) | first (лише найширша) | index (лише головна) | global (після обходу)
 const CHECKS = [
@@ -644,6 +716,7 @@ const CHECKS = [
   ['sections', 'Секції головної', sections, 'index'],
   ['parallax', 'Паралакс у рамці', parallax, 'all'],
   ['heroOverlap', 'Hero без накладань', heroOverlap, 'first'],
+  ['contrast', 'Контраст кольорів', contrast, 'first'],
 ];
 
 // ───────────────────────────── Завантаження сторінки ─────────────────────────────

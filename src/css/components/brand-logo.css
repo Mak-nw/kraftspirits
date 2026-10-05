@@ -1,0 +1,38 @@
+/*
+ * brand-logo — векторні лого брендів YasnoCraft / Bazylsprings: inline <svg><use href="#logo-…"></svg> зі спрайта partials/logo-sprite.html (шлях fill=currentColor)
+ * Колір — ЄДИНИЙ токен --c-logo (за замовчуванням --c-text; у header = колір header, білий на hero), обидва лого завжди однакового кольору.
+ * Елементи: a.brand-logo (+ --yasnocraft | --bazylsprings) > svg; .brand-row — ряд із двох лого на всю ширину контейнера (футер, hero «Про дім»); .logo-sprite — спрайт (поза потоком).
+ * Розмір: ширина АБО висота — друга сторона з aspect-ratio (токени --logo-ar-*); viewBox ink-tight, тож краї чорнила = краї боксу.
+ * Оптична жирність: YasnoCraft тонший за Bazylsprings → обводка currentColor `--logo-yc-stroke` (одиниці viewBox) на шляху головного слова (.logo-word) вирівнює товщину стовбурів основних слів; svg overflow visible.
+ * .brand-row: flex space-between; однакова висота літер (--brand-cap), спільна базова лінія, YasnoCraft до лівого краю, Bazylsprings до правого (формула — нижче).
+ * Висота літер слова в header: --logo-word-h (cap-height) → висота бокса = --logo-word-h / --logo-word-<бренд>.
+ * Партіали: header.html (спрайт + 2 лого), footer.html; about.html (hero).
+ */
+.logo-sprite { position: absolute; width: 0; height: 0; overflow: hidden; }
+.brand-logo {
+  display: block; flex: none; aspect-ratio: var(--logo-ar); color: var(--c-logo);
+  transition: opacity var(--dur) var(--ease);
+}
+.brand-logo svg { display: block; width: 100%; height: 100%; overflow: visible; }
+.brand-logo--yasnocraft { --logo-ar: var(--logo-ar-yasnocraft); }
+.brand-logo--bazylsprings { --logo-ar: var(--logo-ar-bazylsprings); }
+/* обводка лише на шляху головного слова YasnoCraft: inline style на <path class="logo-word"> у спрайті (stroke-width: var(--logo-yc-stroke)); ESTD/2026/CLARITY·SPIRIT — інший шлях, лишається тонким */
+a.brand-logo:hover { opacity: 0.7; }
+a.brand-logo:focus-visible { outline: 1px solid currentColor; outline-offset: 3px; }
+
+/* ряд двох лого: ОДНАКОВА висота літер головного слова (--brand-cap, зовнішня, з обводкою), спільна базова лінія; YasnoCraft лівим краєм чорнила до лівого краю ряду, Bazylsprings правим — до правого; проміжок між ними вільний (≥ --brand-row-gap-min ≥ --grid-gap).
+   --brand-cap = (ширина ряду − мін. проміжок) / (ar_Y / word_Y + ar_B / word_B): сума ширин обох лого при цій висоті літер + мін. проміжок = ширина ряду (токени, без px по брейкпоінтах). */
+.brand-row {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  container-type: inline-size;
+}
+.brand-row .brand-logo {
+  --brand-cap: calc((100cqw - var(--brand-row-gap-min)) / (var(--logo-ar-yasnocraft) / (var(--logo-word-yasnocraft) + var(--logo-yc-stroke) / var(--logo-vbh-yasnocraft)) + var(--logo-ar-bazylsprings) / var(--logo-word-bazylsprings)));
+}
+.brand-row .brand-logo--yasnocraft {
+  --brand-yc-h: calc(var(--brand-cap) / (var(--logo-word-yasnocraft) + var(--logo-yc-stroke) / var(--logo-vbh-yasnocraft)));
+  height: var(--brand-yc-h);
+  /* базова лінія Bazylsprings = baseline_B × висота; ззовні YasnoCraft нижче на stroke/2 → зсув = baseline_B × h_B − (baseline_Y + stroke/2/vbh) × h_Y */
+  margin-top: calc(var(--logo-baseline-bazylsprings) * var(--brand-cap) / var(--logo-word-bazylsprings) - (var(--logo-baseline-yasnocraft) + var(--logo-yc-stroke) / 2 / var(--logo-vbh-yasnocraft)) * var(--brand-yc-h));
+}
+.brand-row .brand-logo--bazylsprings { height: calc(var(--brand-cap) / var(--logo-word-bazylsprings)); }

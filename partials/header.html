@@ -1,18 +1,27 @@
 <header class="header">
-  <a class="header__logo" href="./">KraftSpirits</a>
-  <nav class="header__nav" aria-label="Основна навігація">
+  <!--@include logo-sprite-->
+  <nav class="header__nav header__nav--start" aria-label="Основна навігація">
     <div class="header__group">
+      <a class="link-underline" href="./">Головна</a>
       <a class="link-underline" href="catalog.html">Каталог</a>
       <a class="link-underline" href="gifts.html">Подарункові набори</a>
-    </div>
-    <div class="header__group">
-      <a class="link-underline" href="brands.html">Бренди</a>
       <a class="link-underline" href="about.html">Про дім</a>
+    </div>
+  </nav>
+  <div class="header__brand">
+    <a class="brand-logo brand-logo--yasnocraft" href="./" aria-label="YasnoCraft × Bazylsprings — на головну"><svg viewBox="0 0 259.32 31.72" aria-hidden="true" focusable="false"><use href="#logo-yasnocraft"/></svg></a>
+    <span class="header__brand-sep" aria-hidden="true"></span>
+    <a class="brand-logo brand-logo--bazylsprings" href="./" aria-label="YasnoCraft × Bazylsprings — на головну"><svg viewBox="0 0 227.04 33.69" aria-hidden="true" focusable="false"><use href="#logo-bazylsprings"/></svg></a>
+  </div>
+  <div class="header__end">
+  <nav class="header__nav" aria-label="Додаткова навігація">
+    <div class="header__group">
       <a class="link-underline" href="faq.html">FAQ</a>
     </div>
   </nav>
   <div class="header__actions">
-    <a class="header__cart" href="cart.html" aria-label="Кошик"><svg class="header__cart-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4 9L5.5 20.5H18.5L20 9"/><path d="M2.75 9H21.25"/><path d="M7.5 9C7.5 5 9.5 3.25 12 3.25S16.5 5 16.5 9"/><path d="M9.25 12.5V17M12 12.5V17M14.75 12.5V17"/></svg>Кошик (<span data-cart-count>0</span>)</a>
+    <a class="header__cart" href="cart.html" aria-label="Кошик"><svg class="header__cart-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4 9L5.5 20.5H18.5L20 9"/><path d="M2.75 9H21.25"/><path d="M7.5 9C7.5 5 9.5 3.25 12 3.25S16.5 5 16.5 9"/><path d="M9.25 12.5V17M12 12.5V17M14.75 12.5V17"/></svg><span class="header__cart-text"><span class="header__cart-label">Кошик</span> <span class="header__cart-count">(<span class="header__cart-n" data-cart-count>0</span>)</span></span></a>
     <a class="header__contact header__contact--hint" href="contacts.html#help">Підказати?</a>
+  </div>
   </div>
 </header>

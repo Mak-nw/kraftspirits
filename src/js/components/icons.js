@@ -1,7 +1,7 @@
 // Іконки пляшки (контур, currentColor): 0,5 л — найнижча, 0,7 л — середня, 1 л — найвища.
 // bottleIcon(volume, { size }) → інлайн-SVG рядок. size (необов'язково) — висота в px; без нього висоту дають токени --bottle-h-*.
 // Усередині SVG є шар заливки .bottle-icon__fill (прихований; показується для вибраного об'єму, див. bottle-icon.css); { filled: true } показує його завжди.
-// Файлові версії (stroke #2b1d14): public/assets/icons/bottle-0-5.svg, bottle-0-7.svg, bottle-1.svg; із заливкою — *.filled.svg.
+// Файлові версії (stroke #223420): public/assets/icons/bottle-0-5.svg, bottle-0-7.svg, bottle-1.svg; із заливкою — *.filled.svg.
 // basketIcon({ className }) → інлайн-SVG іконка продуктового кошика 24×24 для кнопок (контур, currentColor).
 export const BOTTLE_VOLUMES = [0.5, 0.7, 1];
 

@@ -3,8 +3,6 @@ import products from '../data/products.json';
 import { addToCart } from './cart.js';
 import { mountPopularChoice } from './components/popular-choice.js';
 import { renderCategoryList } from './components/category-list.js';
-import occasions from '../data/occasions.json';
-import { renderOccasionPicker, bindOccasionPicker } from './components/occasion-picker.js';
 import { initParallax } from './components/parallax.js';
 import { esc } from './components/format.js';
 import { renderAccordion, bindAccordions } from './components/accordion.js';
@@ -39,13 +37,7 @@ if (categoryList) {
 // ⚠ Склад «Хіт» — рішення замовника; комерційна достовірність (продажі) — на підтвердження клієнтом (home-copy.md, розд. 7)
 mountPopularChoice(document.querySelector('[data-popular-choice]'), { products, onAdd: addToCart, headButton: true });
 
-// Вибір під подію: список подій і товари добірки — з occasions.json (slug-и з products.json)
-const occasionPicker = document.getElementById('home-occasions');
-if (occasionPicker) {
-  occasionPicker.innerHTML = renderOccasionPicker(occasions);
-  bindOccasionPicker(occasionPicker, { occasions, bySlug });
-}
-initParallax(); // hero, «Про дім», фони occasion
+initParallax(); // hero, «Про дім»
 
 // §10 FAQ
 // ⚠ Відповіді 1, 2, 4, 5, 6 мають непідтверджені дані (home-copy, п. 11 розділу «Дані для підтвердження»):

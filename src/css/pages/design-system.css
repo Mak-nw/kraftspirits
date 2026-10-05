@@ -31,6 +31,13 @@
 .ds-chip--c-divider { background: var(--c-divider); }
 .ds-chip--c-panel { background: var(--c-panel); }
 .ds-chip--c-focus { background: var(--c-focus); }
+.ds-chip--c-btn-bg { background: var(--c-btn-bg); }
+.ds-chip--c-btn-text { background: var(--c-btn-text); }
+.ds-chip--c-btn-bg-hover { background: var(--c-btn-bg-hover); }
+.ds-chip--c-dark-bg { background: var(--c-dark-bg); }
+.ds-chip--c-on-dark { background: var(--c-on-dark); }
+.ds-chip--c-on-dark-strong { background: var(--c-on-dark-strong); }
+.ds-chip--c-on-dark-muted { background: var(--c-on-dark-muted); }
 .ds-chip--c-badge-bg { background: var(--c-badge-bg); }
 .ds-chip--c-badge-new-bg { background: var(--c-badge-new-bg); }
 .ds-chip--c-badge-limit-bg { background: var(--c-badge-limit-bg); }

@@ -1,4 +1,4 @@
-/* «Про дім»: hero--about v2 (лого YasnoCraft | wordmark KRAFTSPIRITS | лого Bazylsprings на небі + опис під wordmark); решта блоків — окремі задачі. База .hero — components/hero.css */
+/* «Про дім»: hero--about v3 (два лого YasnoCraft | Bazylsprings великим планом на небі + опис під ними); решта блоків — окремі задачі. База .hero — components/hero.css */
 @import '../components/brand-split.css';
 @import '../components/process-track.css';
 @import '../components/principles-grid.css';
@@ -19,46 +19,32 @@ body.page-about main { display: block; }
 /* фото без затемнення (рішення замовника): базовий оверлей .hero__media::after вимкнено, ні тінта, ні градієнтів */
 .hero--about .hero__media::after { content: none; }
 
-/* верхній ряд на небі: 4 колонки сітки сайту (як у хедері): лого YasnoCraft | wordmark у колонках 2–3 | лого Bazylsprings; опис під wordmark (колонки 2–3).
-   Вертикальний центр ряду = --hero-row-y висоти hero, але не вище за --header-h + --sp-8. Геометрія лише від ширини hero (cqw контейнера .hero__inner):
-   --col-w = ширина колонки сітки, --wm-w = колонки 2+3, кегль wordmark = --wm-w / --wordmark-fit (чорнило тексту = ширині колонок 2–3). */
+/* верхній ряд на небі: ДВА ЛОГО брендів великим планом (.brand-row: однакова висота літер, YasnoCraft до лівого краю, Bazylsprings до правого, спільна базова лінія), під ними опис по центру колонок 2–3.
+   Верх ряду = --hero-row-y висоти hero, але не вище за --header-h + --sp-8. H1 сторінки — візуально прихований (.visually-hidden), лого — посилання на каталог бренду. */
 .hero--about .hero__inner { container-type: inline-size; }
 .hero--about .hero__top {
   --col-w: calc((100cqw - 2 * var(--page-pad) - 3 * var(--grid-gap)) / 4);
   --wm-w: calc(2 * var(--col-w) + var(--grid-gap));
-  --wm-fs: calc(var(--wm-w) / var(--wordmark-fit));
-  --hero-logo-w: calc(var(--col-w) * var(--hero-logo-share));
   position: absolute; left: 0; right: 0; padding-inline: var(--page-pad);
-  top: calc(max(var(--hero-row-y), var(--header-h) + var(--sp-8)) - var(--wm-fs) * var(--lh-wordmark) / 2);
-  display: grid; grid-template-columns: repeat(var(--grid-cols), minmax(0, 1fr)); column-gap: var(--grid-gap); align-items: center;
+  top: max(var(--hero-row-y), calc(var(--header-h) + var(--sp-8)));
+  display: grid; grid-template-columns: repeat(var(--grid-cols), minmax(0, 1fr)); column-gap: var(--grid-gap); align-items: start;
 }
-.hero--about .hero__wordmark {
-  grid-column: 2 / 4; justify-self: start; width: max-content; margin: 0 0 0 calc(-1 * var(--wordmark-ink-inset) * 1em);
-  font-size: var(--wm-fs); white-space: nowrap;
-}
-.hero--about .hero__logo { display: block; justify-self: center; line-height: 0; transition: opacity var(--dur) var(--ease); }
-.hero--about .hero__logo--yasnocraft { grid-column: 1; grid-row: 1; }
-.hero--about .hero__logo--bazylsprings { grid-column: 4; grid-row: 1; }
-.hero--about .hero__logo img { display: block; width: var(--hero-logo-w); height: auto; object-fit: contain; }
-.hero--about .hero__logo--bazylsprings img { width: calc(var(--hero-logo-w) * var(--hero-logo-rel-bazylsprings)); }
-.hero--about .hero__logo:hover { opacity: 0.7; }
-.hero--about a.hero__logo:focus-visible { outline: 1px solid var(--c-text); outline-offset: 3px; }
-/* опис: по центру колонок 2–3, під гліфами wordmark на --hero-desc-gap (від бокса wordmark віднімається нижній cap-offset) */
+.hero--about .hero__brands { grid-column: 1 / -1; grid-row: 1; }
+/* опис: по центру колонок 2–3, під рядом лого на --hero-desc-gap */
 .hero--about .hero__text {
   grid-column: 2 / 4; grid-row: 2; justify-self: center; text-align: center; text-wrap: balance;
   max-width: calc(var(--wm-w) * var(--hero-desc-share));
-  margin-top: calc(var(--hero-desc-gap) - var(--wm-cap-offset-bottom) * var(--wm-fs));
+  margin-top: var(--hero-desc-gap);
 }
 
 /* вертикальний ритм: єдиний ВИДИМИЙ проміжок --about-section-gap між змістовими краями сусідніх секцій (hero → … → visit → CTA).
    Власні вертикальні margin/padding секцій скинуто (лише на «Про дім»), проміжок задає margin-top наступної секції.
-   Маніфест: фон розтушований, видимий вміст — кільця (від 10% висоти рамки) → проміжок зменшено на --about-manifest-ink-inset зверху й знизу. CTA-блок (поза main): padding-top = gap; CTA→footer не чіпаємо. */
+   Маніфест: фон розтушований, видимий вміст — кільця (від 10% висоти рамки) → проміжок зменшено на --about-manifest-ink-inset зверху й знизу. Блок низу (pre-footer, поза main) має власний єдиний відступ --section-pad-y. */
 body.page-about main > :is(.about-manifest, .about-brands, .process, .section, .visit-split) { margin-block: 0; }
 body.page-about main > .section { padding-block: 0; }
 body.page-about main > :is(.about-brands, .process, .section, .visit-split) { margin-top: var(--about-section-gap); }
 body.page-about main > .about-manifest { margin-top: calc(var(--about-section-gap) - var(--about-manifest-ink-inset)); }
 body.page-about main > .about-manifest + * { margin-top: calc(var(--about-section-gap) - var(--about-manifest-ink-inset)); }
-body.page-about .cta-block { padding-top: var(--about-section-gap); }
 
 /* висячі слова: великі заголовки «Про дім» вирівнюються за довжиною рядків (balance; fallback — pretty) */
 body.page-about :is(.place__title, .about-manifest__title, .principles .section-title, .about-brands__name, .process .section-title, .visit-split__title) { text-wrap: pretty; }

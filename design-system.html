@@ -3,7 +3,7 @@
   <head>
     <!--@include head-->
     <link rel="stylesheet" href="/src/css/pages/design-system.css" />
-    <title>Дизайн-система — KraftSpirits</title>
+    <title>Дизайн-система — YasnoCraft × Bazylsprings</title>
     <meta name="robots" content="noindex" />
   </head>
   <body class="page-design-system">
@@ -12,7 +12,7 @@
       <div class="ds-hero">
         <p class="eyebrow">Довідник</p>
         <h1 class="ds-hero__title">Дизайн-система</h1>
-        <p class="ds-hero__lead">Токени та компоненти KraftSpirits: світлий беж, темно-коричневий текст, serif для заголовків, sans для інтерфейсу. Нові елементи будуються з них; новий компонент спершу документується тут і в <code>site/design-system.md</code>.</p>
+        <p class="ds-hero__lead">Токени та компоненти YasnoCraft × Bazylsprings: світлий беж, темно-коричневий текст, serif для заголовків, sans для інтерфейсу. Нові елементи будуються з них; новий компонент спершу документується тут і в <code>site/design-system.md</code>.</p>
         <nav class="ds-nav" aria-label="Розділи довідника">
           <a class="link-underline" href="#colors">Колір</a>
           <a class="link-underline" href="#typography">Типографіка</a>
@@ -108,7 +108,66 @@
           <span class="ds-swatch__hex" data-hex="ds-chip--c-badge-text"></span>
           <p class="ds-swatch__use">Текст на кольорових бейджах</p>
         </div>
+        <div class="ds-swatch">
+          <div class="ds-swatch__chip ds-chip--c-btn-bg"></div>
+          <code class="ds-swatch__name">--c-btn-bg</code>
+          <span class="ds-swatch__hex" data-hex="ds-chip--c-btn-bg"></span>
+          <p class="ds-swatch__use">Кнопки: заливка primary, рамка й текст outline</p>
         </div>
+        <div class="ds-swatch">
+          <div class="ds-swatch__chip ds-chip--c-btn-text"></div>
+          <code class="ds-swatch__name">--c-btn-text</code>
+          <span class="ds-swatch__hex" data-hex="ds-chip--c-btn-text"></span>
+          <p class="ds-swatch__use">Текст на заливці кнопки</p>
+        </div>
+        <div class="ds-swatch">
+          <div class="ds-swatch__chip ds-chip--c-btn-bg-hover"></div>
+          <code class="ds-swatch__name">--c-btn-bg-hover</code>
+          <span class="ds-swatch__hex" data-hex="ds-chip--c-btn-bg-hover"></span>
+          <p class="ds-swatch__use">Hover primary: світліший синій</p>
+        </div>
+        <div class="ds-swatch">
+          <div class="ds-swatch__chip ds-chip--c-dark-bg"></div>
+          <code class="ds-swatch__name">--c-dark-bg</code>
+          <span class="ds-swatch__hex" data-hex="ds-chip--c-dark-bg"></span>
+          <p class="ds-swatch__use">Темна секція (pre-footer)</p>
+        </div>
+        <div class="ds-swatch">
+          <div class="ds-swatch__chip ds-chip--c-on-dark"></div>
+          <code class="ds-swatch__name">--c-on-dark</code>
+          <span class="ds-swatch__hex" data-hex="ds-chip--c-on-dark"></span>
+          <p class="ds-swatch__use">Довгий текст на темному</p>
+        </div>
+        <div class="ds-swatch">
+          <div class="ds-swatch__chip ds-chip--c-on-dark-strong"></div>
+          <code class="ds-swatch__name">--c-on-dark-strong</code>
+          <span class="ds-swatch__hex" data-hex="ds-chip--c-on-dark-strong"></span>
+          <p class="ds-swatch__use">Заголовки й активне на темному</p>
+        </div>
+        <div class="ds-swatch">
+          <div class="ds-swatch__chip ds-chip--c-on-dark-muted"></div>
+          <code class="ds-swatch__name">--c-on-dark-muted</code>
+          <span class="ds-swatch__hex" data-hex="ds-chip--c-on-dark-muted"></span>
+          <p class="ds-swatch__use">Приглушений текст на темному</p>
+        </div>
+        </div>
+        <h3 class="ds-sub">3 комбінації та контраст WCAG</h3>
+        <table class="ds-table">
+          <thead><tr><th>Комбінація</th><th>Пара (текст / фон)</th><th>Контраст</th></tr></thead>
+          <tbody>
+            <tr><td>1. Світлий фон + зелений текст</td><td>--c-text #223420 / --c-bg #eae9e8</td><td>10.96</td></tr>
+            <tr><td></td><td>--c-text / --c-tile #dbd9d5</td><td>9.43</td></tr>
+            <tr><td></td><td>--c-muted #4e5c4c / --c-bg · / --c-tile</td><td>5.87 · 5.04</td></tr>
+            <tr><td></td><td>--c-muted-light #7c857a / --c-bg (лише великий текст)</td><td>3.14</td></tr>
+            <tr><td>2. Кнопки покупок/навігації (.btn--buy)</td><td>--c-btn-buy-text #eae9e8 / --c-btn-buy-bg #051d27 · hover #2e424a</td><td>14.30 · 8.71</td></tr>
+            <tr><td>2. Кнопки зв’язку (.btn--contact)</td><td>--c-btn-contact-text #eae9e8 / --c-btn-contact-bg #223420 · hover #465544</td><td>10.96 · 6.59</td></tr>
+            <tr><td></td><td>Бейджі: «Хіт» / «Новинка» / «Ліміт»</td><td>14.30 / 10.96 / 10.96</td></tr>
+            <tr><td>3. Темно-коричневий + крем</td><td>--c-on-dark #eae9e8 / --c-dark-bg #36281f</td><td>11.70</td></tr>
+            <tr><td></td><td>--c-on-dark-strong #cbaf86 / --c-dark-bg</td><td>6.77</td></tr>
+            <tr><td></td><td>--c-on-dark-muted #a6a09c / --c-dark-bg</td><td>5.47</td></tr>
+            <tr><td></td><td>Кнопка на коричневому: #36281f / #cbaf86</td><td>6.77</td></tr>
+          </tbody>
+        </table>
       </section>
 
       <!-- (б) Типографіка -->
@@ -132,12 +191,10 @@
         </div>
 
         <h3 class="ds-sub">Типографічна шкала</h3>
-        <p class="ds-section__lead">12 ролей, розміри — токени <code>--fs-*</code> (clamp; значення на 1200 / 1440 / 1920 px). Типографіку задає лише реєстр ролей <code>components/typography.css</code>; компоненти її не перевизначають. Утиліти <code>.t-&lt;роль&gt;</code> — для нових блоків. Регістр: КАПС — h1, h2, display, wordmark, назви-бренди; звичайний — назви-елементи (h3), списки, питання FAQ, абзаци.</p>
+        <p class="ds-section__lead">10 ролей, розміри — токени <code>--fs-*</code> (clamp; значення на 1200 / 1440 / 1920 px). Типографіку задає лише реєстр ролей <code>components/typography.css</code>; компоненти її не перевизначають. Утиліти <code>.t-&lt;роль&gt;</code> — для нових блоків. Регістр: КАПС — h1, h2, display, wordmark, назви-бренди; звичайний — назви-елементи (h3), списки, питання FAQ, абзаци.</p>
         <table class="ds-typo">
           <thead><tr><th>Роль</th><th>Живий приклад</th><th>Розмір 1200 / 1440 / 1920</th><th>Вага</th><th>Міжрядок</th><th>Трекінг</th><th>Регістр</th><th>Токен · де застосовано</th></tr></thead>
           <tbody>
-            <tr><td><code>wordmark</code></td><td><div class="ds-typo__sample t-wordmark">KraftSpirits</div></td><td class="ds-typo__num">194 / 233 / 302</td><td class="ds-typo__num">600</td><td class="ds-typo__num">0.9</td><td class="ds-typo__num">−0.015em</td><td>КАПС</td><td><code>--fs-wordmark</code> · footer-стрічка; hero «Про дім» (fit-width, --wordmark-fit)</td></tr>
-            <tr><td><code>logo</code></td><td><div class="ds-typo__sample t-logo">KraftSpirits</div></td><td class="ds-typo__num">26 (hero головної до 48)</td><td class="ds-typo__num">400</td><td class="ds-typo__num">1.4</td><td class="ds-typo__num">−0.015em</td><td>КАПС</td><td><code>--header-logo-fs</code> · лого у header (Cormorant Infant); hero головної <code>--header-logo-fs-hero</code></td></tr>
             <tr><td><code>display</code></td><td><div class="ds-typo__sample t-display">Одна майстерня</div></td><td class="ds-typo__num">57.6 / 69.1 / 92.2</td><td class="ds-typo__num">600</td><td class="ds-typo__num">1.05</td><td class="ds-typo__num">−0.01em</td><td>КАПС</td><td><code>--fs-display</code> · H1 hero головної; цифри principles (numeral, 500)</td></tr>
             <tr><td><code>h1</code></td><td><div class="ds-typo__sample t-h1">Весь каталог</div></td><td class="ds-typo__num">46.8 / 56.2 / 70</td><td class="ds-typo__num">600</td><td class="ds-typo__num">1.08</td><td class="ds-typo__num">−0.01em</td><td>КАПС</td><td><code>--fs-h1</code> · H1 каталогу, товару, довідника</td></tr>
             <tr><td><code>h2</code></td><td><div class="ds-typo__sample t-h2">Популярний вибір</div></td><td class="ds-typo__num">44.4 / 53.3 / 66</td><td class="ds-typo__num">600</td><td class="ds-typo__num">1.05</td><td class="ds-typo__num">−0.01em</td><td>КАПС</td><td><code>--fs-h2</code> · section-title, «Місце та люди», лого-напис бренду</td></tr>
@@ -167,7 +224,7 @@
           <p class="t-body">Напишіть, який привід і смак вам ближче — підберемо напій або набір. Без нав’язування.</p>
           <p class="ds-demo__label">Абзац — роль body (<code>--fs-body</code>, 14px), Inter, <code>--c-text</code>; другорядний — <code>--c-muted</code>.</p>
         </div>
-        <p class="ds-section__lead">Letter-spacing: <code>--ls-wordmark</code> (−0.015em), <code>--ls-caps</code> (serif КАПС: −0.01em), <code>--ls-heading</code> (serif звичайне: −0.02em), <code>--ls-caps-sans-sm</code> (+0.06em, ≤13px), <code>--ls-caps-sans-md</code> (+0.03em, 14–24px). Line-height: <code>--lh-body</code>, <code>--lh-title</code>, <code>--lh-heading</code>, <code>--lh-lead</code>, <code>--lh-reading</code>, <code>--lh-none</code>, <code>--lh-wordmark</code>. Вага: <code>--fw-regular</code> 400, <code>--fw-medium</code> 500, <code>--fw-semibold</code> 600. Регістр: <code>--tt-heading</code> (uppercase), <code>--tt-sentence</code> (none).</p>
+        <p class="ds-section__lead">Letter-spacing: <code>--ls-caps</code> (serif КАПС: −0.01em), <code>--ls-heading</code> (serif звичайне: −0.02em), <code>--ls-caps-sans-sm</code> (+0.06em, ≤13px), <code>--ls-caps-sans-md</code> (+0.03em, 14–24px). Line-height: <code>--lh-body</code>, <code>--lh-title</code>, <code>--lh-heading</code>, <code>--lh-lead</code>, <code>--lh-reading</code>, <code>--lh-none</code>. Вага: <code>--fw-regular</code> 400, <code>--fw-medium</code> 500, <code>--fw-semibold</code> 600. Регістр: <code>--tt-heading</code> (uppercase), <code>--tt-sentence</code> (none).</p>
       </section>
 
       <!-- (в) Відступи, сітка, радіуси, z-index -->
@@ -520,11 +577,11 @@
 
         <article class="ds-comp" id="c-cta">
           <h3 class="ds-comp__title">cta-block</h3>
-          <p class="ds-comp__classes"><code>.cta-block</code> · <code>__box</code> · <code>__content</code> · <code>__title</code> · <code>__text</code> · <code>__buttons</code> · partial <code>cta-block-home</code> / <code>cta-block-page</code></p>
+          <p class="ds-comp__classes"><code>.cta-block</code> · <code>__box</code> · <code>__content</code> · <code>__title</code> · <code>__text</code> · <code>__buttons</code> · єдиний partial <code>pre-footer</code></p>
           <div class="ds-demo ds-demo--flush">
-            <!--@include cta-block-home-->
+            <!--@include pre-footer-->
           </div>
-          <p class="ds-when"><strong>Коли використовувати:</strong> наприкінці сторінки перед footer: <code>&lt;!--@include cta-block-home--&gt;</code> (головна) або <code>&lt;!--@include cta-block-page--&gt;</code> (catalog, product, about, faq, gifts; з occasion-picker без заголовка). Демо тут — варіант home.</p>
+          <p class="ds-when"><strong>Коли використовувати:</strong> шаблон низу сторінок, один варіант: <code>&lt;!--@include pre-footer--&gt;</code> після <code>&lt;/main&gt;</code>, перед footer (index, about, catalog, faq, product, gifts, contacts, brands; без блоку — cart, checkout, order-thanks, age-gate, 404). Кнопка «Зв'язатися з менеджером ↗» → contacts.html#manager, під нею occasion-picker без заголовка.</p>
         </article>
 
         <article class="ds-comp" id="c-empty-state">

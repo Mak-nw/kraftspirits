@@ -1,7 +1,7 @@
 /* Сторінка каталогу: лише специфіка сторінки; решта — компоненти (container, page-title, filter-bar, grid-4, empty-state) */
 .catalog__title { margin-top: var(--page-top-gap); }
 .catalog__bar { margin-top: var(--sp-8); }
-.catalog__grid { margin-bottom: var(--sp-7); }
+.catalog__grid + .empty-state { margin-top: var(--sp-7); } /* нижнє поле сторінки задає лише блок pre-footer */
 
 @media (max-width: 760px) {
   .catalog__title { margin-top: 72px; }

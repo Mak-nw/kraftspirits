@@ -1,18 +1,31 @@
 /*
- * cta-block — загальний блок «Залишились питання?» внизу сторінок (над footer): фон-контейнер на осях сітки
- * Елементи: __box (фон --c-tile від колонки 1 до кінця колонки 4: x = --page-pad … clientWidth − --page-pad; радіус 0; padding --sp-9 зверху/знизу),
- * __content (по центру; бічні відступи --card-pad-x), __title (разом із .section-title), __text, __buttons.
- * Варіанти (два partial-и на спільних класах): .cta-block--home (partials/cta-block-home.html: «Відкрити каталог» dark + «Написати в месенджер» outline),
- * .cta-block--page (partials/cta-block-page.html: лише dark «Зв'язатися з менеджером» + під ним occasion-picker--in-block без заголовка, медіа до країв контейнера, без нижнього padding).
- * Підключення: <!--@include cta-block-home--> / <!--@include cta-block-page-->; на сторінці — один блок. JS: src/js/components/cta-block.js.
- * Сторінки: index (home); catalog, product, about, faq (page). Без блоку: gifts, cart, age-gate, checkout, order-thanks, 404, contacts, design-system (демо).
- * Токени: --c-tile, --sp-9, --sp-10, --card-pad-x, --page-pad, --section-pad-y.
+ * cta-block — ЄДИНИЙ шаблон низу сторінок «Залишились питання?» (над footer): фон-контейнер на осях сітки; один partial partials/pre-footer.html, без варіантів.
+ * Елементи: __box (фон --c-dark-bg (єдина темна секція) від колонки 1 до кінця колонки 4: x = --page-pad … clientWidth − --page-pad; радіус 0; padding --sp-9 зверху, знизу 0 — медіа picker до краю),
+ * __content (по центру; бічні відступи --card-pad-x), __title (разом із .section-title), __text, __buttons («Зв'язатися з менеджером ↗» → contacts.html#manager),
+ * під ним occasion-picker--in-block без заголовка (дані завантажує src/js/components/cta-block.js).
+ * Підключення: <!--@include pre-footer--> після </main>, перед footer; один блок на сторінці.
+ * Сторінки з блоком: index, about, catalog, faq, product, gifts, contacts, brands. Без блоку (транзакційні/службові): cart, checkout, order-thanks, age-gate, 404; design-system (демо компонента).
+ * Відступ згори до блоку — один: --section-pad-y (без page-specific перевизначень). Токени: --c-dark-bg, --c-on-dark, --c-on-dark-strong, --c-on-dark-muted, --sp-9, --card-pad-x, --page-pad, --section-pad-y.
  */
-.cta-block { padding: var(--sp-10) var(--page-pad) var(--section-pad-y); }
-.cta-block__box { padding: var(--sp-9) 0; background: var(--c-tile); border-radius: var(--radius-none); text-align: center; overflow-x: clip; }
-.cta-block--page .cta-block__box { padding-bottom: 0; }
+.cta-block { padding: var(--section-pad-y) var(--page-pad) var(--section-pad-y); }
+.cta-block__box { padding: var(--sp-9) 0 0; background: var(--c-dark-bg); color: var(--c-on-dark); border-radius: var(--radius-none); text-align: center; overflow-x: clip; }
 .cta-block__content { padding-inline: var(--card-pad-x); }
 .cta-block__title { max-width: 1100px; margin: var(--sp-5) auto 0; }
-.cta-block__text { max-width: 480px; margin: var(--sp-5) auto 0; color: var(--c-muted); }
+.cta-block__text { max-width: 480px; margin: var(--sp-5) auto 0; color: var(--c-on-dark); }
+.cta-block__title, .cta-block .eyebrow { color: var(--c-on-dark-strong); }
 .cta-block__buttons { display: flex; flex-wrap: wrap; justify-content: center; gap: var(--sp-3); margin-top: var(--sp-7); }
-.cta-block .btn:not(.btn--primary):not(:hover) { background: var(--c-bg); } /* «біла» контурна кнопка на плитці */
+.cta-block .btn { border-color: var(--c-on-dark-strong); color: var(--c-on-dark-strong); } /* інверсія на коричневому: світла заливка + коричневий текст */
+.cta-block .btn--primary, .cta-block .btn--contact, .cta-block .btn:hover { background: var(--c-on-dark-strong); border-color: var(--c-on-dark-strong); color: var(--c-dark-bg); }
+.cta-block .btn--primary:hover, .cta-block .btn--contact:hover { background: var(--c-on-dark); border-color: var(--c-on-dark); color: var(--c-dark-bg); }
+/* occasion-picker на темному: активне слово кремове, неактивні приглушені; картка товару лишається світлою */
+.cta-block .occasion-picker__tab { color: var(--c-on-dark-muted); }
+.cta-block .occasion-picker__tab[aria-selected='true'], .cta-block .occasion-picker__tabs:hover .occasion-picker__tab:hover { color: var(--c-on-dark-strong); }
+.cta-block .occasion-picker__tabs:hover .occasion-picker__tab:not(:hover) { color: var(--c-on-dark-muted); }
+.cta-block .occasion-picker__tab:focus-visible, .cta-block .occasion-picker__stage:focus-visible { outline-color: var(--c-on-dark-strong); }
+.cta-block .occasion-picker__media { background: var(--c-dark-bg); }
+/* единий видимий проміжок до блоку: власні нижні поля <main> і його останньої секції скидаються (відступ задає лише .cta-block) */
+main:has(+ .cta-block) { padding-bottom: 0; margin-bottom: 0; }
+main:has(+ .cta-block) > :last-child { padding-bottom: 0; margin-bottom: 0; }
+/* картка товару всередині темної секції лишається світлою: кнопка — звичайна синя */
+.cta-block .occasion-picker__card .btn { border-color: var(--c-btn-bg); background: var(--c-btn-bg); color: var(--c-btn-text); }
+.cta-block .occasion-picker__card .btn:hover { background: var(--c-btn-bg-hover); border-color: var(--c-btn-bg-hover); color: var(--c-btn-text); }

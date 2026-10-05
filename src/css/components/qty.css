@@ -21,7 +21,7 @@
 .qty__btn--minus { border-right: 1px solid var(--c-divider-strong); }
 .qty__btn--plus { border-left: 1px solid var(--c-divider-strong); }
 .qty__btn svg { width: var(--sp-3); height: var(--sp-3); fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
-.qty__btn:hover:not(:disabled) { background: var(--c-text); color: var(--c-bg); }
+.qty__btn:hover:not(:disabled) { background: var(--c-btn-bg); color: var(--c-btn-text); }
 .qty__btn:disabled { color: var(--c-muted-light); cursor: default; }
 .qty__input {
   flex: 1 1 auto; min-width: 0; padding: 0 var(--sp-3); margin: 0;

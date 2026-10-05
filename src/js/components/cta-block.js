@@ -1,5 +1,4 @@
-// Компонент cta-block: ініціалізує occasion-picker усередині блоку (варіант page) — сам завантажує occasions.json і products.json.
-// На головній (варіант home) контейнера [data-cta-picker] немає — нічого не робить (picker #occasions ініціалізує home.js).
+// Компонент cta-block (partials/pre-footer.html): ініціалізує occasion-picker усередині блоку — сам завантажує occasions.json і products.json.
 import { initParallax } from './parallax.js';
 const mount = document.querySelector('[data-cta-picker]');
 if (mount) {

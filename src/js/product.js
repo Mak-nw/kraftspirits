@@ -66,7 +66,7 @@ function relatedProducts(p) {
 }
 
 function setMeta(p) {
-  document.title = p.seoTitle || `${p.name} — KraftSpirits`;
+  document.title = p.seoTitle || `${p.name} — YasnoCraft × Bazylsprings`;
   const meta = document.querySelector('meta[name="description"]');
   if (meta) meta.setAttribute('content', p.seoDescription || p.description || '');
 }
@@ -82,7 +82,7 @@ function renderBuy(p, stock) {
       </span>
     </label>`).join('');
   const actions = stock === 'soon'
-    ? `<a class="btn btn--primary btn--block" href="${url('/contacts.html#release')}">Повідомити про реліз</a>`
+    ? `<a class="btn btn--contact btn--block" href="${url('/contacts.html#release')}">Повідомити про реліз</a>`
     : `<div class="product__row">
         <p class="price price--lg product__price" data-price-out>${formatPrice(p.volumes[0].price)}</p>
         ${renderQty({ value: 1, min: 1, max: 99 })}

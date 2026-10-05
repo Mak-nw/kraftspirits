@@ -12,3 +12,13 @@ if (form) {
     if (status) status.textContent = 'Дякуємо! Ми напишемо, коли буде новий реліз.';
   });
 }
+
+// Меню header: активний пункт — aria-current="page" (порівняння шляху посилання з поточною сторінкою; головна = корінь або index.html)
+{
+  const norm = (p) => p.replace(/index\.html$/, '').replace(/\/+$/, '');
+  const here = norm(location.pathname);
+  document.querySelectorAll('.header__nav a').forEach((a) => {
+    const u = new URL(a.getAttribute('href'), location.href);
+    if (norm(u.pathname) === here) a.setAttribute('aria-current', 'page');
+  });
+}

@@ -1,7 +1,8 @@
 /*
  * button — кнопки та текстове посилання-дія
  * .btn              — базова прямокутна кнопка (контур; hover — заливка).
- * .btn--primary     — темна заливка (hover — контур).
+ * .btn--primary     — темно-синя заливка --c-btn-bg + світлий текст (hover — світліший синій --c-btn-bg-hover). У темній секції (.cta-block) — інверсія: крем/бавовна з коричневим текстом.
+ * .btn--buy         — синя заливка (покупки/навігація; = дефолт primary). .btn--contact — зелена заливка (зв'язок: менеджер, екскурсія, реліз, «Підказати?»); hover — світліший власний відтінок.
  * .btn--outline     — контур явно (hover — заливка).
  * .btn--block       — на всю ширину, прямокутна (кнопки в картці).
  * .btn--sm          — компактна.
@@ -13,8 +14,8 @@
 .btn {
   display: inline-flex; align-items: center; justify-content: center; gap: 8px;
   padding: 14px 26px;
-  border: 1px solid var(--c-text); border-radius: var(--radius-none);
-  background: transparent; color: var(--c-text);
+  border: 1px solid var(--c-btn-bg); border-radius: var(--radius-none);
+  background: transparent; color: var(--c-btn-bg);
   font-size: var(--fs-body); line-height: var(--lh-none);
   transition: background var(--dur) var(--ease), color var(--dur) var(--ease);
 }
@@ -24,27 +25,32 @@
   margin-block: -0.15em; /* візуально більша за рядок іконка не збільшує висоту кнопки (44px) */
   flex: none;
 }
-.btn:hover { background: var(--c-text); color: var(--c-bg); }
-.btn--outline { background: transparent; color: var(--c-text); }
-.btn--outline:hover { background: var(--c-text); color: var(--c-bg); }
-.btn--primary { background: var(--c-text); color: var(--c-bg); }
-.btn--primary:hover { background: transparent; color: var(--c-text); }
+.btn:hover { background: var(--c-btn-bg); color: var(--c-btn-text); }
+.btn--outline { background: transparent; color: var(--c-btn-bg); }
+.btn--outline:hover { background: var(--c-btn-bg); color: var(--c-btn-text); }
+.btn--primary { background: var(--c-btn-bg); color: var(--c-btn-text); }
+.btn--primary:hover { background: var(--c-btn-bg-hover); border-color: var(--c-btn-bg-hover); color: var(--c-btn-text); }
+.btn--buy { background: var(--c-btn-buy-bg); border-color: var(--c-btn-buy-bg); color: var(--c-btn-buy-text); }
+.btn--buy:hover { background: var(--c-btn-buy-bg-hover); border-color: var(--c-btn-buy-bg-hover); }
+.btn--contact { background: var(--c-btn-contact-bg); border-color: var(--c-btn-contact-bg); color: var(--c-btn-contact-text); }
+.btn--contact:hover { background: var(--c-btn-contact-bg-hover); border-color: var(--c-btn-contact-bg-hover); color: var(--c-btn-contact-text); }
 .btn--sm { padding: 9px 18px; font-size: var(--fs-body-sm); }
 .btn--block { display: flex; width: 100%; border-radius: var(--radius-none); padding: 14px 12px; } /* 12px по боках: після збільшення шрифту «Додати в кошик · 1 250 ₴» ще вміщується в картку 3 колонок (≥800px) */
 
 /* пара кнопок: лише одна темна одночасно (картка в каталозі, сторінка товару) */
 .btn-pair .btn--primary:hover {
-  background: var(--c-text);
-  color: var(--c-bg);
-  opacity: 0.9;
+  background: var(--c-btn-bg-hover);
+  border-color: var(--c-btn-bg-hover);
+  color: var(--c-btn-text);
 }
 .btn-pair:has(.btn--outline:is(:hover, :focus-visible)) .btn--primary {
   background: transparent;
-  color: var(--c-text);
+  border-color: var(--c-btn-bg);
+  color: var(--c-btn-bg);
 }
 .btn-pair:has(.btn--outline:is(:hover, :focus-visible)) .btn--outline {
-  background: var(--c-text);
-  color: var(--c-bg);
+  background: var(--c-btn-bg);
+  color: var(--c-btn-text);
 }
 
 .link-text {

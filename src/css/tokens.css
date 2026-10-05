@@ -4,50 +4,77 @@
  * Довідник: site/design-system.md, сторінка /design-system.html
  */
 :root {
-  /* ---------- Colors ---------- */
-  --c-bg: #f6f2ea;              /* фон сторінки (світлий беж) */
-  --c-tile: #ece6dc;            /* підкладка під фото товару */
-  --c-text: #2b1d14;            /* основний текст / ink (темно-коричневий) */
-  --c-muted: #8a8a8a;           /* другорядний текст, підписи */
-  --c-muted-strong: color-mix(in srgb, var(--c-text) 60%, var(--c-bg)); /* неактивні фільтри-таби: тепло-сірий, контраст ≥4:1 на --c-bg (--c-muted дає ≈3.1) */
-  --c-brown: #7a4a24;           /* теплий коричневий акцент (лінії-кільця маніфесту «Про дім») */
-  --c-text-soft: color-mix(in srgb, var(--c-text) 72%, transparent); /* текст відповідей у картках FAQ: приглушений ink */
-  --c-muted-light: #b3b3b0;     /* неактивні слова заголовка, підкреслення link-text */
-  --c-line: #e3e3e3;            /* світла лінія (службова; поза каталогом) */
-  --c-tab-fill: var(--c-tile); /* заливка табів акордеона: трохи темніша за фон сторінки */
-  --c-divider: color-mix(in srgb, var(--c-text) 20%, transparent); /* тонкі розділювачі: коричневий 20% */
-  --c-divider-soft: color-mix(in srgb, var(--c-text) 10%, transparent); /* ледь помітні розділювачі всередині контенту табів: коричневий 10% */
-  --c-divider-strong: color-mix(in srgb, var(--c-text) 45%, transparent); /* більш видимі розділювачі всередині контенту: коричневий 45% */
+  /* ---------- Colors ----------
+     Система з 3 комбінацій (брендбуки YasnoCraft / Bazylsprings):
+     1) світлий фон --c-bg + зелений текст --c-text; 2) кнопки --c-btn-bg + --c-btn-text; 3) коричневий фон --c-dark-bg + кремовий текст.
+     Золото/крем (#cbaf86) — лише на --c-dark-bg. Моховий #868777 не використовується. Колірні літерали — лише тут. */
+  --c-cotton: #eae9e8;          /* палітра: бавовняний */
+  --c-pine: #223420;            /* палітра: хвойний темно-зелений */
+  --c-navy: #051d27;            /* палітра: темно-синій (кнопки, бейдж «Хіт») */
+  --c-ash: #ceccc6;             /* палітра: попелястий (база плиток) */
+  --c-brown: #36281f;           /* палітра: коричневий YasnoCraft (темна секція, кільця «Про дім») */
+  --c-cream: #cbaf86;           /* палітра: крем/золото (лише на коричневому) */
+
+  --c-bg: var(--c-cotton);      /* фон сторінки */
+  --c-text: var(--c-pine);      /* основний текст / ink */
+  --c-tile: color-mix(in srgb, var(--c-ash) 55%, var(--c-bg)); /* підкладка під фото, картки, accordion, spec-table */
+  --c-muted: color-mix(in srgb, var(--c-text) 78%, var(--c-bg)); /* другорядний текст, підписи (≥4.5:1 на --c-bg і --c-tile) */
+  --c-muted-strong: color-mix(in srgb, var(--c-text) 80%, var(--c-bg)); /* неактивні фільтри-таби, тип у картці */
+  --c-text-soft: color-mix(in srgb, var(--c-text) 82%, transparent); /* текст відповідей у картках FAQ, описи */
+  --c-muted-light: color-mix(in srgb, var(--c-text) 55%, var(--c-bg)); /* неактивні великі слова (≥3:1), підкреслення link-text */
+  --c-line: color-mix(in srgb, var(--c-text) 12%, var(--c-bg)); /* світла службова лінія */
+  --c-tab-fill: var(--c-tile);  /* заливка табів акордеона */
+  --c-divider: color-mix(in srgb, var(--c-text) 20%, transparent); /* тонкі розділювачі */
+  --c-divider-soft: color-mix(in srgb, var(--c-text) 10%, transparent); /* ледь помітні розділювачі всередині контенту */
+  --c-divider-strong: color-mix(in srgb, var(--c-text) 45%, transparent); /* більш видимі розділювачі */
   --c-panel: var(--c-bg);       /* hover-панель картки */
-  --c-focus: #2b1d14;           /* контур фокуса */
-  --c-badge-bg: #2d2a5a;        /* бейдж «Хіт» (темно-синьо-фіолетовий) */
-  --c-badge-new-bg: #1f3d2e;    /* бейдж «Новинка» */
-  --c-badge-limit-bg: #fff;     /* бейдж «Ліміт» */
-  --c-badge-text: #fff;         /* текст на кольорових бейджах */
+  --c-focus: var(--c-text);     /* контур фокуса */
+
+  /* Кнопки за призначенням: «покупки/навігація» — синя (buy, дефолт primary), «зв'язок» — зелена (contact). Hover — трохи світліший власний відтінок. */
+  --c-btn-buy-bg: var(--c-navy);    /* .btn--buy / .btn--primary: заливка; outline: рамка й текст */
+  --c-btn-buy-text: var(--c-cotton);
+  --c-btn-buy-bg-hover: color-mix(in srgb, var(--c-btn-buy-bg) 82%, var(--c-btn-buy-text));
+  --c-btn-contact-bg: var(--c-pine); /* .btn--contact: «Підказати?», менеджер, екскурсія, реліз, підписка */
+  --c-btn-contact-text: var(--c-cotton);
+  --c-btn-contact-bg-hover: color-mix(in srgb, var(--c-btn-contact-bg) 82%, var(--c-btn-contact-text));
+  --c-btn-bg: var(--c-btn-buy-bg);          /* базовий (= buy): outline-кнопки, qty, фокус-інверсії */
+  --c-btn-text: var(--c-btn-buy-text);
+  --c-btn-bg-hover: var(--c-btn-buy-bg-hover);
+
+  --c-dark-bg: var(--c-brown);  /* темна секція (pre-footer) */
+  --c-on-dark: var(--c-cotton); /* довгий текст на темному (≥4.5:1) */
+  --c-on-dark-strong: var(--c-cream); /* заголовки, активні елементи на темному */
+  --c-on-dark-muted: color-mix(in srgb, var(--c-on-dark) 62%, var(--c-dark-bg)); /* приглушений текст на темному (≥4.5:1) */
+  --c-on-dark-divider: color-mix(in srgb, var(--c-on-dark) 25%, transparent);
+
+  --c-badge-bg: var(--c-navy);  /* бейдж «Хіт» */
+  --c-badge-new-bg: var(--c-pine); /* бейдж «Новинка» */
+  --c-badge-limit-bg: var(--c-cotton); /* бейдж «Ліміт» (текст --c-text) */
+  --c-badge-text: var(--c-cotton); /* текст на темних бейджах */
   --c-on-image: #fff;           /* текст, контури й іконки поверх фото (hero) */
-  --c-image-shade: rgba(43, 29, 20, 0.65); /* темний коричневий оверлей на фото (= --c-text 65%) */
-  --c-image-shade-soft: rgba(43, 29, 20, 0.25); /* м'який оверлей угорі фото під прозорим header */
+  --c-image-shade: color-mix(in srgb, var(--c-dark-bg) 65%, transparent); /* темний оверлей на фото */
+  --c-image-shade-soft: color-mix(in srgb, var(--c-dark-bg) 25%, transparent); /* м'який оверлей угорі фото під прозорим header */
   --divider-alpha: 0.2;         /* прозорість лінії-розділювача, коли її задано через opacity */
 
   /* ---------- Typography ---------- */
-  --font-body: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; /* інтерфейс */
-  --font-serif: 'Cormorant Infant', 'Cormorant', 'Times New Roman', serif;   /* заголовки (Cormorant Infant: тонший, менший x-height, ніж EB Garamond → ваги/розміри компенсовані) */
-  --fw-regular: 400;     /* вага Inter: текст */
-  --fw-medium: 500;      /* вага Inter: мітки, eyebrow, лого; вага serif sentence-ролей */
-  --fw-semibold: 600;    /* вага serif КАПС-ролей (h1, h2, display, wordmark) і бейджа */
-  --fw-serif: var(--fw-medium);        /* serif у звичайному регістрі (Cormorant 400 надто тонкий) */
+  --font-body: 'Google Sans', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; /* інтерфейс і текст (брендбук): Google Sans */
+  --font-serif: 'Cormorant Infant', 'Cormorant', 'Times New Roman', serif;   /* заголовки КАПСОМ (Cormorant Infant); sentence-case serif заборонено */
+  --fw-regular: 400;     /* вага Google Sans: текст */
+  --fw-medium: 500;      /* вага Google Sans: мітки, eyebrow, лого; вага serif sentence-ролей */
+  --fw-semibold: 600;    /* вага serif КАПС-ролей (h1, h2, display); Google Sans 600 не підключено — для sans не вживати */
+  --fw-serif: var(--fw-medium);        /* serif-ролі, окрім КАПС-заголовків (Cormorant 400 надто тонкий) */
   --fw-serif-caps: var(--fw-semibold); /* serif КАПС-заголовки */
 
   --font-mono: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;      /* лише довідник дизайн-системи */
 
   /* ===== Типографічна шкала: 12 ролей (етап 2 уніфікації). Значення 1200 / 1440 / 1920 — у design-system.md, «Типографічна шкала».
      Ролі застосовано в components/typography.css (реєстр role → селектори); компоненти типографіку не задають. ===== */
-  --fs-wordmark: clamp(93px, 16.2vw, 302px);   /* wordmark: футер-стрічка 194 / 233 / 302 (hero «Про дім» — fit-width, див. --wordmark-fit) */
   --fs-display: clamp(52px, 4.8vw, 96px);      /* display: H1 hero головної; цифри principles — 57.6 / 69.1 / 92.2 */
   --fs-h1: clamp(40px, 3.7vw, 66px);           /* h1: каталог, товар — 44.4 / 53.3 / 66 (каталог-H1 з фільтрами = 2 рядки на 1200–1920) */
   --fs-h2: clamp(40px, 3.7vw, 66px);           /* h2: section-title, place, brand-logo — 44.4 / 53.3 / 66 (завжди ≤ h1; зараз = h1) */
   --fs-h3: clamp(26px, 2.4vw, 46px);           /* h3: назви-елементи (подія, етап, рядок, категорія-teaser, бренд), ціна-lg — 28.8 / 34.6 / 46 */
   --fs-lead: clamp(32px, 3.1vw, 60px);         /* lead: маніфест «Про дім» на головній, cta-tile — 37.2 / 44.6 / 59.5 */
+  --fs-lead-text: clamp(24px, 2.1vw, 40px);    /* lead-text: маніфест «Про дім» на головній (Google Sans, sentence) — 25.2 / 30.2 / 40 */
   --fs-list-title: clamp(62px, 6vw, 116px);    /* list-title: category-list, stats — 72 / 86.4 / 115.2 */
   --fs-caps-lead: clamp(18px, 1.25vw, 24px);   /* caps-lead: sans КАПС-лід (occasion, h1 «Про дім») — 18 / 18 / 24 */
   --fs-lead-sm: clamp(14px, 1vw, 20px);        /* hero-lead: вступ і eyebrow hero головної (sans КАПС) — 14 / 14.4 / 19.2 */
@@ -55,13 +82,13 @@
   --fs-body-sm: 13px;                          /* body-sm: службові підписи, фільтри */
   --fs-caption: 12px;                          /* caption / eyebrow / badge */
 
-  --ls-wordmark: -0.015em; /* wordmark (Cormorant caps великого кегля): засічки не торкаються, ритм рівний */
   --ls-caps: -0.01em;      /* serif КАПС: h1, h2, display, h3-caps, manifest-caps */
   --ls-heading: -0.02em;   /* serif sentence: h3, list-title, lead, numeral */
-  --ls-caps-sans-sm: 0.06em; /* sans КАПС дрібний (≤13px): eyebrow, badge */
+  --ls-lead-text: -0.01em; /* Google Sans великий текст */
+  --ls-caps-sans-sm: 0.05em; /* sans КАПС дрібний (≤13px): eyebrow, badge */
   --ls-caps-sans-md: 0.03em; /* sans КАПС середній (14–24px): label, caps-lead, hero-lead, sign */
 
-  /* Регістр: всі заголовки h1/h2/display/wordmark/h3-caps — КАПС (--tt-heading); списки/назви-елементи/абзаци — --tt-sentence */
+  /* Регістр: всі заголовки h1/h2/display/h3-caps — КАПС (--tt-heading); списки/назви-елементи/абзаци — --tt-sentence */
   --tt-heading: uppercase;
   --tt-sentence: none;
 
@@ -69,9 +96,9 @@
   --lh-title: 1.08;      /* h1, label, caps-lead */
   --lh-heading: 1.05;    /* h2, display, h3 */
   --lh-lead: 1.1;        /* lead, manifest-caps */
+  --lh-lead-text: 1.25;  /* lead-text (Google Sans) */
   --lh-reading: 1.6;     /* довгі абзаци (FAQ, «Про дім») */
   --lh-none: 1;
-  --lh-wordmark: 0.9;    /* wordmark: щільний бокс (див. --wm-cap-offset-bottom) */
   --wm-word-spacing: -0.05em; /* word-spacing довгих КАПС-текстів (manifest-caps) */
 
   /* ---------- Spacing / layout ---------- */
@@ -117,34 +144,35 @@
   --bottle-h-1: 64px;    /* іконка пляшки 1 л (найвища) */
   --bottle-scale: 1;     /* множник розміру іконок пляшки (пропорції 40:50:64 зберігаються) */
   --section-pad-y: 160px; /* вертикальні поля великих блоків (cta); ≤700px: 96px */
-  --hero-lead-top: max(17svh, calc(var(--header-h-hero) + var(--sp-6))); /* верх вступного тексту hero (не нижче хедера) */
-  --hero-bottom-pad: 7svh; /* відступ низу eyebrow hero від низу екрана (H1 над ним ≈ 13% від низу) */
+  --hero-bottom-pad: var(--sp-8); /* відступ низу кнопки hero від низу екрана */
   --header-h: 64px;      /* фіксована висота header; на вужчих екранах перевизначається нижче */
   --header-h-hero: 104px; /* висота прозорого header на hero головної (до прокрутки); зменшується до --header-h */
-  --wordmark-fit: 6.405; /* hero «Про дім»: font-size напису KRAFTSPIRITS = ширина колонок 2–3 / --wordmark-fit; підібрано ВИМІРОМ для ваги 400 (піксельний скан гліфів на 1200/1440/1920/2000: ширина ЧОРНИЛА = ширина колонок 2–3 ±1px; чорнило ≈ 6.41 em при --ls-wordmark −0.015em; для ваги 600 було б 6.53); зміна шрифту/ваги/трекінгу/тексту вимагає перепідбору */
-  --wordmark-fit-footer: 6.411; /* футер: font-size напису KRAFTSPIRITS = ширина footer__logo-wrapper / --wordmark-fit-footer; підібрано ВИМІРОМ на 1200/1440/1920/2000: чорнило (піксельний скан) = ширині контейнера ±1px; Cormorant Infant 400, tracking −0.015em */
-  --wordmark-ink-inset: 0.038; /* wordmark hero: лівий side-bearing літери K, em кегля (скан гліфів): negative margin-left ставить чорнило рівно на ліву межу колонки 2 */
-  --footer-logo-ink-shift: 0.034; /* футер-лого, em кегля: центрований напис зміщений вправо (K ліве поле > S праве); left: -shift вирівнює чорнило по краях контейнера */
-  --footer-logo-cap-top: 0.114; /* футер-лого, em кегля: від верху бокса до верху гліфів (скан на 1440/1920) — віднімається від'ємним margin, щоб відступи рахувались від чорнила */
-  --footer-logo-cap-bottom: 0.123; /* те саме знизу: від низу гліфів до низу бокса */
-  --wm-cap-offset-bottom: 0.12; /* wordmark: безрозмірно, у em кегля: від низу гліфів до низу бокса (line-height 0.9); canvas-виміри Cormorant Infant 400 */
   --hero-horizon: 0.49; /* hero «Про дім»: лінія горизонту фото (де закінчується небо) від висоти hero (макет ≈ 49%; ТЗ 46–52%) */
   --hero-photo-horizon: 0.335; /* горизонт у самому фото-джерелі: 358px з 1068 (піксельний скан колонок: різка зміна яскравості 235→110) */
   --hero-photo-ratio: 1.7978; /* пропорція фото-джерела about-hero.webp 1920 / 1068 */
-  --hero-row-y: 19%; /* hero «Про дім»: вертикальний центр верхнього ряду (лого | wordmark | лого) від висоти hero (не вище за --header-h + --sp-8) */
-  --hero-logo-share: 0.64; /* ширина логотипа YasnoCraft = частка ширини колонки сітки (макет: ≈290px при колонці ≈460px) */
-  --hero-logo-rel-bazylsprings: 0.74; /* ширина Bazylsprings відносно YasnoCraft (однаковий масштаб растру: 412/557) */
+  --hero-row-y: 19%; /* hero «Про дім»: вертикальний центр верху ряду двох лого (YasnoCraft | Bazylsprings) від висоти hero (не вище за --header-h + --sp-8) */
   --hero-desc-share: 0.72; /* макс. ширина опису hero = частка ширини колонок 2–3 (0.62 з ТЗ давало 3 рядки на 1200: 351px; 0.72 → 2 рядки на 1200–2000) */
-  --hero-desc-gap: var(--sp-8); /* від низу гліфів wordmark до верху опису в hero «Про дім» */
-  --header-logo-fs: 26px; /* header-лого (Cormorant Infant КАПС 400): висота ВЕЛИКИХ літер (cap-height 0.625em) = 16.25px — як було в Inter 22px (0.727em = 16.0px) */
-  --header-logo-cap-top: 0.3935; /* Cormorant Infant 400, line-height --lh-body 1.4: від верху бокса до верху гліфів КАПС, em кегля (canvas: (1.4 − (0.924+0.287))/2 + (0.924 − 0.625)) */
-  --header-logo-cap-mid: 0.706; /* від верху бокса до середини висоти гліфів, em: --header-logo-cap-top + 0.625/2 */
-  --header-menu-cap-h: 0.727; /* Inter: висота ВЕЛИКИХ літер, em кегля --fs-body; пункти меню центровані в --header-h, тому cap-top меню = --header-h/2 − cap-h/2 × --fs-body */
-  --header-menu-cap-top: calc(var(--header-h) / 2 - var(--header-menu-cap-h) / 2 * var(--fs-body)); /* y верху літер меню (еталон верху лого на hero) */
+  --hero-desc-gap: var(--sp-8); /* від низу ряду лого до верху опису в hero «Про дім» */
+  --logo-ar-yasnocraft: 8.175; /* пропорція лого YasnoCraft (viewBox 259.32 × 31.72, ink-tight): ширина / висота */
+  --logo-ar-bazylsprings: 6.739; /* пропорція лого Bazylsprings (viewBox 227.04 × 33.69) */
+  --logo-baseline-yasnocraft: 0.518; /* частка висоти лого до низу літер головного слова YASNOCRAFT (піксельний скан; нижче — напис CLARITY·SPIRIT) */
+  --logo-baseline-bazylsprings: 0.51; /* те саме для BAZYLSPRINGS (нижче — WHISKY HOUSE) */
+  --logo-word-yasnocraft: 0.518; /* cap-height головного слова YASNOCRAFT як частка висоти лого (скан) — щоб вирівняти ВИСОТУ літер у header, а не висоту viewBox */
+  --logo-word-bazylsprings: 0.510; /* те саме для BAZYLSPRINGS */
+  --logo-vbw-yasnocraft: 259.32; /* ширина viewBox лого YasnoCraft (одиниці --logo-yc-stroke) */
+  --logo-vbh-yasnocraft: 31.72; /* висота viewBox лого YasnoCraft (одиниці --logo-yc-stroke) */
+  --brand-row-gap-min: var(--sp-9); /* ряд двох лого (футер, «Про дім»): мінімальний вільний проміжок між YasnoCraft і Bazylsprings (≥ --grid-gap) */
+  --logo-yc-stroke: 0.44; /* підсилення жирності YasnoCraft обводкою (одиниці viewBox 259.32; Bazylsprings без обводки): вирівнює оптичну товщину стовбурів */
+  --c-logo: var(--c-text); /* єдиний колір лого брендів (футер, hero «Про дім», світлий header); у header на hero — колір header (білий) */
+  --header-menu-cap-h: 0.716; /* Google Sans: cap-height пунктів меню, em кегля --fs-body */
+  --header-menu-cap-top: calc(var(--header-h) / 2 - var(--header-menu-cap-h) / 2 * var(--fs-body)); /* y верху великих літер меню (Google Sans, line-height центрує кегль у --header-h): на hero верх чорнила лого = ця лінія */
+  --header-logo-h: 10px; /* header (compact/solid): ВИСОТА ЛІТЕР головного слова YASNOCRAFT / BAZYLSPRINGS (cap-height, однакова в обох лого; висота бокса лого = ця / --logo-word-*) */
+  --header-logo-h-hero: 15px; /* те саме на hero головної (до прокрутки): верхня межа (середина між compact 10px і колишніми 20px); фактично min(цей токен, вільне місце — header.css --header-logo-h-fit) */
+  --header-brand-gap: var(--sp-3); /* відстань від розділювача по центру до чорнила кожного лого (однакова з обох боків) */
+  --header-side-w: 377px; /* ширина ширшої з бічних груп header (ліва «Головна · Каталог · Подарункові набори · Про дім», права «FAQ · Кошик · Підказати?») + запас; половина центру ≤ 50% − ця − --header-menu-gap-min */
+  --header-cart-gap: var(--sp-2); /* іконка кошика ↔ слово «Кошик» */
+  --header-menu-gap-min: 24px; /* мінімальний зазор лого ↔ найближчий пункт меню */
   --header-btn-h: calc(var(--fs-body-sm) * var(--lh-body) + 22px); /* висота кнопки «Підказати?» (padding 10+10, border 1+1) */
-  --header-logo-fit: 6.49; /* ширина напису KRAFTSPIRITS (Cormorant 400, ls −0.015em) = 6.49 em (виміряно: 311.3px при 48px) */
-  --header-logo-gap-min: 26px; /* мінімальний запас між лого на hero і першим пунктом меню (колонка 2) */
-  --header-logo-fs-hero: min(48px, calc(((100vw - 2 * var(--page-pad) + var(--grid-gap)) / 4 - var(--header-logo-gap-min)) / var(--header-logo-fit))); /* вордмарк KraftSpirits у header на hero (до прокрутки): 48px, на вузьких (1200) звужується, щоб не наїхати на меню; зменшується до --header-logo-fs */
   --about-manifest-ratio: 2.4 / 1; /* співвідношення рамки маніфесту (1920 ≈ 775px, 1200 ≈ 500px) */
   --about-manifest-pad: var(--sp-9); /* внутрішні поля блоку маніфесту */
   --about-manifest-title-w: 22em; /* макс. ширина H2 маніфесту (вужча для 4–5 рядків, маска кілець ширша) */

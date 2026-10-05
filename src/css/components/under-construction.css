@@ -12,3 +12,5 @@
 .under-construction__title { margin-top: var(--sp-4); max-width: 18ch; }
 .under-construction__lead { margin-top: var(--sp-5); max-width: 52ch; color: var(--c-muted); }
 .under-construction__actions { display: flex; flex-wrap: wrap; justify-content: center; gap: var(--sp-4); margin-top: var(--sp-7); }
+/* заглушка перед шаблоном низу (pre-footer): без «розтягування» на екран, щоб блок не відсувався на порожнє місце */
+.under-construction:has(+ .cta-block) { min-height: 0; padding-bottom: 0; }
