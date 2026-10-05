@@ -1,0 +1,101 @@
+<!-- Єдиний шаблон бренд-сторінки (brands-copy.md, Б0–Б1): 5 секцій; різниця між брендами лише у значеннях слотів {{…}} (див. brand-yasnocraft.html / brand-bazylsprings.html).
+     Каталог (секція 4) рендерить src/js/brand-page.js за data-brand та data-* на секції. Значення слотів без подвійних лапок. -->
+<main data-brand-page="{{brand}}">
+  <section class="hero hero--home {{heroMod}}" data-hero aria-labelledby="hero-title">
+    <div class="hero__media" data-parallax="top"><img class="hero__img parallax__img" src="{{heroSrc}}" width="{{heroW}}" height="{{heroH}}" alt="{{heroAlt}}" fetchpriority="high" /></div>
+    <div class="hero__inner">
+      <div class="hero__head">
+        <span class="brand-logo brand-logo--{{logo}}" role="img" aria-label="{{brandName}}"><svg viewBox="{{logoViewBox}}" aria-hidden="true" focusable="false"><use href="#logo-{{logo}}"/></svg></span>
+        <p class="hero__eyebrow">{{heroEyebrow}}</p>
+        <h1 class="hero__title" id="hero-title">{{heroH1}}</h1>
+      </div>
+      <div class="hero__lead">
+        <p class="hero__text">{{heroLead}}</p>
+        <a class="btn btn--primary" href="#brand-catalog">{{heroBtn}}<!--@include icon name="arrow-down"--></a>
+      </div>
+    </div>
+  </section>
+  <section class="about-manifest" aria-labelledby="brand-manifest-title">
+    <div class="about-manifest__bg" aria-hidden="true">
+      <div class="about-manifest__rings">
+        <svg class="about-manifest__ring" viewBox="0 0 100 100" preserveAspectRatio="none" focusable="false"><ellipse cx="50" cy="50" rx="49" ry="49" /></svg>
+        <svg class="about-manifest__ring" viewBox="0 0 100 100" preserveAspectRatio="none" focusable="false"><ellipse cx="50" cy="50" rx="49" ry="49" /></svg>
+        <svg class="about-manifest__ring" viewBox="0 0 100 100" preserveAspectRatio="none" focusable="false"><ellipse cx="50" cy="50" rx="49" ry="49" /></svg>
+        <svg class="about-manifest__ring" viewBox="0 0 100 100" preserveAspectRatio="none" focusable="false"><ellipse cx="50" cy="50" rx="49" ry="49" /></svg>
+        <svg class="about-manifest__ring" viewBox="0 0 100 100" preserveAspectRatio="none" focusable="false"><ellipse cx="50" cy="50" rx="49" ry="49" /></svg>
+        <svg class="about-manifest__ring" viewBox="0 0 100 100" preserveAspectRatio="none" focusable="false"><ellipse cx="50" cy="50" rx="49" ry="49" /></svg>
+        <svg class="about-manifest__ring" viewBox="0 0 100 100" preserveAspectRatio="none" focusable="false"><ellipse cx="50" cy="50" rx="49" ry="49" /></svg>
+        <svg class="about-manifest__ring" viewBox="0 0 100 100" preserveAspectRatio="none" focusable="false"><ellipse cx="50" cy="50" rx="49" ry="49" /></svg>
+        <svg class="about-manifest__ring" viewBox="0 0 100 100" preserveAspectRatio="none" focusable="false"><ellipse cx="50" cy="50" rx="49" ry="49" /></svg>
+      </div>
+    </div>
+    <div class="about-manifest__content">
+      <p class="about-manifest__eyebrow">{{manifestEyebrow}}</p>
+      <h2 class="about-manifest__title" id="brand-manifest-title">{{manifestTitle}}</h2>
+      <p class="about-manifest__text">{{manifestText}}</p>
+    </div>
+  </section>
+  <section class="section principles" aria-labelledby="brand-principles-title">
+    <div class="principles__head">
+      <p class="eyebrow">{{gridEyebrow}}</p>
+      <h2 class="section-title" id="brand-principles-title">{{gridH2}}</h2>
+    </div>
+    <ol class="principles__list">
+      <li class="principles__item principles__item--tall">
+        <img class="principles__photo" src="{{p1Src}}" width="{{p1W}}" height="{{p1H}}" alt="{{p1Alt}}" loading="lazy">
+        <div class="principles__caption">
+          <span class="principles__num" aria-hidden="true">01</span>
+          <div class="principles__body">
+            <h3 class="principles__name">{{p1Name}}</h3>
+            <p class="principles__desc">{{p1Desc}}</p>
+          </div>
+        </div>
+      </li>
+      <li class="principles__item principles__item--wide">
+        <img class="principles__photo" src="{{p2Src}}" width="{{p2W}}" height="{{p2H}}" alt="{{p2Alt}}" loading="lazy">
+        <div class="principles__caption">
+          <span class="principles__num" aria-hidden="true">02</span>
+          <div class="principles__body">
+            <h3 class="principles__name">{{p2Name}}</h3>
+            <p class="principles__desc">{{p2Desc}}</p>
+          </div>
+        </div>
+      </li>
+      <li class="principles__item principles__item--tall">
+        <img class="principles__photo" src="{{p3Src}}" width="{{p3W}}" height="{{p3H}}" alt="{{p3Alt}}" loading="lazy">
+        <div class="principles__caption">
+          <span class="principles__num" aria-hidden="true">03</span>
+          <div class="principles__body">
+            <h3 class="principles__name">{{p3Name}}</h3>
+            <p class="principles__desc">{{p3Desc}}</p>
+          </div>
+        </div>
+      </li>
+      <li class="principles__item principles__item--wide">
+        <img class="principles__photo" src="{{p4Src}}" width="{{p4W}}" height="{{p4H}}" alt="{{p4Alt}}" loading="lazy">
+        <div class="principles__caption">
+          <span class="principles__num" aria-hidden="true">04</span>
+          <div class="principles__body">
+            <h3 class="principles__name">{{p4Name}}</h3>
+            <p class="principles__desc">{{p4Desc}}</p>
+          </div>
+        </div>
+      </li>
+    </ol>
+  </section>
+  <section class="section popular-choice" id="brand-catalog" aria-labelledby="hits-title" data-popular-choice data-brand="{{brand}}" data-eyebrow="{{catalogEyebrow}}" data-title="{{catalogH2}}" data-btn-label="{{catalogBtn}}" data-btn-href="{{catalogHref}}" data-cta-title="{{ctaTitle}}" data-cta-text="{{ctaText}}" data-cta-label="{{ctaLabel}}" data-cta-href="{{ctaHref}}"></section>
+  <section class="visit-split" aria-labelledby="brand-visit-title">
+    <div class="visit-split__panel">
+      <p class="eyebrow">{{visitEyebrow}}</p>
+      <h2 class="section-title visit-split__title" id="brand-visit-title">{{visitH2}}</h2>
+      <p class="visit-split__text">{{visitText}}</p>
+      <p class="visit-split__age">{{visitAge}}</p>
+      <img class="visit-split__photo" src="{{photoPortrait}}" width="1000" height="1500" alt="{{photoPortraitAlt}}" loading="lazy">
+      <!-- ⚠ форма замовлення екскурсії ще не створена — веде на контакти -->
+      <a class="btn btn--contact visit-split__cta" href="contacts.html#excursion">{{visitBtn}}<!--@include icon name="arrow-up-right"--></a>
+    </div>
+    <figure class="visit-split__media" data-parallax>
+      <img class="visit-split__img parallax__img" src="{{photoWide}}" width="2000" height="1333" alt="{{photoWideAlt}}" loading="lazy">
+    </figure>
+  </section>
+</main>

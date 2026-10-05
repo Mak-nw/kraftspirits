@@ -1,7 +1,7 @@
 /*
  * hero — повноекранний перший екран із фото на всю ширину (100svh)
  * Елементи: __media (рамка паралакса, data-parallax="top"; + __img = .parallax__img), __inner, __head (eyebrow над H1, верх-центр під хедером), __lead (опис + кнопка, низ-центр).
- * Модифікатори: --home (головна), --about (сторінка «Про дім»: два лого YasnoCraft | Bazylsprings на небі + опис; темний текст, без затемнення; стилі в pages/about.css). Прозорий header поверх: body:is(.page-index, .has-hero-overlay--light) .header (див. header.css).
+ * Модифікатори: --home (головна), --about (сторінка «Про дім»: два лого YasnoCraft | Bazylsprings на небі + опис; темний текст, без затемнення; стилі в pages/about.css). Бренд-сторінки (brand-*.html, body.page-brand): той самий hero--home + ОДНЕ лого бренду (span.brand-logo, білий, ширина --hero-brand-logo-w) першим у __head, див. pages/brand.css. Прозорий header поверх: body:is(.page-index, .page-brand, .has-hero-overlay--light) .header (див. header.css).
  * Коли: лише перший екран головної; один H1 на сторінці. Текст і кнопки — білі (--c-on-image), без затемнення фото.
  */
 .hero { position: relative; height: 100svh; min-height: 560px; color: var(--c-on-image); overflow: hidden; }

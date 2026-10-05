@@ -15,7 +15,7 @@ const CFG = {
   widths: [1920, 1440, 1200],
   defaultProducts: ['gin-yasnyi', 'calvados-5', 'fruit-watermelon'],
   skipPages: ['product', '404'],            // product.html без slug не міряємо; 404 — службова
-  stubPages: ['age-gate', 'brands', 'cart', 'checkout', 'contacts', 'gifts', 'order-thanks'], // ще не зверстані: виключаємо з шрифтів (4) й типографіки (5)
+  stubPages: ['age-gate', 'cart', 'checkout', 'contacts', 'gifts', 'order-thanks'], // ще не зверстані: виключаємо з шрифтів (4) й типографіки (5)
   concurrency: 4,                           // скільки сторінок вантажимо паралельно
   maxPerCheck: 3,                           // скільки провалів друкувати на перевірку (решта — у JSON)
   // 2. Переповнення: що міряємо; що пропускаємо (стрічки, що навмисно виходять за межі)
@@ -62,7 +62,7 @@ const CFG = {
   typoIslandMax: 2,                          // «острівець» = унікальний підпис стилю з ≤2 елементів (по всіх робочих сторінках на ширині), де жоден елемент не належить до ролі (typoRoles)
   typoSkipSummary: ['design-system'],        // у зведення унікальних стилів не входять довідник і заглушки
   // 16. Контраст: контейнери, текст у яких лежить на фото/відео (не міряємо)
-  contrastSkip: '.hero, [data-hero], .place__media, body.page-index .header:not(.header--solid), .brand-split, .place-rows__media, .about-brands, .visit-split__media, .gallery__nav, .occasion-picker__media, .sr-only, .visually-hidden',
+  contrastSkip: '.hero, [data-hero], .place__media, body:is(.page-index, .page-brand) .header:not(.header--solid), .brand-split, .place-rows__media, .about-brands, .visit-split__media, .gallery__nav, .occasion-picker__media, .sr-only, .visually-hidden',
   // 6. Сітка: блоки, краї яких мають збігатися з колонками 4-сітки (ліво/право)
   gridTargets: ['.product__info', '.product__gallery', '.grid-4 > *', '#occasions .occasion-picker > *', '.faq', '.section__body'],
   gridTol: 1,
@@ -479,7 +479,7 @@ async function headerStates(page, ctx) {
     if (g.gap < g.min - 0.01) fails.push({ sel: '.header__brand', measured: `${tag}: зазор до меню ${g.gap.toFixed(1)}px`, expected: `≥ ${g.min}px (--header-menu-gap-min)` });
     if (g.top < -0.5 || g.bot < -0.5) fails.push({ sel: '.header__brand', measured: `${tag}: лого виходить за хедер (верх ${g.top.toFixed(1)}, низ ${g.bot.toFixed(1)})`, expected: 'у межах хедера' });
   };
-  if (ctx.name === 'index') {
+  if (ctx.name === 'index' || /^brand-/.test(ctx.name)) { // hero-стан header: головна й бренд-сторінки (body.page-brand)
     const hero = await expH('--header-logo-h-hero'), logo = await expH('--header-logo-h');
     const s0 = await at(0, (x) => !x.compact);
     if (s0.compact) fails.push({ sel: '.header', measured: 'compact при scrollY=0', expected: 'без .header--compact' });

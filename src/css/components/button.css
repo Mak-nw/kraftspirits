@@ -55,7 +55,7 @@
 
 /* ---- контексти: змінюється лише палітра, стани ті самі ---- */
 /* на фото (hero головної) і у прозорому хедері hero-стану (на фото): біла заливка + темний текст; hover заливної — той самий крок, що й у решти */
-:is(.hero, body.page-index .header:not(.header--solid)) .btn { --btn-fill: var(--c-on-image); --btn-ink: var(--c-text); --btn-focus: var(--c-on-image); }
+:is(.hero:not(.hero--light), body:is(.page-index, .page-brand):not(.has-hero-overlay--light) .header:not(.header--solid)) .btn { --btn-fill: var(--c-on-image); --btn-ink: var(--c-text); --btn-focus: var(--c-on-image); }
 /* у темній секції (pre-footer): кремова заливка + коричневий текст */
 .cta-block__buttons .btn { --btn-fill: var(--c-on-dark-strong); --btn-ink: var(--c-dark-bg); --btn-focus: var(--c-on-dark-strong); }
 

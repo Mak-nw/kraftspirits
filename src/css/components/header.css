@@ -62,17 +62,17 @@
 .header .header__contact--hint { --btn-py: 10px; --btn-px: 14px; text-align: center; }
 
 /* сторінки з hero під шапкою: головна (.page-index, білий overlay-стиль) і «Про дім» (.has-hero-overlay--light: прозорий фон, ТЕМНІ кольори, hero-небо світле); фіксований header поверх hero, після прокрутки — звичайний (.header--solid, src/js/header-overlay.js) */
-body:is(.page-index, .has-hero-overlay--light) .header { position: fixed; inset: 0 0 auto 0; transition: background var(--dur) var(--ease), color var(--dur) var(--ease), height var(--dur) var(--ease); }
-/* hero-стан ЛИШЕ на головній (.page-index): вища шапка й більші лого; меню й кошик лишаються на осі дефолтної висоти; лого на hero прив'язані верхом літер до верху літер меню (--header-menu-cap-top), у compact — по центру осі меню; перехід hero→compact (.header--compact, scrollY > 24px, header-overlay.js) — transition розміру й margin-top, висота header як була */
-body.page-index .header:not(.header--compact) { height: var(--header-h-hero); align-items: start; --header-logo-h-now: min(var(--header-logo-h-hero), var(--header-logo-h-fit)); --header-brand-top: var(--header-menu-cap-top); }
+body:is(.page-index, .page-brand, .has-hero-overlay--light) .header { position: fixed; inset: 0 0 auto 0; transition: background var(--dur) var(--ease), color var(--dur) var(--ease), height var(--dur) var(--ease); }
+/* hero-стан ЛИШЕ на головній і бренд-сторінках (.page-index, .page-brand): вища шапка й більші лого; меню й кошик лишаються на осі дефолтної висоти; лого на hero прив'язані верхом літер до верху літер меню (--header-menu-cap-top), у compact — по центру осі меню; перехід hero→compact (.header--compact, scrollY > 24px, header-overlay.js) — transition розміру й margin-top, висота header як була */
+body:is(.page-index, .page-brand) .header:not(.header--compact) { height: var(--header-h-hero); align-items: start; --header-logo-h-now: min(var(--header-logo-h-hero), var(--header-logo-h-fit)); --header-brand-top: var(--header-menu-cap-top); }
 @media (prefers-reduced-motion: reduce) {
-  body:is(.page-index, .has-hero-overlay--light) .header, .header__brand .brand-logo, .header__brand-sep { transition: none; }
+  body:is(.page-index, .page-brand, .has-hero-overlay--light) .header, .header__brand .brand-logo, .header__brand-sep { transition: none; }
 }
-body:is(.page-index, .has-hero-overlay--light) .header:not(.header--solid) { background: transparent; }
-body.page-index .header:not(.header--solid) { color: var(--c-on-image); }
-body.page-index .header:not(.header--solid) .header__cart:hover,
-body.page-index .header:not(.header--solid) .header__cart:focus-visible { border-color: var(--c-on-image); }
-body.page-index .header:not(.header--solid) a:focus-visible { outline-color: var(--c-on-image); }
-body.page-index .header:not(.header--solid) .link-underline:hover,
-body.page-index .header:not(.header--solid) .link-underline:focus-visible,
-body.page-index .header:not(.header--solid) .link-underline[aria-current='page'] { text-decoration-color: currentColor; }
+body:is(.page-index, .page-brand, .has-hero-overlay--light) .header:not(.header--solid) { background: transparent; }
+body:is(.page-index, .page-brand):not(.has-hero-overlay--light) .header:not(.header--solid) { color: var(--c-on-image); }
+body:is(.page-index, .page-brand):not(.has-hero-overlay--light) .header:not(.header--solid) .header__cart:hover,
+body:is(.page-index, .page-brand):not(.has-hero-overlay--light) .header:not(.header--solid) .header__cart:focus-visible { border-color: var(--c-on-image); }
+body:is(.page-index, .page-brand):not(.has-hero-overlay--light) .header:not(.header--solid) a:focus-visible { outline-color: var(--c-on-image); }
+body:is(.page-index, .page-brand):not(.has-hero-overlay--light) .header:not(.header--solid) .link-underline:hover,
+body:is(.page-index, .page-brand):not(.has-hero-overlay--light) .header:not(.header--solid) .link-underline:focus-visible,
+body:is(.page-index, .page-brand):not(.has-hero-overlay--light) .header:not(.header--solid) .link-underline[aria-current='page'] { text-decoration-color: currentColor; }

@@ -1,0 +1,47 @@
+/*
+ * Бренд-сторінки (brand-yasnocraft.html, brand-bazylsprings.html; body.page-brand): ОДИН шаблон partials/brand-page.html, 5 секцій з наявних компонентів
+ * (hero--home, about-manifest, principles, popular-choice + card-slider, visit-split); різниця між брендами — лише дані. Нових компонентів немає: лише сторінкова розкладка.
+ * Ритм як на «Про дім» (pages/about.css): єдиний видимий проміжок --about-section-gap (= --section-pad-y) між змістовими краями сусідніх секцій.
+ */
+body.page-brand main { display: block; }
+
+/* лого бренду над eyebrow у hero: колір — єдиний токен --c-logo (білий на фото), розмір — ширина --hero-brand-logo-w (висоту дає aspect-ratio компонента) */
+body.page-brand .hero__head .brand-logo { --c-logo: var(--c-on-image); width: var(--hero-brand-logo-w); }
+
+/* світлий hero (YasnoCraft: бліде небо about-hero.webp): темний текст і лого, як на «Про дім»; без затемнення фото; header і кнопки — через body.has-hero-overlay--light / .hero--light */
+body.page-brand .hero--light { color: var(--c-text); }
+body.page-brand .hero--light .hero__eyebrow { color: var(--c-text); }
+body.page-brand .hero--light .hero__head .brand-logo { --c-logo: var(--c-text); }
+body.page-brand .hero--light a:focus-visible { outline-color: var(--c-text); }
+
+/* hero--stack: весь текст одним блоком зверху (лого, eyebrow, H1, під ним опис і кнопка), щоб текст лежав на одній рівномірній ділянці фото (небо / темна стеля), а не на двох різних */
+body.page-brand .hero--stack .hero__inner { display: flex; flex-direction: column; align-items: center; gap: var(--sp-6); box-sizing: border-box; padding: calc(var(--header-h-hero) + var(--sp-6)) var(--page-pad) 0; }
+body.page-brand .hero--stack :is(.hero__head, .hero__lead) { position: static; align-self: stretch; }
+body.page-brand .hero--stack .hero__text { max-width: 40em; }
+
+/* кадрування: квадратне фото 1600×1600 (Bazylsprings) зсунуте вгору на --hero-img-shift × (ширина екрана − --hero-shift-from) пікселів: на 1200 без зсуву, на 1440 ≈34px, на 1920 ≈100px (темна стеля під текстом; люк стелі над eyebrow, вікно й промінь нижче опису); висота фото = ширина екрана */
+body.page-brand .hero--stack .hero__img { top: calc(-1 * max(0px, (100vw - var(--hero-shift-from, 1200px)) * var(--hero-img-shift, 0))); }
+body.page-brand .hero--dark { --hero-img-shift: 0.14; --hero-shift-from: 1200px; }
+
+/* світлий hero по світлому небу: фото вписане за шириною й притиснуте до низу рамки (як hero--about), над ним — тло --c-hero-sky (= верх фото, шва немає), горизонт на --hero-horizon висоти; опис і кнопка лежать на небі */
+body.page-brand .hero--light { --hero-horizon: 0.72; background: var(--c-hero-sky); }
+body.page-brand .hero--light .hero__media { container-type: inline-size; }
+body.page-brand .hero--light .hero__img {
+  top: 0; height: max(calc(var(--hero-horizon) * 100% + (1 - var(--hero-photo-horizon)) * 100cqw / var(--hero-photo-ratio)), 105%);
+  min-height: 0; max-height: none; object-fit: contain; object-position: center bottom;
+}
+
+/* вертикальний ритм: власні margin секцій скинуто, проміжок задає margin-top наступної (маніфест: мінус розтушований край кілець) */
+body.page-brand main > :is(.about-manifest, .principles, .popular-choice, .visit-split) { margin-block: 0; }
+body.page-brand main > :is(.principles, .popular-choice, .visit-split) { margin-top: var(--about-section-gap); }
+body.page-brand main > .about-manifest { margin-top: calc(var(--about-section-gap) - var(--about-manifest-ink-inset)); }
+body.page-brand main > .about-manifest + * { margin-top: calc(var(--about-section-gap) - var(--about-manifest-ink-inset)); }
+
+/* якір кнопки hero: верх секції каталогу не ховається під фіксованим header */
+body.page-brand #brand-catalog { scroll-margin-top: var(--header-h); }
+
+/* висячі слова: великі заголовки вирівнюються за довжиною рядків */
+body.page-brand :is(.about-manifest__title, .principles .section-title, .popular-choice .section-title, .visit-split__title) { text-wrap: pretty; }
+@supports (text-wrap: balance) {
+  body.page-brand :is(.about-manifest__title, .principles .section-title, .popular-choice .section-title, .visit-split__title) { text-wrap: balance; }
+}

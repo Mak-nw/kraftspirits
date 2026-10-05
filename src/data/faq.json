@@ -2,7 +2,7 @@
   {
     "id": "what-we-make",
     "question": "Що ви виробляєте і чим відрізняються ваші два бренди?",
-    "answer": "У Ясногородці на Київщині працюють два бренди під одним дахом. <a href=\"/catalog.html?brand=Bazylsprings\">Bazylsprings</a> — віскі повного циклу. <a href=\"/catalog.html?brand=YasnoCraft\">YasnoCraft</a> — джин, кальвадос, фруктові шнапси, настоянки та колекційна «Фрукт у пляшці». Про те, як усе влаштовано, розповідаємо на сторінці <a href=\"/about.html#about-brands\">«Про дім»</a>."
+    "answer": "У Ясногородці працюють два бренди з одного виробництва. <a href=\"/brand-yasnocraft.html\">YasnoCraft</a> — дистилерія: джин, кальвадос, фруктові шнапси, настоянки й колекційна «Фрукт у пляшці». <a href=\"/brand-bazylsprings.html\">Bazylsprings</a> — whisky house: зерно, бочка, час. Про те, як усе влаштовано, розповідаємо на сторінці <a href=\"/about.html#about-brands\">«Про дім»</a>."
   },
   {
     "id": "visit-production",
@@ -22,7 +22,7 @@
   {
     "id": "whisky",
     "question": "Коли з'явиться витримане віскі Bazylsprings?",
-    "answer": "Витримані релізи плануємо пізніше, тож категорія «Віскі» в каталозі позначена як «скоро». Уже зараз можна замовити невитриманий <a href=\"/product.html?slug=whiskey-white\">White Whiskey</a> (0,5 л, 45%, 1 690 ₴), який отримав перше місце на Ukrainian Craft Spirits Awards. Щоб не пропустити новий реліз, залиште пошту в <a href=\"#subscribe-email\">реліз-листі внизу сторінки</a>."
+    "answer": "У каталозі вже доступні невитримані зерняні дистиляти Bazylsprings: <a href=\"/product.html?slug=whiskey-white\">White Whiskey</a> (0,5 л, 45%, 1 690 ₴), <a href=\"/product.html?slug=barley-spirit\">Barley Spirit</a> (0,7 л, 45%, 2 190 ₴) та Oak Notes. White Whiskey отримав перше місце на Ukrainian Craft Spirits Awards. Витримані релізи з'являтимуться поступово. Щоб не пропустити новинку, залиште пошту в <a href=\"#subscribe-email\">реліз-листі внизу сторінки</a>."
   },
   {
     "id": "volumes",

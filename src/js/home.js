@@ -13,7 +13,7 @@ const countOfCategory = (category) => products.filter((p) => p.category === cate
 const catalogHref = (category) => url(`/catalog.html?category=${encodeURIComponent(category)}`);
 
 // §6 Категорії: типографічний список; кількість товарів — з products.json. «Подарункові набори» (/gifts.html): набори ще не в даних — без лічильника.
-// ⚠ «Віскі»: стан «скоро» і подача категорії — від клієнта (home-copy, п. 9 розділу «Дані для підтвердження»).
+// Категорії: Віскі активна з 3 продуктами (White Whiskey, Barley Spirit, Oak Notes).
 const CATEGORIES = [
   { name: 'Джин', category: 'Джин' },
   { name: 'Кальвадос', category: 'Кальвадос' },

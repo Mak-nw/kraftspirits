@@ -34,8 +34,8 @@ export function renderOccasionPicker(occasions, { showHeading = true } = {}) {
       </button>`).join('');
   const layers = occasions.map((o, i) => `<img class="occasion-picker__bg parallax__img${i === 0 ? ' is-active' : ''}" data-occ-bg="${esc(o.id)}" src="${esc(url(o.image))}" alt="" role="presentation" aria-hidden="true"${i === 0 ? '' : ' loading="lazy"'} />`).join('');
   return `
-    ${showHeading ? '<h2 class="occasion-picker__lead caps-lead" id="occasions-title">Не знаєте, з чого почати? Спробуйте пошук від події</h2>' : ''}
-    <div class="occasion-picker__tabs" role="tablist" aria-orientation="horizontal" aria-label="${showHeading ? 'Подія' : 'Вибір напою за подією'}">${tabs}
+    ${showHeading ? '<h2 class="occasion-picker__lead caps-lead" id="occasions-title">Не знаєте, з чого почати? Спробуйте пошук від приводу</h2>' : ''}
+    <div class="occasion-picker__tabs" role="tablist" aria-orientation="horizontal" aria-label="${showHeading ? 'Привід' : 'Вибір напою за приводом'}">${tabs}
     </div>
     <div class="occasion-picker__stage" id="occ-panel" role="tabpanel" aria-roledescription="карусель" aria-labelledby="occ-tab-${esc(occasions[0].id)}" tabindex="0">
       <div class="occasion-picker__media" data-parallax>${layers}</div>
