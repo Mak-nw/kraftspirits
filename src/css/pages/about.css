@@ -10,7 +10,7 @@ body.page-about main { display: block; }
    фото вписується за шириною (object-fit: contain, притиснуте до низу шару), над ним — прозорий проміжок, під яким --c-bg hero (верх фото = блідо-кремове небо ≈ --c-bg, різниця ≤1/255, шва немає).
    Горизонт = Bh − (1 − --hero-photo-horizon) × висота фото = --hero-horizon × висота рамки ⇒ Bh = --hero-horizon × 100% + (1 − --hero-photo-horizon) × 100cqw / --hero-photo-ratio.
    Низ фото (озеро/трава) обрізається рамкою, будівля й дорога видимі; Bh > рамки, тож паралакс (ковзання вгору) завжди покриває рамку. */
-.hero--about { color: var(--c-text); background: var(--c-bg); }
+.hero--about { color: var(--c-text); background: var(--c-hero-sky); } /* = верх фото (245,242,234): небо без шва; --c-bg темніший на 11/255 */
 .hero--about .hero__media { container-type: inline-size; }
 .hero--about .hero__img {
   height: max(calc(var(--hero-horizon) * 100% + (1 - var(--hero-photo-horizon)) * 100cqw / var(--hero-photo-ratio)), 105%);

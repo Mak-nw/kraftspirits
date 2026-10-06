@@ -25,7 +25,7 @@
 .occasion-picker__tabs:hover .occasion-picker__tab:not(:hover) { color: var(--c-muted-light); }
 .occasion-picker__tabs:hover .occasion-picker__tab:hover { color: var(--c-text); }
 .occasion-picker__tab:focus-visible { outline: 1px solid var(--c-text); outline-offset: calc(var(--sp-1) * -1); }
-.occasion-picker__title { display: block; width: 100%; text-align: center; text-wrap: balance; overflow-wrap: normal; hyphens: none; } /* h3 КАПС ширший за sentence: у вузькій колонці переноситься по словах */
+.occasion-picker__title { display: block; width: 100%; min-height: 2lh; text-align: center; text-wrap: balance; overflow-wrap: normal; hyphens: none; } /* h3 КАПС ширший за sentence: у вузькій колонці переноситься по словах; min-height 2 рядки — підписи hint на одній лінії в усіх 5 колонках */
 .occasion-picker__hint { display: block; width: 100%; text-align: center; color: inherit; }
 
 .occasion-picker__stage { position: relative; margin-top: calc(var(--occasion-card-lift) + var(--sp-8)); }

@@ -16,3 +16,12 @@ export function pluralPositions(n) {
   if (m10 >= 2 && m10 <= 4 && (m100 < 12 || m100 > 14)) return 'позиції';
   return 'позицій';
 }
+
+// Мапа відображення бейджів: значення у JSON → дисплей-текст
+const BADGE_LABELS = {
+  'Хіт': 'Популярне',
+};
+
+export function badgeLabel(badge) {
+  return badge ? BADGE_LABELS[badge] || badge : '';
+}

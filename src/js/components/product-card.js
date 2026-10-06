@@ -1,6 +1,6 @@
 // Компонент product-card: шаблон картки + поведінка (зміна ціни на кнопці при виборі об'єму, «Додано ✓»).
 // Стилі: src/css/components/product-card.css, volume-picker.css, badge.css, button.css, price.css.
-import { esc, formatPrice, formatVolume, formatVolumes, minPrice } from "./format.js";
+import { esc, formatPrice, formatVolume, formatVolumes, minPrice, badgeLabel } from "./format.js";
 import { bottleIcon, basketIcon, linkIcon } from "./icons.js";
 import { url } from './url.js';
 
@@ -9,9 +9,10 @@ const BADGE_MODIFIERS = {
   'Ліміт': 'badge--limit',
 };
 
-export function renderBadge(label) {
-  if (!label) return '';
-  const mod = BADGE_MODIFIERS[label];
+export function renderBadge(badge) {
+  if (!badge) return '';
+  const label = badgeLabel(badge);
+  const mod = BADGE_MODIFIERS[badge];
   return `<span class="badge${mod ? ` ${mod}` : ''}">${esc(label)}</span>`;
 }
 

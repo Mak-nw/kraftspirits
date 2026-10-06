@@ -69,6 +69,10 @@ function setMeta(p) {
   document.title = p.seoTitle || `${p.name} — YasnoCraft × Bazylsprings`;
   const meta = document.querySelector('meta[name="description"]');
   if (meta) meta.setAttribute('content', p.seoDescription || p.description || '');
+  const ogTitle = document.querySelector('meta[property="og:title"]');
+  if (ogTitle) ogTitle.setAttribute('content', p.seoTitle || p.name || '');
+  const ogDesc = document.querySelector('meta[property="og:description"]');
+  if (ogDesc) ogDesc.setAttribute('content', p.seoDescription || p.description || '');
 }
 
 function renderBuy(p, stock) {

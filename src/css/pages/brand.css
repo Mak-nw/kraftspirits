@@ -20,8 +20,12 @@ body.page-brand .hero--stack :is(.hero__head, .hero__lead) { position: static; a
 body.page-brand .hero--stack .hero__text { max-width: 40em; }
 
 /* кадрування: квадратне фото 1600×1600 (Bazylsprings) зсунуте вгору на --hero-img-shift × (ширина екрана − --hero-shift-from) пікселів: на 1200 без зсуву, на 1440 ≈34px, на 1920 ≈100px (темна стеля під текстом; люк стелі над eyebrow, вікно й промінь нижче опису); висота фото = ширина екрана */
-body.page-brand .hero--stack .hero__img { top: calc(-1 * max(0px, (100vw - var(--hero-shift-from, 1200px)) * var(--hero-img-shift, 0))); }
-body.page-brand .hero--dark { --hero-img-shift: 0.14; --hero-shift-from: 1200px; }
+/* + збільшення фото ×--hero-img-scale з прив'язкою до лівого краю (--hero-img-anchor 0; 1 = до правого): яскравий люк стелі зсувається з-під лого й підпису «WHISKY HOUSE» (темна ділянка, p5 контрасту білого ≥15:1 на 1200–2000) */
+body.page-brand .hero--stack .hero__img {
+  width: calc(100% * var(--hero-img-scale, 1)); max-width: none; left: calc(-1 * (var(--hero-img-scale, 1) - 1) * var(--hero-img-anchor, 0) * 100%);
+  top: calc(-1 * max(0px, (100vw - var(--hero-shift-from, 1200px)) * var(--hero-img-shift, 0)));
+}
+body.page-brand .hero--dark { --hero-img-shift: 0.14; --hero-shift-from: 1200px; --hero-img-scale: 1.25; --hero-img-anchor: 0; }
 
 /* світлий hero по світлому небу: фото вписане за шириною й притиснуте до низу рамки (як hero--about), над ним — тло --c-hero-sky (= верх фото, шва немає), горизонт на --hero-horizon висоти; опис і кнопка лежать на небі */
 body.page-brand .hero--light { --hero-horizon: 0.72; background: var(--c-hero-sky); }
